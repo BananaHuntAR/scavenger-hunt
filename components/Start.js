@@ -4,8 +4,8 @@ import { StackNavigator } from 'react-navigation';
 
 const Start = ({ navigation }) => (
   <View style={styles.container}>
-    <Text>To begin the game:</Text>
-    <Text>
+    <Text style={styles.text}>To begin the game:</Text>
+    <Text style={styles.text}>
       Hold your screen up to your face, pointing your phone's camera toward the
       horizon
     </Text>
@@ -18,6 +18,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
+  },
+  text: {
+    textAlign: 'center'
   }
 });
 
