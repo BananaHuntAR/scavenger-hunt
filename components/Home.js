@@ -1,14 +1,25 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import { Button } from 'react-native-elements';
+import { Text, Button } from 'react-native-elements';
 
 const Home = ({ navigation }) => (
   <View style={styles.container}>
-    <Text>Welcome to ScavengAR Hunt!</Text>
-    <Text>An Augmented Reality Scavenger Hunt</Text>
+    <Image
+      style={styles.backgroundImage}
+      source={require('../assets/globe.jpg')}
+      resizeMode="cover"
+    />
+    <Text h2 style={styles.text}>
+      Welcome to ScavengAR Hunt!
+    </Text>
+    <Text h4 style={styles.text}>
+      An Augmented Reality Scavenger Hunt
+    </Text>
     <Button
       onPress={() => navigation.navigate('Start')}
+      raised
+      rounded
       title="PLAY"
       backgroundColor="#AD00B2"
     />
@@ -21,6 +32,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: '#fff'
+  },
+  text: {
+    color: 'white',
+    textAlign: 'center',
+    padding: 10
+  },
+  backgroundImage: {
+    height: '100%',
+    position: 'absolute'
   }
 });
 
