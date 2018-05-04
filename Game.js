@@ -18,7 +18,8 @@ export default class Game extends React.Component {
         x: 0,
         y: 0,
         z: 0
-      }
+      },
+      distance: 0
     };
   }
 
@@ -48,12 +49,15 @@ export default class Game extends React.Component {
       return Math.round(Math.random() * 10 - 5);
     };
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 1; i++) {
       const cube = new THREE.Mesh(geometry, material);
       randomizePosition(cube);
-      cube.position.z = randomizePosition();
-      cube.position.x = randomizePosition();
-      cube.position.y = randomizePosition() + 5 / 10;
+      cube.position.z = -0.4;
+      cube.position.x = 0;
+      cube.position.y = 0;
+      // cube.position.z = randomizePosition();
+      // cube.position.x = randomizePosition();
+      // cube.position.y = randomizePosition() + 5 / 10;
       scene.add(cube);
       objects.push(cube);
     }
@@ -67,6 +71,7 @@ export default class Game extends React.Component {
       objects.forEach(cube => {
         cube.rotation.x += 0.07;
         cube.rotation.y += 0.04;
+        this.setState({ distance: cube.position.distanceTo(camera.position) });
       });
 
       renderer.render(scene, camera);
@@ -85,6 +90,15 @@ export default class Game extends React.Component {
           style={{ flex: 1 }}
           onContextCreate={this._onGLContextCreate}
         />
+        <View style={styles.overlay}>
+          <Text>Camera X: {this.state.camPos.x}</Text>
+          <Text>Camera Y: {this.state.camPos.y}</Text>
+          <Text>Camera Z: {this.state.camPos.z}</Text>
+          <Text>Object X: {this.state.objPos.x}</Text>
+          <Text>Object Y: {this.state.objPos.y}</Text>
+          <Text>Object Z: {this.state.objPos.z}</Text>
+          <Text>Distance: {this.state.distance}</Text>
+        </View>
       </View>
     );
   }
