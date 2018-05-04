@@ -1,12 +1,17 @@
 import React from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 import { StackNavigator } from 'react-navigation';
+import { Button } from 'react-native-elements';
 
 const Home = ({ navigation }) => (
   <View style={styles.container}>
-    <Text>Welcome to ScavengAR!</Text>
+    <Text>Welcome to ScavengAR Hunt!</Text>
     <Text>An Augmented Reality Scavenger Hunt</Text>
-    <Button onPress={() => navigation.navigate('Start')} title="Play" />
+    <Button
+      onPress={() => navigation.navigate('Start')}
+      title="PLAY"
+      backgroundColor="#AD00B2"
+    />
   </View>
 );
 

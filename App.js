@@ -8,7 +8,7 @@ const RootNavigator = StackNavigator({
   Main: {
     screen: Home,
     navigationOptions: {
-      headerTitle: 'ScavengAR'
+      headerTitle: 'ScavengAR Hunt'
     }
   },
   Start: {
