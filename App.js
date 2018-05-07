@@ -1,27 +1,29 @@
 import React from 'react';
-import * as THREE from 'three';
-import ExpoTHREE from 'expo-three';
-import Expo from 'expo';
-import { View, Text, StatusBar, StyleSheet } from 'react-native';
-console.disableYellowBox = true;
+import { StyleSheet } from 'react-native';
+import { StackNavigator } from 'react-navigation';
+import Home from './components/Home';
+import Start from './components/Start';
 import Game from './Game';
 
-export default class App extends React.Component {
-  render() {
-    return (
-      <View style={{ flex: 1 }}>
-        <Game />
-      </View>
-    );
-  }
-}
-
-const styles = StyleSheet.create({
-  overlay: {
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
-    position: 'absolute',
-    left: 0,
-    top: 0,
-    width: '100%'
+const RootNavigator = StackNavigator({
+  Main: {
+    screen: Home,
+    navigationOptions: {
+      headerTitle: 'ScavengAR Hunt'
+    }
+  },
+  Start: {
+    screen: Start,
+    navigationOptions: {
+      headerTitle: 'Get Ready!'
+    }
+  },
+  Game: {
+    screen: Game,
+    navigationOptions: {
+      headerTitle: 'Find the Items!'
+    }
   }
 });
+
+export default RootNavigator;
