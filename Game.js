@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import ExpoTHREE from 'expo-three';
 import Expo from 'expo';
 import { View, Text, StatusBar, StyleSheet } from 'react-native';
+import { Button } from 'react-native-elements';
 console.disableYellowBox = true;
 
 export default class Game extends React.Component {
@@ -18,8 +19,7 @@ export default class Game extends React.Component {
         x: 0,
         y: 0,
         z: 0
-      },
-      distance: 0
+      }
     };
   }
 
@@ -71,7 +71,8 @@ export default class Game extends React.Component {
       objects.forEach(cube => {
         cube.rotation.x += 0.07;
         cube.rotation.y += 0.04;
-        this.setState({ distance: cube.position.distanceTo(camera.position) });
+
+        // this.setState({ distance: cube.position.distanceTo(camera.position) });
       });
 
       renderer.render(scene, camera);
@@ -97,7 +98,7 @@ export default class Game extends React.Component {
           <Text>Object X: {this.state.objPos.x}</Text>
           <Text>Object Y: {this.state.objPos.y}</Text>
           <Text>Object Z: {this.state.objPos.z}</Text>
-          <Text>Distance: {this.state.distance}</Text>
+          <Button title="Capture" buttonStyle={{ display: 'initial' }} />
         </View>
       </View>
     );
