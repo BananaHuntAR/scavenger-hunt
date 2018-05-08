@@ -10,17 +10,27 @@ export default class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      camPos: {
-        x: 0,
-        y: 0,
-        z: 0
-      },
-      objPos: {
-        x: 0,
-        y: 0,
-        z: 0
-      }
+      camPos: { x: 0, y: 0, z: 0 },
+      itemInSight: null,
+      currScore: 0,
     };
+    this.gameItems = [];
+    this.capturedItemMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
+    this.handlePress = this.handlePress.bind(this)
+  }
+
+  handlePress(e){
+    let currentCube = this.gameItems[this.state.itemInSight]
+    // User captures an item, stop item from animating and turn its color to gray
+    currentCube.speed = 0
+    currentCube.material = this.capturedItemMaterial;
+
+    // User's score increments by 1
+    if ( !currentCube.captured ) {
+      let newScore = this.state.currScore + 1
+      this.setState({currScore: newScore})
+      currentCube.captured = true;
+    }
   }
 
   _onGLContextCreate = async gl => {
@@ -43,24 +53,23 @@ export default class Game extends React.Component {
 
     const geometry = new THREE.BoxGeometry(0.07, 0.07, 0.07);
     const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-    const objects = [];
 
     const randomizePosition = () => {
-      return Math.round(Math.random() * 10 - 5);
+      return Math.round(Math.random() * 5 - 2.5);
     };
 
-    for (let i = 0; i < 1; i++) {
+    for (let i = 0; i < 10; i++) {
       const cube = new THREE.Mesh(geometry, material);
       randomizePosition(cube);
-      cube.position.z = -0.4;
-      cube.position.x = 0;
+      cube.position.z = randomizePosition();
+      cube.position.x = randomizePosition();
       cube.position.y = 0;
-      // cube.position.z = randomizePosition();
-      // cube.position.x = randomizePosition();
-      // cube.position.y = randomizePosition() + 5 / 10;
+      cube.speed = 0.05
+      cube.captured = false;
       scene.add(cube);
-      objects.push(cube);
+      this.gameItems.push(cube);
     }
+
 
     const animate = () => {
       camera.position.setFromMatrixPosition(camera.matrixWorld);
@@ -68,11 +77,16 @@ export default class Game extends React.Component {
       cameraPos.applyMatrix4(camera.matrixWorld);
       this.setState({ camPos: camera.position });
 
-      objects.forEach(cube => {
-        cube.rotation.x += 0.07;
-        cube.rotation.y += 0.04;
-
+      this.gameItems.forEach((cube, idx) => {
+        cube.rotation.x += cube.speed;
+        cube.rotation.y += cube.speed;
         // this.setState({ distance: cube.position.distanceTo(camera.position) });
+        let dist = cube.position.distanceTo(camera.position);
+        if (this.state.itemInSight === null) {
+          if (dist < 0.3) this.setState({ itemInSight: idx });
+        } else {
+          if (idx === this.state.itemInSight && dist > 0.3) this.setState({ itemInSight: null });
+        }
       });
 
       renderer.render(scene, camera);
@@ -95,10 +109,13 @@ export default class Game extends React.Component {
           <Text>Camera X: {this.state.camPos.x}</Text>
           <Text>Camera Y: {this.state.camPos.y}</Text>
           <Text>Camera Z: {this.state.camPos.z}</Text>
-          <Text>Object X: {this.state.objPos.x}</Text>
-          <Text>Object Y: {this.state.objPos.y}</Text>
-          <Text>Object Z: {this.state.objPos.z}</Text>
-          <Button title="Capture" buttonStyle={{ display: 'initial' }} />
+          <Text>itemInSight: {this.state.itemInSight}</Text>
+          <Text>currScore: {this.state.currScore}</Text>
+          { this.state.itemInSight !== null && !this.gameItems[this.state.itemInSight].captured ?
+            (<Button title="Capture" onPress={this.handlePress}/>)
+            :
+            (<Text>Not close enough</Text>)
+          }
         </View>
       </View>
     );

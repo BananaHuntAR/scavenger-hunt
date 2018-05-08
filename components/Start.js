@@ -31,6 +31,7 @@ const Start = ({ navigation, visible, toggleVisible }) => (
         />
       </View>
     </Modal>
+
   </View>
 );
 
