@@ -39,23 +39,24 @@ export default class Game extends React.Component {
     const arSession = await this._glView.startARSessionAsync();
     const renderer = ExpoTHREE.createRenderer({ gl });
     renderer.setSize(width, height);
-
     const scene = new THREE.Scene();
     scene.background = ExpoTHREE.createARBackgroundTexture(arSession, renderer);
 
     const camera = ExpoTHREE.createARCamera(
-      arSession,
-      width,
-      height,
-      0.01,
-      1000
+      arSession, // field of view
+      width,     // aspect ratio
+      height,    // aspect ratio
+      0.01,      // near clipping plane
+      1000       // far clipping plane
     );
 
-    const geometry = new THREE.BoxGeometry(0.07, 0.07, 0.07);
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+    // Creating items
+    const geometry = new THREE.BoxGeometry(0.07, 0.07, 0.07); // creates template for a cube
+    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // creates color for a cube
 
+    // -5 < (x,z) < 5 (meters)
     const randomizePosition = () => {
-      return Math.round(Math.random() * 5 - 2.5);
+      return Math.random() * 10 - 5; // -5 , 5
     };
 
     for (let i = 0; i < 10; i++) {
