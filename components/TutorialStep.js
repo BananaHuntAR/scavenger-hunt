@@ -1,14 +1,23 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-elements';
+import { withNavigation } from 'react-navigation';
 
-const TutorialStepOne = ({ navigation }) => (
+const TutorialStep = ({ navigation, title, desc }) => (
   <View>
     <View style={styles.container}>
-      <Text h1>Game Overview</Text>
+    {console.log(navigation)}
+      <Text h1>{title}</Text>
       <Text h4 style={styles.text}>
-        This is a simulated scavenger hunt, but with Augmented Reality!
+        {desc}
       </Text>
+      <Button
+      onPress={() => navigation.navigate('Home')}
+      raised
+      rounded
+      title="Skip tutorial"
+      backgroundColor="#AD00B2"
+    />
     </View>
   </View>
 );
@@ -26,6 +35,5 @@ const styles = StyleSheet.create({
   }
 });
 
-export default TutorialStepOne;
+export default withNavigation(TutorialStep);
 
-// Mission: Your task is to capture the items as quickly as possible. Get ready to search!

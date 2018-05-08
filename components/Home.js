@@ -51,3 +51,8 @@ const styles = StyleSheet.create({
 });
 
 export default Home;
+
+//title: Game overview
+//desc: This is a simulated scavenger hunt, but with Augmented Reality!
+
+// Mission: Your task is to capture the items as quickly as possible. Get ready to search!
