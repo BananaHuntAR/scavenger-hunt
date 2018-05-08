@@ -3,29 +3,38 @@ import { StackNavigator, TabNavigator } from 'react-navigation';
 import Home from './components/Home';
 import Game from './components/Game';
 import TutorialStep from './components/TutorialStep';
+import { Ionicons } from '@expo/vector-icons';
 
 const InstructionsNavigator = TabNavigator({
   TutorialStepOne: {
     screen: () => <TutorialStep title={'Game overview'} desc={`This is a simulated scavenger hunt, but with Augmented Reality!`}/>,
     navigationOptions: {
-      headerTitle: 'Game Overview',
-      swipeEnabled: true,
+      headerTitle: 'Game Overview'
     }
   },
   TutorialStepTwo: {
     screen: () => <TutorialStep title={'How to play'} desc={`Items will randomly drop all around you. Once you are within reach of an
     item, a "capture" button will appear!`} />,
     navigationOptions: {
-      headerTitle: 'How it Works',
-      swipeEnabled: true
+      headerTitle: 'How to play'
     }
   },
   TutorialStepThree: {
     screen: () => <TutorialStep title={'Mission'} desc={`Your task is to capture the items as quickly as possible. Get ready to search!`} />,
     navigationOptions: {
-      headerTitle: 'How it Works',
-      swipeEnabled: true
+      headerTitle: 'Mission'
     }
+  }
+}, {
+  navigationOptions: {
+    tabBarIcon: ({focused, tintColor }) => <Ionicons name='ios-radio-button-on' size={15} color={tintColor} />,
+    swipeEnabled: true,
+    animationEnabled: true
+  },
+  tabBarOptions: {
+    activeTintColor: 'tomato',
+    inactiveTintColor: 'gray',
+    showLabel: false
   }
 });
 
