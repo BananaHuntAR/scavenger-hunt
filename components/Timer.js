@@ -14,14 +14,15 @@ export default class Timer extends React.Component {
     this.timeIncrement();
   }
 
-  timeIncrement = () =>
-    setInterval(() => {
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+  }
+
+  timeIncrement = () => {
+    this.intervalId = setInterval(() => {
       this.setState(prevState => ({ time: prevState.time + 1 }));
     }, 1000);
-
-  componentWillUnmount() {
-    clearInterval(this.timeIncrement);
-  }
+  };
 
   convertToTime = time => {
     let minutes = Math.floor(time / 60);

@@ -19,8 +19,7 @@ const Start = ({ navigation, visible, toggleVisible }) => (
         <Score score={5} />
         <Text style={styles.text}>To begin the game:</Text>
         <Text style={styles.text}>
-          Hold your phone vertically, pointing your phone's camera toward the
-          horizon
+          Hold your phone vertically, pointing the camera toward the horizon
         </Text>
         <Button
           onPress={() => {
