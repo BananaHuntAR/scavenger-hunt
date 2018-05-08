@@ -8,27 +8,30 @@ export default class Timer extends React.Component {
     this.state = {
       time: 0
     };
-    this.timeIncrement = this.timeIncrement.bind(this);
-    this.convertToTime = this.convertToTime.bind(this);
   }
 
-  timeIncrement() {
-    let currentTime = this.state.time;
-    setTimeout(() => {
-      currentTime++;
-      this.setState({ time: currentTime });
+  componentDidMount() {
+    this.timeIncrement();
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.intervalId);
+  }
+
+  timeIncrement = () => {
+    this.intervalId = setInterval(() => {
+      this.setState(prevState => ({ time: prevState.time + 1 }));
     }, 1000);
-  }
+  };
 
-  convertToTime(time) {
+  convertToTime = time => {
     let minutes = Math.floor(time / 60);
     let seconds = time - minutes * 60;
-    seconds = seconds < 10 ? '0' + seconds : seconds;
+    seconds = seconds < 10 ? '0' + seconds : seconds; // displays seconds as two digits
     return `${minutes}:${seconds}`;
-  }
+  };
 
   render() {
-    this.timeIncrement();
     return (
       <View>
         <Badge
@@ -38,7 +41,7 @@ export default class Timer extends React.Component {
           }}
         >
           <Icon name="timer" />
-          <Text> {this.convertToTime(this.state.time)}</Text>
+          <Text>{this.convertToTime(this.state.time)}</Text>
         </Badge>
       </View>
     );
