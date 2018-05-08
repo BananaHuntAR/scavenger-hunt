@@ -1,6 +1,4 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { StackNavigator } from 'react-navigation';
 import { Icon } from 'react-native-elements';
 
 const ExitButton = ({ navigation }) => (

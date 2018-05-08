@@ -1,6 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { StackNavigator } from 'react-navigation';
+import { Text, View } from 'react-native';
 import { Badge, Icon } from 'react-native-elements';
 
 export default class Timer extends React.Component {
