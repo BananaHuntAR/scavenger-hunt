@@ -3,6 +3,7 @@ import { StyleSheet, Text, View } from 'react-native';
 import { withNavigation } from 'react-navigation';
 import { Button } from 'react-native-elements';
 import Modal from 'react-native-modal';
+import Timer from './Timer';
 import Score from './Score';
 
 const Start = ({ navigation, visible, toggleVisible }) => (
@@ -14,11 +15,11 @@ const Start = ({ navigation, visible, toggleVisible }) => (
       animationType="slide"
     >
       <View style={styles.container}>
+        <Timer />
         <Score score={5} />
         <Text style={styles.text}>To begin the game:</Text>
         <Text style={styles.text}>
-          Hold your screen up to your face, pointing your phone's camera toward
-          the horizon
+          Hold your phone vertically, pointing the camera toward the horizon
         </Text>
         <Button
           onPress={() => {
@@ -31,7 +32,6 @@ const Start = ({ navigation, visible, toggleVisible }) => (
         />
       </View>
     </Modal>
-
   </View>
 );
 
