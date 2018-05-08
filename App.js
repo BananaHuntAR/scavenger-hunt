@@ -1,20 +1,39 @@
-import React from 'react';
-import { StackNavigator } from 'react-navigation';
+import { StackNavigator, TabNavigator } from 'react-navigation';
 import Home from './components/Home';
-import Start from './components/Start';
 import Game from './components/Game';
+import TutorialStepOne from './components/TutorialStepOne';
+import TutorialStepTwo from './components/TutorialStepTwo';
 
-const RootNavigator = StackNavigator({
-  Main: {
-    screen: Home,
+const InstructionsNavigator = TabNavigator({
+  TutorialStepOne: {
+    screen: TutorialStepOne,
     navigationOptions: {
-      headerTitle: 'ScavengAR Hunt'
+      headerTitle: 'Game Overview',
+      swipeEnabled: true
     }
   },
-  Start: {
-    screen: Start,
+  TutorialStepTwo: {
+    screen: TutorialStepTwo,
     navigationOptions: {
-      headerTitle: 'Get Ready!'
+      headerTitle: 'How it Works',
+      swipeEnabled: true
+    }
+  }
+});
+
+const RootNavigator = StackNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      headerTitle: 'Home',
+      swipeEnabled: true
+    }
+  },
+  Instructions: {
+    screen: InstructionsNavigator,
+    navigationOptions: {
+      headerTitle: 'Get Ready!',
+      swipeEnabled: true
     }
   },
   Game: {
