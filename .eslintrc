@@ -1,0 +1,10 @@
+{
+  "extends": "fullstack",
+  "parser": "babel-eslint",
+  "rules": {
+    "quotes": 0,
+    "no-lonely-if": 0,
+    "react/prefer-stateless-function": 0,
+    "class-methods-use-this": 0
+  }
+}
