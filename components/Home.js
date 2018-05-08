@@ -1,10 +1,8 @@
 import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
-import { StackNavigator } from 'react-navigation';
 import { Text, Button } from 'react-native-elements';
 import Start from './Start';
 
-// const Home = ({ navigation }) => (
 export default class Home extends React.Component {
   constructor(props) {
     super(props);
@@ -34,7 +32,6 @@ export default class Home extends React.Component {
           An Augmented Reality Scavenger Hunt
         </Text>
         <Button
-          // onPress={() => navigation.navigate('Start')}
           onPress={() => this.setState({ isVisible: true })}
           raised
           rounded
@@ -43,7 +40,6 @@ export default class Home extends React.Component {
         />
         <Start
           visible={this.state.isVisible}
-          // navigation={this.props.navigation}
           toggleVisible={this.toggleVisible}
         />
       </View>
