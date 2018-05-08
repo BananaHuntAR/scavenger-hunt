@@ -4,15 +4,17 @@ import ExpoTHREE from 'expo-three';
 import Expo from 'expo';
 import { View, Text, StatusBar, StyleSheet } from 'react-native';
 import { Button } from 'react-native-elements';
+import ExitButton from './ExitButton';
+import Score from './Score';
+import Timer from './Timer';
 console.disableYellowBox = true;
 
 export default class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      camPos: { x: 0, y: 0, z: 0 },
       itemInSight: null,
-      currScore: 0,
+      score: 0,
     };
     this.gameItems = [];
     this.capturedItemMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
@@ -27,8 +29,7 @@ export default class Game extends React.Component {
 
     // User's score increments by 1
     if ( !currentCube.captured ) {
-      let newScore = this.state.currScore + 1
-      this.setState({currScore: newScore})
+      this.setState({score: this.state.score + 1})
       currentCube.captured = true;
     }
   }
@@ -69,6 +70,7 @@ export default class Game extends React.Component {
       cube.captured = false;
       scene.add(cube);
       this.gameItems.push(cube);
+      // console.log(cube.position);
     }
 
 
@@ -106,18 +108,23 @@ export default class Game extends React.Component {
           style={{ flex: 1 }}
           onContextCreate={this._onGLContextCreate}
         />
-        <View style={styles.overlay}>
-          <Text>Camera X: {this.state.camPos.x}</Text>
-          <Text>Camera Y: {this.state.camPos.y}</Text>
-          <Text>Camera Z: {this.state.camPos.z}</Text>
+        <View style={styles.exitButton}>
+          <ExitButton  />
+        </View>
+        <View style={styles.timer}>
+          <Timer  />
+        </View>
+        <View style={styles.score}>
+          <Score score={this.state.score} />
+        </View>
           <Text>itemInSight: {this.state.itemInSight}</Text>
-          <Text>currScore: {this.state.currScore}</Text>
+          <Text>score: {this.state.score}</Text>
           { this.state.itemInSight !== null && !this.gameItems[this.state.itemInSight].captured ?
             (<Button title="Capture" onPress={this.handlePress}/>)
             :
             (<Text>Not close enough</Text>)
           }
-        </View>
+
       </View>
     );
   }
@@ -125,10 +132,23 @@ export default class Game extends React.Component {
 
 const styles = StyleSheet.create({
   overlay: {
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: 'rgba(255, 255, 255, 0)',
+    position: 'absolute'
+  },
+  timer: {
     position: 'absolute',
-    left: 0,
-    top: 0,
-    width: '100%'
+    bottom: 10,
+    left: 10,
+    width: 20
+  },
+  exitButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10
+  },
+  score: {
+    position: 'absolute',
+    top: 10,
+    left: 10
   }
 });

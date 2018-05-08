@@ -20,7 +20,7 @@ const RootNavigator = StackNavigator({
   Game: {
     screen: Game,
     navigationOptions: {
-      headerTitle: 'Find the Items!'
+      header: 'none'
     }
   }
 });
