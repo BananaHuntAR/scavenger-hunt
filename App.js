@@ -47,23 +47,26 @@ const InstructionsNavigator = TabNavigator(
     }
   },
   {
-    navigationOptions: {
+    navigationOptions: () => ({
       tabBarIcon: ({ focused, tintColor }) => (
         <Ionicons name="ios-radio-button-on" size={15} color={tintColor} />
-      ),
-      swipeEnabled: true
-    },
+      )
+    }),
     tabBarOptions: {
       activeTintColor: 'white',
       inactiveTintColor: 'gray',
       showLabel: false,
       style: {
         width: 100,
-        alignSelf: 'center',
         backgroundColor: 'rgba(255, 255, 255, 0)',
-        borderTopWidth: 0
+        borderTopWidth: 0,
+        position: 'absolute',
+        bottom: 0,
+        alignSelf: 'center'
       }
-    }
+    },
+    swipeEnabled: true,
+    lazy: false
   }
 );
 

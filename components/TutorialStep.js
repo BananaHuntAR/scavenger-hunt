@@ -19,7 +19,7 @@ const TutorialStep = ({ navigation, title, desc, iconName }) => (
         onPress={() => navigation.navigate('Home')}
         raised
         rounded
-        title="Skip Tutorial"
+        title={(title = 'mission' ? "I'm ready!" : 'Skip Tutorial')}
         backgroundColor="white"
         color="gray"
       />
@@ -30,7 +30,8 @@ const TutorialStep = ({ navigation, title, desc, iconName }) => (
 const styles = StyleSheet.create({
   container: {
     backgroundColor: '#3FBE94',
-    flex: 1
+    flex: 1,
+    paddingBottom: 100
   },
   instructionsContainer: {
     flex: 1,
