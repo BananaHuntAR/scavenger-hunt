@@ -38,6 +38,12 @@ export default class Home extends React.Component {
           title="PLAY"
           backgroundColor="#AD00B2"
         />
+        <Button
+          onPress={() => this.props.navigation.navigate('Leaderboard')}
+          raised
+          rounded
+          title="LEADERBOARD"
+        />
         <Start
           visible={this.state.isVisible}
           toggleVisible={this.toggleVisible}

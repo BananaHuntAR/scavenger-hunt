@@ -6,7 +6,8 @@ const Score = ({ score }) => {
   return (
     <View>
       <Badge containerStyle={{ backgroundColor: 'white' }}>
-        <Text>Items Collected: {score} / 10</Text>
+        <Text>Items Collected:</Text>
+        <Text>{score} / 10</Text>
       </Badge>
     </View>
   );

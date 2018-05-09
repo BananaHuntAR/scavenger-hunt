@@ -3,6 +3,7 @@ import { StackNavigator } from 'react-navigation';
 import Home from './components/Home';
 import Start from './components/Start';
 import Game from './components/Game';
+import Leaderboard from './components/Leaderboard';
 
 const RootNavigator = StackNavigator({
   Main: {
@@ -21,6 +22,12 @@ const RootNavigator = StackNavigator({
     screen: Game,
     navigationOptions: {
       headerTitle: 'Find the Items!'
+    }
+  },
+  Leaderboard: {
+    screen: Leaderboard,
+    navigationOptions: {
+      header: 'none'
     }
   }
 });
