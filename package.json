@@ -25,6 +25,7 @@
     "react-native": "~0.55.2",
     "react-native-elements": "^0.19.1",
     "react-native-modal": "^6.0.0",
+    "react-native-step-indicator": "0.0.8",
     "react-navigation": "^1.5.12",
     "three": "^0.92.0"
   }

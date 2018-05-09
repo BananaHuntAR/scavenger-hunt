@@ -6,18 +6,17 @@ import { withNavigation } from 'react-navigation';
 const TutorialStep = ({ navigation, title, desc }) => (
   <View>
     <View style={styles.container}>
-    {console.log(navigation)}
       <Text h1>{title}</Text>
       <Text h4 style={styles.text}>
         {desc}
       </Text>
       <Button
-      onPress={() => navigation.navigate('Home')}
-      raised
-      rounded
-      title="Skip tutorial"
-      backgroundColor="#AD00B2"
-    />
+        onPress={() => navigation.navigate('Home')}
+        raised
+        rounded
+        title="Skip tutorial"
+        backgroundColor="#AD00B2"
+      />
     </View>
   </View>
 );
@@ -36,4 +35,3 @@ const styles = StyleSheet.create({
 });
 
 export default withNavigation(TutorialStep);
-
