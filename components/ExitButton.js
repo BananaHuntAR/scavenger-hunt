@@ -4,9 +4,10 @@ import { Icon } from 'react-native-elements';
 
 const ExitButton = ({ navigation }) => (
   <Icon
-    name="cancel"
+    name="x"
     raised
-    size={25}
+    size={15}
+    type="feather"
     onPress={() => navigation.navigate('Main')}
   />
 );
