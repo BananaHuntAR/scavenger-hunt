@@ -1,5 +1,7 @@
 import React from 'react'
 import { StackNavigator, TabNavigator } from 'react-navigation';
+import { Provider } from 'react-redux';
+import store from './store';
 import Home from './components/Home';
 import Game from './components/Game';
 import TutorialStep from './components/TutorialStep';
@@ -62,4 +64,10 @@ const RootNavigator = StackNavigator({
   }
 });
 
-export default RootNavigator;
+const App = () => (
+  <Provider store={store}>
+    <RootNavigator />
+  </Provider>
+)
+
+export default App;

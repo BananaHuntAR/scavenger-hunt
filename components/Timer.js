@@ -1,16 +1,12 @@
 import React from 'react';
 import { Text, View } from 'react-native';
 import { Badge, Icon } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { incrementTime, resetTime } from '../store';
 
-export default class Timer extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      time: 0
-    };
-  }
-
+class Timer extends React.Component {
   componentDidMount() {
+    this.props.resetTime();
     this.timeIncrement();
   }
 
@@ -19,9 +15,7 @@ export default class Timer extends React.Component {
   }
 
   timeIncrement = () => {
-    this.intervalId = setInterval(() => {
-      this.setState(prevState => ({ time: prevState.time + 1 }));
-    }, 1000);
+    this.intervalId = setInterval(() => this.props.incrementTime(this.props.time), 1000);
   };
 
   convertToTime = time => {
@@ -32,6 +26,7 @@ export default class Timer extends React.Component {
   };
 
   render() {
+    const { time } = this.props;
     return (
       <View>
         <Badge
@@ -41,9 +36,26 @@ export default class Timer extends React.Component {
           }}
         >
           <Icon name="timer" />
-          <Text>{this.convertToTime(this.state.time)}</Text>
+          <Text>{this.convertToTime(time)}</Text>
         </Badge>
       </View>
     );
   }
 }
+
+const mapState = state => {
+  return { time: state.time }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    incrementTime(t) {
+      dispatch(incrementTime(t + 1));
+    },
+    resetTime() {
+      dispatch(resetTime());
+    }
+  }
+}
+
+export default connect(mapState, mapDispatch)(Timer);

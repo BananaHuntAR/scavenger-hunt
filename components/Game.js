@@ -50,24 +50,21 @@ export default class Game extends React.Component {
       1000       // far clipping plane
     );
 
-    generateItems(scene, this.gameItems, 10);
+    generateItems(scene, this.gameItems, 1);
 
     const animate = () => {
       camera.position.setFromMatrixPosition(camera.matrixWorld);
       const cameraPos = new THREE.Vector3(0, 0, 0);
       cameraPos.applyMatrix4(camera.matrixWorld);
-      this.setState({ camPos: camera.position });
 
       this.gameItems.forEach((cube, idx) => {
         cube.rotation.x += cube.speed;
         cube.rotation.y += cube.speed;
-        // this.setState({ distance: cube.position.distanceTo(camera.position) });
         let dist = cube.position.distanceTo(camera.position);
         if (this.itemInSight === null) {
           if (dist < 0.3) this.itemInSight = idx;
         } else {
-          if (idx === this.itemInSight && dist > 0.3)
-            this.itemInSight = null;
+          if (idx === this.itemInSight && dist > 0.3) this.itemInSight = null;
         }
       });
 
@@ -81,7 +78,11 @@ export default class Game extends React.Component {
   // Kill ARSession and cancel animation frame request.
   async componentWillUnmount(){
     cancelAnimationFrame(this.gameRequest);
-    await NativeModules.ExponentGLViewManager.stopARSessionAsync(this.arSession.sessionId);
+    try {
+      await NativeModules.ExponentGLViewManager.stopARSessionAsync(this.arSession.sessionId);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   render() {
@@ -102,7 +103,6 @@ export default class Game extends React.Component {
         <View style={styles.score}>
           <Score score={this.state.score} />
         </View>
-        {/* <Text>itemInSight: {this.itemInSight}</Text> */}
         <View style={styles.overlay}>
         { this.itemInSight !== null && !this.gameItems[this.itemInSight].captured ?
           (<Button raised rounded title="Capture" onPress={this.handlePress} buttonStyle={{ width: 150 }} />)
@@ -148,7 +148,7 @@ function generateItems(scene, items, num) {
 
   // -5 < (x,z) < 5 (meters)
   const randomizePosition = () => {
-    return Math.random() * 10 - 5; // -5 , 5
+    return Math.random() * 5 - 2.5; // -5 , 5
   };
 
   for (let i = 0; i < num; i++) {
