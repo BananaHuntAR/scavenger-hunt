@@ -2,7 +2,7 @@ import React from 'react';
 import * as THREE from 'three';
 import ExpoTHREE from 'expo-three';
 import Expo from 'expo';
-import { View, Text, StatusBar, StyleSheet, Dimensions } from 'react-native';
+import { View, NativeModules, StatusBar, StyleSheet, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
 import ExitButton from './ExitButton';
 import Score from './Score';
@@ -13,16 +13,16 @@ export default class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      itemInSight: null,
-      score: 0,
+      // itemInSight: null,
+      score: 0
     };
+    this.itemInSight = null;
     this.gameItems = [];
     this.capturedItemMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
-    this.handlePress = this.handlePress.bind(this)
   }
 
-  handlePress(e){
-    let currentCube = this.gameItems[this.state.itemInSight]
+  handlePress = () => {
+    let currentCube = this.gameItems[this.itemInSight]
     // User captures an item, stop item from animating and turn its color to gray
     currentCube.speed = 0
     currentCube.material = this.capturedItemMaterial;
@@ -37,14 +37,14 @@ export default class Game extends React.Component {
   _onGLContextCreate = async gl => {
     const width = gl.drawingBufferWidth;
     const height = gl.drawingBufferHeight;
-    const arSession = await this._glView.startARSessionAsync();
+    this.arSession = await this._glView.startARSessionAsync();
     const renderer = ExpoTHREE.createRenderer({ gl });
     renderer.setSize(width, height);
     const scene = new THREE.Scene();
-    scene.background = ExpoTHREE.createARBackgroundTexture(arSession, renderer);
+    scene.background = ExpoTHREE.createARBackgroundTexture(this.arSession, renderer);
 
     const camera = ExpoTHREE.createARCamera(
-      arSession, // field of view
+      this.arSession, // field of view
       width,     // aspect ratio
       height,    // aspect ratio
       0.01,      // near clipping plane
@@ -64,10 +64,11 @@ export default class Game extends React.Component {
         cube.rotation.y += cube.speed;
         // this.setState({ distance: cube.position.distanceTo(camera.position) });
         let dist = cube.position.distanceTo(camera.position);
-        if (this.state.itemInSight === null) {
-          if (dist < 0.3) this.setState({ itemInSight: idx });
+        if (this.itemInSight === null) {
+          if (dist < 0.3) this.itemInSight = idx;
         } else {
-          if (idx === this.state.itemInSight && dist > 0.3) this.setState({ itemInSight: null });
+          if (idx === this.itemInSight && dist > 0.3)
+            this.itemInSight = null;
         }
       });
 
@@ -77,6 +78,16 @@ export default class Game extends React.Component {
     };
     animate();
   };
+
+  // shouldComponentUpdate() {
+  //   return false;
+  // }
+
+  async componentWillUnmount(){
+    // this.arSession = this._glView.stopARSessionAsync();
+    await NativeModules.ExponentGLViewManager.stopARSessionAsync(this.arSession.sessionId);
+    console.log('ar:', this.arSession );
+  }
 
   render() {
     return (
@@ -96,9 +107,9 @@ export default class Game extends React.Component {
         <View style={styles.score}>
           <Score score={this.state.score} />
         </View>
-        {/* <Text>itemInSight: {this.state.itemInSight}</Text> */}
+        {/* <Text>itemInSight: {this.itemInSight}</Text> */}
         <View style={styles.overlay}>
-        { this.state.itemInSight !== null && !this.gameItems[this.state.itemInSight].captured ?
+        { this.itemInSight !== null && !this.gameItems[this.itemInSight].captured ?
           (<Button raised rounded title="Capture" onPress={this.handlePress} buttonStyle={{ width: 150 }} />)
           : null
         }

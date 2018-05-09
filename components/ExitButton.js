@@ -8,7 +8,7 @@ const ExitButton = ({ navigation }) => (
     raised
     size={15}
     type="feather"
-    onPress={() => navigation.navigate('Home')}
+    onPress={() => navigation.popToTop()}
   />
 );
 
