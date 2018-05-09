@@ -1,7 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
-import { StackNavigator } from 'react-navigation';
-import { Badge, Icon } from 'react-native-elements';
+import { Text, View } from 'react-native';
+import { Badge } from 'react-native-elements';
 
 const Score = ({ score }) => {
   return (
