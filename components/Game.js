@@ -2,33 +2,33 @@ import React from 'react';
 import * as THREE from 'three';
 import ExpoTHREE from 'expo-three';
 import Expo from 'expo';
-import { View, Text, StatusBar, StyleSheet } from 'react-native';
+import { View, NativeModules, StatusBar, StyleSheet, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
+import ExitButton from './ExitButton';
+import Score from './Score';
+import Timer from './Timer';
 console.disableYellowBox = true;
 
 export default class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      camPos: { x: 0, y: 0, z: 0 },
-      itemInSight: null,
-      currScore: 0,
+      score: 0
     };
+    this.itemInSight = null;
     this.gameItems = [];
     this.capturedItemMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
-    this.handlePress = this.handlePress.bind(this)
   }
 
-  handlePress(e){
-    let currentCube = this.gameItems[this.state.itemInSight]
+  handlePress = () => {
+    let currentCube = this.gameItems[this.itemInSight]
     // User captures an item, stop item from animating and turn its color to gray
     currentCube.speed = 0
     currentCube.material = this.capturedItemMaterial;
 
     // User's score increments by 1
     if ( !currentCube.captured ) {
-      let newScore = this.state.currScore + 1
-      this.setState({currScore: newScore})
+      this.setState({score: this.state.score + 1})
       currentCube.captured = true;
     }
   }
@@ -36,40 +36,21 @@ export default class Game extends React.Component {
   _onGLContextCreate = async gl => {
     const width = gl.drawingBufferWidth;
     const height = gl.drawingBufferHeight;
-    const arSession = await this._glView.startARSessionAsync();
+    this.arSession = await this._glView.startARSessionAsync();
     const renderer = ExpoTHREE.createRenderer({ gl });
     renderer.setSize(width, height);
-
     const scene = new THREE.Scene();
-    scene.background = ExpoTHREE.createARBackgroundTexture(arSession, renderer);
+    scene.background = ExpoTHREE.createARBackgroundTexture(this.arSession, renderer);
 
     const camera = ExpoTHREE.createARCamera(
-      arSession,
-      width,
-      height,
-      0.01,
-      1000
+      this.arSession, // field of view
+      width,     // aspect ratio
+      height,    // aspect ratio
+      0.01,      // near clipping plane
+      1000       // far clipping plane
     );
 
-    const geometry = new THREE.BoxGeometry(0.07, 0.07, 0.07);
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-
-    const randomizePosition = () => {
-      return Math.round(Math.random() * 5 - 2.5);
-    };
-
-    for (let i = 0; i < 10; i++) {
-      const cube = new THREE.Mesh(geometry, material);
-      randomizePosition(cube);
-      cube.position.z = randomizePosition();
-      cube.position.x = randomizePosition();
-      cube.position.y = 0;
-      cube.speed = 0.05
-      cube.captured = false;
-      scene.add(cube);
-      this.gameItems.push(cube);
-    }
-
+    generateItems(scene, this.gameItems, 10);
 
     const animate = () => {
       camera.position.setFromMatrixPosition(camera.matrixWorld);
@@ -82,19 +63,26 @@ export default class Game extends React.Component {
         cube.rotation.y += cube.speed;
         // this.setState({ distance: cube.position.distanceTo(camera.position) });
         let dist = cube.position.distanceTo(camera.position);
-        if (this.state.itemInSight === null) {
-          if (dist < 0.3) this.setState({ itemInSight: idx });
+        if (this.itemInSight === null) {
+          if (dist < 0.3) this.itemInSight = idx;
         } else {
-          if (idx === this.state.itemInSight && dist > 0.3) this.setState({ itemInSight: null });
+          if (idx === this.itemInSight && dist > 0.3)
+            this.itemInSight = null;
         }
       });
 
       renderer.render(scene, camera);
       gl.endFrameEXP();
-      requestAnimationFrame(animate);
+      this.gameRequest = requestAnimationFrame(animate);
     };
     animate();
   };
+
+  // Kill ARSession and cancel animation frame request.
+  async componentWillUnmount(){
+    cancelAnimationFrame(this.gameRequest);
+    await NativeModules.ExponentGLViewManager.stopARSessionAsync(this.arSession.sessionId);
+  }
 
   render() {
     return (
@@ -105,29 +93,73 @@ export default class Game extends React.Component {
           style={{ flex: 1 }}
           onContextCreate={this._onGLContextCreate}
         />
-        <View style={styles.overlay}>
-          <Text>Camera X: {this.state.camPos.x}</Text>
-          <Text>Camera Y: {this.state.camPos.y}</Text>
-          <Text>Camera Z: {this.state.camPos.z}</Text>
-          <Text>itemInSight: {this.state.itemInSight}</Text>
-          <Text>currScore: {this.state.currScore}</Text>
-          { this.state.itemInSight !== null && !this.gameItems[this.state.itemInSight].captured ?
-            (<Button title="Capture" onPress={this.handlePress}/>)
-            :
-            (<Text>Not close enough</Text>)
-          }
+        <View style={styles.exitButton}>
+          <ExitButton  />
         </View>
+        <View style={styles.timer}>
+          <Timer  />
+        </View>
+        <View style={styles.score}>
+          <Score score={this.state.score} />
+        </View>
+        {/* <Text>itemInSight: {this.itemInSight}</Text> */}
+        <View style={styles.overlay}>
+        { this.itemInSight !== null && !this.gameItems[this.itemInSight].captured ?
+          (<Button raised rounded title="Capture" onPress={this.handlePress} buttonStyle={{ width: 150 }} />)
+          : null
+        }
+        </View>
+
       </View>
     );
   }
 }
 
+const {height, width} = Dimensions.get('window');
+
 const styles = StyleSheet.create({
   overlay: {
-    backgroundColor: 'rgba(255, 255, 255, 0.5)',
+    backgroundColor: 'rgba(255, 255, 255, 0)',
     position: 'absolute',
-    left: 0,
-    top: 0,
-    width: '100%'
+    top: height / 2,
+    left: width / 2 - 75
+  },
+  timer: {
+    position: 'absolute',
+    top: 20,
+    left: 20
+  },
+  exitButton: {
+    position: 'absolute',
+    top: 10,
+    right: 10
+  },
+  score: {
+    position: 'absolute',
+    top: 20,
+    left: 150
   }
 });
+
+function generateItems(scene, items, num) {
+  // Creating items
+  const geometry = new THREE.BoxGeometry(0.07, 0.07, 0.07); // creates template for a cube
+  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // creates color for a cube
+
+  // -5 < (x,z) < 5 (meters)
+  const randomizePosition = () => {
+    return Math.random() * 10 - 5; // -5 , 5
+  };
+
+  for (let i = 0; i < num; i++) {
+    const cube = new THREE.Mesh(geometry, material);
+    randomizePosition(cube);
+    cube.position.z = randomizePosition();
+    cube.position.x = randomizePosition();
+    cube.position.y = 0;
+    cube.speed = 0.05
+    cube.captured = false;
+    scene.add(cube);
+    items.push(cube);
+  }
+}
