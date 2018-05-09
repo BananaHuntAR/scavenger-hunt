@@ -20,7 +20,8 @@ export default class Leaderboard extends React.Component {
   }
 
   render() {
-    console.log('this.state.top10Results: ', this.state.top10Results);
+    let rank = 0;
+
     return (
       <View>
         <Text>Leaderboard</Text>
@@ -33,16 +34,21 @@ export default class Leaderboard extends React.Component {
               <Text>Time</Text>
             </Right>
           </ListItem>
-          {this.state.top10Results.map(result => (
-            <ListItem key={result.id}>
-              <Body>
-                <Text>{result.name}</Text>
-              </Body>
-              <Right>
-                <Text>{result.score}</Text>
-              </Right>
-            </ListItem>
-          ))}
+          {this.state.top10Results.map(result => {
+            rank++;
+            return (
+              <ListItem key={result.id}>
+                <Body>
+                  <Text>
+                    {rank}. {result.name}
+                  </Text>
+                </Body>
+                <Right>
+                  <Text>{result.score}</Text>
+                </Right>
+              </ListItem>
+            );
+          })}
         </List>
       </View>
     );
