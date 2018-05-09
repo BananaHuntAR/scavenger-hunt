@@ -62,9 +62,13 @@ export default class Game extends React.Component {
         cube.rotation.y += cube.speed;
         let dist = cube.position.distanceTo(camera.position);
         if (this.itemInSight === null) {
-          if (dist < 0.3) this.itemInSight = idx;
+          if (dist < 0.3) {
+            this.itemInSight = idx;
+            console.log('capture-----', this.itemInSight !== null && !this.gameItems[this.itemInSight].captured);
+          }
         } else {
-          if (idx === this.itemInSight && dist > 0.3) this.itemInSight = null;
+          if (idx === this.itemInSight && dist > 0.3)
+            this.itemInSight = null;
         }
       });
 
@@ -86,6 +90,7 @@ export default class Game extends React.Component {
   }
 
   render() {
+    console.log('-----------')
     return (
       <View style={{ flex: 1 }}>
         <StatusBar hidden={true} />
@@ -98,15 +103,15 @@ export default class Game extends React.Component {
           <ExitButton  />
         </View>
         <View style={styles.timer}>
-          <Timer  />
+
         </View>
         <View style={styles.score}>
           <Score score={this.state.score} />
         </View>
         <View style={styles.overlay}>
         { this.itemInSight !== null && !this.gameItems[this.itemInSight].captured ?
-          (<Button raised rounded title="Capture" onPress={this.handlePress} buttonStyle={{ width: 150 }} />)
-          : null
+          (console.log('works'))
+          : (console.log('log-----', this.itemInSight))
         }
         </View>
 
@@ -154,8 +159,10 @@ function generateItems(scene, items, num) {
   for (let i = 0; i < num; i++) {
     const cube = new THREE.Mesh(geometry, material);
     randomizePosition(cube);
-    cube.position.z = randomizePosition();
-    cube.position.x = randomizePosition();
+    // cube.position.z = randomizePosition();
+    // cube.position.x = randomizePosition();
+    cube.position.z = -0.04;
+    cube.position.x = 0;
     cube.position.y = 0;
     cube.speed = 0.05
     cube.captured = false;
