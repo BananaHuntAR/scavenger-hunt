@@ -1,43 +1,60 @@
 import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import { Text, Button } from 'react-native-elements';
+import { EvilIcons, Ionicons } from '@expo/vector-icons';
 
 const Home = ({ navigation }) => (
   <View style={styles.container}>
-    <Image
-      style={styles.backgroundImage}
-      source={require('../assets/globe.jpg')}
-      resizeMode="cover"
-    />
-    <Text h2 style={styles.text}>
-      Welcome to ScavengAR Hunt!
-    </Text>
-    <Text h4 style={styles.text}>
-      An Augmented Reality Scavenger Hunt
-    </Text>
-    <Button
-      onPress={() => navigation.navigate('Instructions')}
-      raised
-      rounded
-      title="Tutorial"
-      backgroundColor="#AD00B2"
-    />
-    <Button
-      onPress={() => navigation.navigate('Game')}
-      raised
-      rounded
-      title="Start Game"
-      backgroundColor="#AD00B2"
-    />
+    <View >
+    <Text h2 style={styles.text}>Welcome to ScavengAR Hunt!</Text>
+    <Text h4 style={styles.text}>An Augmented Reality Scavenger Hunt</Text>
+      <EvilIcons
+        name="play"
+        size={200}
+        color='white'
+        onPress={() => navigation.navigate('Game')}
+        style={{alignSelf: 'center'}}
+      />
+      <Text style={styles.text} >Start</Text>
+    </View>
+    <View style={{
+      flexDirection: 'row',
+      paddingTop: 100,
+      paddingBottom: 50,
+      alignItems: 'flex-end',
+      justifyContent: 'space-between'
+    }}>
+      <View >
+        <Ionicons
+          name='ios-clipboard-outline'
+          size={50} color='white'
+          onPress={() => navigation.navigate('Instructions')}
+          style={{alignSelf: 'center'}}
+        />
+        <Text style={styles.text}>Tutorial</Text>
+      </View>
+      <View>
+        <EvilIcons
+          name="trophy"
+          size={60}
+          color='white'
+          onPress={() => navigation.navigate('Ranking')}
+          style={{alignSelf: 'center'}}
+        />
+        <Text style={styles.text}>Leader Board</Text>
+      </View>
+    </View>
   </View>
 );
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
+    flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: '#E96B63',
+    paddingTop: 200,
+    paddingBottom: 100
   },
   text: {
     color: 'white',
@@ -51,8 +68,3 @@ const styles = StyleSheet.create({
 });
 
 export default Home;
-
-//title: Game overview
-//desc: This is a simulated scavenger hunt, but with Augmented Reality!
-
-// Mission: Your task is to capture the items as quickly as possible. Get ready to search!
