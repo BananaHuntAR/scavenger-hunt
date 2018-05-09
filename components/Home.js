@@ -10,30 +10,39 @@ const Home = ({ navigation }) => (
     <Text h4 style={styles.text}>An Augmented Reality Scavenger Hunt</Text>
       <EvilIcons
         name="play"
-        size={100}
+        size={200}
         color='white'
         onPress={() => navigation.navigate('Game')}
+        style={{alignSelf: 'center'}}
       />
-      <Text>Start</Text>
+      <Text style={styles.text} >Start</Text>
     </View>
-    <View style={{ flexDirection: 'row', padding: 100}}>
-    <View>
-      <Ionicons
-        name='ios-clipboard-outline'
-        size={60} color='white'
-        onPress={() => navigation.navigate('Instructions')}
-      />
-      <Text>Tutorial</Text>
-    </View>
-    <View>
-      <EvilIcons
-        name="trophy"
-        size={60}
-        color='white'
-        onPress={() => navigation.navigate('Ranking')}
-      />
-      <Text>Leader Board</Text>
-    </View>
+    <View style={{
+      flexDirection: 'row',
+      paddingTop: 100,
+      paddingBottom: 50,
+      alignItems: 'flex-end',
+      justifyContent: 'space-between'
+    }}>
+      <View >
+        <Ionicons
+          name='ios-clipboard-outline'
+          size={50} color='white'
+          onPress={() => navigation.navigate('Instructions')}
+          style={{alignSelf: 'center'}}
+        />
+        <Text style={styles.text}>Tutorial</Text>
+      </View>
+      <View>
+        <EvilIcons
+          name="trophy"
+          size={60}
+          color='white'
+          onPress={() => navigation.navigate('Ranking')}
+          style={{alignSelf: 'center'}}
+        />
+        <Text style={styles.text}>Leader Board</Text>
+      </View>
     </View>
   </View>
 );
@@ -44,7 +53,8 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#E96B63',
-    paddingTop: 200
+    paddingTop: 200,
+    paddingBottom: 100
   },
   text: {
     color: 'white',
