@@ -10,7 +10,8 @@ const Score = ({ score }) => {
           backgroundColor: 'white'
         }}
       >
-        <Text>Items Collected: {score} / 10</Text>
+        <Text>Captured:</Text>
+        <Text>{score} / 10</Text>
       </Badge>
     </View>
   );
