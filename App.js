@@ -27,7 +27,7 @@ const RootNavigator = StackNavigator({
   Leaderboard: {
     screen: Leaderboard,
     navigationOptions: {
-      header: 'none'
+      headerTitle: 'Leaderboard'
     }
   }
 });

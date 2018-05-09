@@ -2,15 +2,12 @@ import React from 'react';
 import axios from 'axios';
 import { StyleSheet, View } from 'react-native';
 import { withNavigation } from 'react-navigation';
-import { List, ListItem, Body, Right, Text } from 'native-base';
+import { List, ListItem, Body, Right, Text, Button } from 'native-base';
 
 export default class Leaderboard extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      top10Results: []
-    };
-  }
+  state = {
+    top10Results: []
+  };
 
   componentDidMount() {
     axios
@@ -34,6 +31,7 @@ export default class Leaderboard extends React.Component {
               <Text>Time</Text>
             </Right>
           </ListItem>
+
           {this.state.top10Results.map(result => {
             rank++;
             return (
@@ -50,6 +48,13 @@ export default class Leaderboard extends React.Component {
             );
           })}
         </List>
+
+        <Button onPress={() => this.props.navigation.navigate('Home')} rounded>
+          <Text>Home</Text>
+        </Button>
+        <Button rounded>
+          <Text>Play Again!</Text>
+        </Button>
       </View>
     );
   }
