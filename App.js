@@ -2,6 +2,7 @@ import React from 'react'
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import Home from './components/Home';
 import Game from './components/Game';
+import Leaderboard from './components/Leaderboard';
 import TutorialStep from './components/TutorialStep';
 import { Ionicons } from '@expo/vector-icons';
 
@@ -58,6 +59,12 @@ const RootNavigator = StackNavigator({
     screen: Game,
     navigationOptions: {
       header: 'none'
+    }
+  },
+  Leaderboard: {
+    screen: Leaderboard,
+    navigationOptions: {
+      headerTitle: 'Leaderboard'
     }
   }
 });
