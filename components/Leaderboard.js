@@ -30,7 +30,7 @@ export default class Leaderboard extends React.Component {
               <Text>Name</Text>
             </Body>
             <Right>
-              <Text>Score</Text>
+              <Text>Time</Text>
             </Right>
           </ListItem>
           {this.state.top10Results.map(result => (
