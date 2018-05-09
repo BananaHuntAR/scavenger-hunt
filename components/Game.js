@@ -74,19 +74,15 @@ export default class Game extends React.Component {
 
       renderer.render(scene, camera);
       gl.endFrameEXP();
-      requestAnimationFrame(animate);
+      this.gameRequest = requestAnimationFrame(animate);
     };
     animate();
   };
 
-  // shouldComponentUpdate() {
-  //   return false;
-  // }
-
+  // Kill ARSession and cancel animation frame request.
   async componentWillUnmount(){
-    // this.arSession = this._glView.stopARSessionAsync();
+    cancelAnimationFrame(this.gameRequest);
     await NativeModules.ExponentGLViewManager.stopARSessionAsync(this.arSession.sessionId);
-    console.log('ar:', this.arSession );
   }
 
   render() {
