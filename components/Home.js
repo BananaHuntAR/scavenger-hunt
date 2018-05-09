@@ -1,64 +1,60 @@
 import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import { Text, Button } from 'react-native-elements';
-import Start from './Start';
+import { EvilIcons, Ionicons } from '@expo/vector-icons';
 
-export default class Home extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      isVisible: false
-    };
-
-    this.toggleVisible = this.toggleVisible.bind(this);
-  }
-
-  toggleVisible() {
-    this.setState({ isVisible: !this.state.isVisible });
-  }
-
-  render() {
-    return (
-      <View style={styles.container}>
-        <Image
-          style={styles.backgroundImage}
-          source={require('../assets/globe.jpg')}
-          resizeMode="cover"
+const Home = ({ navigation }) => (
+  <View style={styles.container}>
+    <View >
+    <Text h2 style={styles.text}>Welcome to ScavengAR Hunt!</Text>
+    <Text h4 style={styles.text}>An Augmented Reality Scavenger Hunt</Text>
+      <EvilIcons
+        name="play"
+        size={200}
+        color='white'
+        onPress={() => navigation.navigate('Game')}
+        style={{alignSelf: 'center'}}
+      />
+      <Text style={styles.text} >Start</Text>
+    </View>
+    <View style={{
+      flexDirection: 'row',
+      paddingTop: 100,
+      paddingBottom: 50,
+      alignItems: 'flex-end',
+      justifyContent: 'space-between'
+    }}>
+      <View >
+        <Ionicons
+          name='ios-clipboard-outline'
+          size={50} color='white'
+          onPress={() => navigation.navigate('Instructions')}
+          style={{alignSelf: 'center'}}
         />
-        <Text h2 style={styles.text}>
-          Welcome to ScavengAR Hunt!
-        </Text>
-        <Text h4 style={styles.text}>
-          An Augmented Reality Scavenger Hunt
-        </Text>
-        <Button
-          onPress={() => this.setState({ isVisible: true })}
-          raised
-          rounded
-          title="PLAY"
-          backgroundColor="#AD00B2"
-        />
-        <Button
-          onPress={() => this.props.navigation.navigate('Leaderboard')}
-          raised
-          rounded
-          title="LEADERBOARD"
-        />
-        <Start
-          visible={this.state.isVisible}
-          toggleVisible={this.toggleVisible}
-        />
+        <Text style={styles.text}>Tutorial</Text>
       </View>
-    );
-  }
-}
+      <View>
+        <EvilIcons
+          name="trophy"
+          size={60}
+          color='white'
+          onPress={() => navigation.navigate('Ranking')}
+          style={{alignSelf: 'center'}}
+        />
+        <Text style={styles.text}>Leader Board</Text>
+      </View>
+    </View>
+  </View>
+);
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
     alignItems: 'center',
+    flex: 1,
     justifyContent: 'center',
-    backgroundColor: '#fff'
+    backgroundColor: '#E96B63',
+    paddingTop: 200,
+    paddingBottom: 100
   },
   text: {
     color: 'white',
@@ -70,3 +66,5 @@ const styles = StyleSheet.create({
     position: 'absolute'
   }
 });
+
+export default Home;
