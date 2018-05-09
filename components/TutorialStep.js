@@ -4,12 +4,10 @@ import { Button, Text } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 
 const TutorialStep = ({ navigation, title, desc }) => (
-  <View>
-    <View style={styles.container}>
-      <Text h1>{title}</Text>
-      <Text h4 style={styles.text}>
-        {desc}
-      </Text>
+  <View style={styles.container}>
+    <View>
+      <Text h4>{title}</Text>
+      <Text style={styles.text}>{desc}</Text>
       <Button
         onPress={() => navigation.navigate('Home')}
         raised
@@ -23,11 +21,16 @@ const TutorialStep = ({ navigation, title, desc }) => (
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#95CEDA',
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  instructionsContainer: {
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: 'white',
-    borderRadius: 20,
-    height: 200
+    borderRadius: 20
   },
   text: {
     textAlign: 'center'
