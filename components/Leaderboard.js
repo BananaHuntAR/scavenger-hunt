@@ -11,7 +11,7 @@ export default class Leaderboard extends React.Component {
 
   componentDidMount() {
     axios
-      .get('http://scavengar-hunt.herokuapp.com/api/ranking')
+      .get('http://scavengar-hunt.herokuapp.com/api/results')
       .then(results => this.setState({ top10Results: results.data }))
       .catch(err => console.error(err));
   }
@@ -42,14 +42,14 @@ export default class Leaderboard extends React.Component {
                   </Text>
                 </Body>
                 <Right>
-                  <Text>{result.score}</Text>
+                  <Text>{result.time}</Text>
                 </Right>
               </ListItem>
             );
           })}
         </List>
 
-        <Button onPress={() => this.props.navigation.navigate('Home')} rounded>
+        <Button onPress={() => this.props.navigation.replace('Home')} rounded>
           <Text>Home</Text>
         </Button>
         <Button rounded>
