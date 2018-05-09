@@ -6,12 +6,15 @@ import TutorialStep from './components/TutorialStep';
 import { Ionicons } from '@expo/vector-icons';
 
 const InstructionsNavigator = TabNavigator(
+  //Nested navigator within the main navigator in order to separate the tutorial swipe view
   {
     TutorialStepOne: {
       screen: () => (
         <TutorialStep
-          title={'Game overview'}
+          //passing title & desc props so that we can reuse our TutorialStep component
+          title={'Game Overview'}
           desc={`This is a simulated scavenger hunt, but with Augmented Reality!`}
+          iconName={'ios-phone-portrait'}
         />
       ),
       navigationOptions: {
@@ -21,12 +24,13 @@ const InstructionsNavigator = TabNavigator(
     TutorialStepTwo: {
       screen: () => (
         <TutorialStep
-          title={'How to play'}
+          title={'How to Play'}
           desc={`Items will randomly drop all around you. Once you are within reach of an item, a "capture" button will appear!`}
+          iconName={'ios-basket-outline'}
         />
       ),
       navigationOptions: {
-        headerTitle: 'How to play'
+        headerTitle: 'How to Play'
       }
     },
     TutorialStepThree: {
@@ -34,6 +38,7 @@ const InstructionsNavigator = TabNavigator(
         <TutorialStep
           title={'Mission'}
           desc={`Your task is to capture the items as quickly as possible. Get ready to search!`}
+          iconName={'ios-alarm-outline'}
         />
       ),
       navigationOptions: {
@@ -46,8 +51,7 @@ const InstructionsNavigator = TabNavigator(
       tabBarIcon: ({ focused, tintColor }) => (
         <Ionicons name="ios-radio-button-on" size={15} color={tintColor} />
       ),
-      swipeEnabled: true,
-      animationEnabled: true
+      swipeEnabled: true
     },
     tabBarOptions: {
       activeTintColor: 'white',
@@ -56,7 +60,8 @@ const InstructionsNavigator = TabNavigator(
       style: {
         width: 100,
         alignSelf: 'center',
-        backgroundColor: 'rgba(255, 255, 255, 0)'
+        backgroundColor: 'rgba(255, 255, 255, 0)',
+        borderTopWidth: 0
       }
     }
   }
@@ -74,8 +79,7 @@ const RootNavigator = StackNavigator({
   Instructions: {
     screen: InstructionsNavigator,
     navigationOptions: {
-      headerTitle: 'Get Ready!',
-      swipeEnabled: true
+      headerTitle: 'Get Ready!'
     }
   },
   Game: {
