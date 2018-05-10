@@ -3,8 +3,9 @@ import { StyleSheet, View, Image } from 'react-native';
 import { Text, Button } from 'react-native-elements';
 import { EvilIcons, Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
+import { logout } from '../store/auth';
 
-const Home = ({ navigation, currentUser }) => (
+const Home = ({ navigation, currentUser, logoutFunc }) => (
   <View style={styles.container}>
     <View>
       <Text h2 style={styles.text}>
@@ -28,6 +29,11 @@ const Home = ({ navigation, currentUser }) => (
         style={{ width: 150, alignSelf: 'center' }}
         backgroundColor="white"
         color="gray"
+        onPress={() => {
+          return currentUser.email
+            ? logoutFunc(navigation)
+            : navigation.navigate('Login');
+        }}
       />
     </View>
     <View
@@ -63,11 +69,13 @@ const Home = ({ navigation, currentUser }) => (
   </View>
 );
 
-const mapStateToProps = storeState => {
-  return {
-    currentUser: storeState.currentUser
-  };
-};
+const mapStateToProps = storeState => ({
+  currentUser: storeState.currentUser
+});
+
+const mapDispatchToProps = dispatch => ({
+  logoutFunc: navigation => dispatch(logout(navigation))
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -89,4 +97,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
