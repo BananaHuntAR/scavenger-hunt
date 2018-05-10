@@ -33,13 +33,16 @@ export default class Game extends React.Component {
     }
   }
 
+  // Creates AR experience
   _onGLContextCreate = async gl => {
     const width = gl.drawingBufferWidth;
     const height = gl.drawingBufferHeight;
+    // Starts an AR session
     this.arSession = await this._glView.startARSessionAsync();
     const renderer = ExpoTHREE.createRenderer({ gl });
     renderer.setSize(width, height);
     const scene = new THREE.Scene();
+
     scene.background = ExpoTHREE.createARBackgroundTexture(this.arSession, renderer);
 
     const camera = ExpoTHREE.createARCamera(
@@ -50,6 +53,7 @@ export default class Game extends React.Component {
       1000       // far clipping plane
     );
 
+    // Items are added to on AR scene
     generateItems(scene, this.gameItems, 10);
 
     const animate = () => {
@@ -58,8 +62,12 @@ export default class Game extends React.Component {
       cameraPos.applyMatrix4(camera.matrixWorld);
 
       this.gameItems.forEach((cube, idx) => {
+        // Animates items for live movement
         cube.rotation.x += cube.speed;
         cube.rotation.y += cube.speed;
+
+        // Updates state to indicate if an itemInSight and prompts capture button
+        // .distanceTo(vector) handles calibration
         let dist = cube.position.distanceTo(camera.position);
         if (this.state.itemInSight === null) {
           if (dist < 0.3) {
@@ -72,6 +80,7 @@ export default class Game extends React.Component {
         }
       });
 
+      // Adds AR overlay over camera view
       renderer.render(scene, camera);
       gl.endFrameEXP();
       this.gameRequest = requestAnimationFrame(animate);
@@ -79,7 +88,7 @@ export default class Game extends React.Component {
     animate();
   };
 
-  // Kill ARSession and cancel animation frame request.
+  // Kill ARSession and cancel animation frame request
   async componentWillUnmount(){
     cancelAnimationFrame(this.gameRequest);
     try {
@@ -93,6 +102,7 @@ export default class Game extends React.Component {
     return (
       <View style={{ flex: 1 }}>
         <StatusBar hidden={true} />
+
         <Expo.GLView
           ref={ref => (this._glView = ref)}
           style={{ flex: 1 }}
