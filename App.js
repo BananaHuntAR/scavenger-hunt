@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 import React from 'react';
+=======
+import React from 'react'
+>>>>>>> master
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import store from './store';
@@ -8,6 +12,7 @@ import Login from './components/Login';
 import Leaderboard from './components/Leaderboard';
 import TutorialNavigator from './components/TutorialNavigator';
 
+<<<<<<< HEAD
 const RootNavigator = StackNavigator(
   {
     Home: {
@@ -47,6 +52,33 @@ const RootNavigator = StackNavigator(
       navigationOptions: {
         headerTitle: 'Leaderboard'
       }
+=======
+const RootNavigator = StackNavigator({
+  Home: {
+    screen: Home,
+    navigationOptions: {
+      header: 'none',
+      swipeEnabled: true,
+      headerLeft: null
+    }
+  },
+  Instructions: {
+    screen: TutorialNavigator,
+    navigationOptions: {
+      header: 'none'
+    }
+  },
+  Game: {
+    screen: Game,
+    navigationOptions: {
+      header: 'none'
+    }
+  },
+  Leaderboard: {
+    screen: Leaderboard,
+    navigationOptions: {
+      header: 'none'
+>>>>>>> master
     }
   }
   // {

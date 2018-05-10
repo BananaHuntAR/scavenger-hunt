@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Image } from 'react-native';
-import { Text, Button } from 'react-native-elements';
+import { StyleSheet, View } from 'react-native';
+import { Text } from 'react-native-elements';
 import { EvilIcons, Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { logout } from '../store/auth';
@@ -8,20 +8,19 @@ import { logout } from '../store/auth';
 const Home = ({ navigation, currentUser, logoutFunc }) => (
   <View style={styles.container}>
     <View>
-      <Text h2 style={styles.text}>
-        Welcome to ScavengAR Hunt!
+      <Text h2 style={styles.headerText}>
+        Welcome to{'\n'}Banana Hunt!
       </Text>
-      <Text h4 style={styles.text}>
+      <Text h4 style={styles.headerText}>
         An Augmented Reality Scavenger Hunt
       </Text>
       <EvilIcons
         name="play"
-        size={200}
-        color="white"
-        onPress={() => navigation.navigate('Game')}
-        style={{ alignSelf: 'center' }}
-      />
-      <Text style={styles.text}>Start</Text>
+size={125}
+onPress={() => navigation.navigate('Game')}
+style={styles.icon}
+/>
+<Text style={styles.iconText}>Play!</Text>
       <Button
         title={currentUser.email ? 'Logout' : 'Login/Sign Up'}
         rounded
@@ -36,34 +35,24 @@ const Home = ({ navigation, currentUser, logoutFunc }) => (
         }}
       />
     </View>
-    <View
-      style={{
-        flexDirection: 'row',
-        paddingTop: 50,
-        paddingBottom: 50,
-        alignItems: 'flex-end',
-        justifyContent: 'space-between'
-      }}
-    >
-      <View>
+
+<View style={styles.iconContainer}>
         <Ionicons
           name="ios-clipboard-outline"
           size={50}
-          color="white"
           onPress={() => navigation.navigate('Instructions')}
-          style={{ alignSelf: 'center' }}
+          style={styles.icon}
         />
-        <Text style={styles.text}>Tutorial</Text>
+        <Text style={styles.iconText}>Tutorial</Text>
       </View>
       <View>
         <EvilIcons
           name="trophy"
           size={60}
-          color="white"
-          onPress={() => navigation.navigate('Ranking')}
-          style={{ alignSelf: 'center' }}
+          onPress={() => navigation.navigate('Leaderboard')}
+          style={styles.icon}
         />
-        <Text style={styles.text}>Leader Board</Text>
+        <Text style={styles.iconText}>Leaderboard</Text>
       </View>
     </View>
   </View>
@@ -79,21 +68,31 @@ const mapDispatchToProps = dispatch => ({
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#E96B63',
-    paddingTop: 200,
-    paddingBottom: 100
+    paddingTop: 50
   },
-  text: {
+  headerText: {
     color: 'white',
     textAlign: 'center',
     padding: 10
   },
-  backgroundImage: {
-    height: '100%',
-    position: 'absolute'
+  iconText: {
+    color: 'white',
+    textAlign: 'center',
+    fontSize: 16
+  },
+  icon: {
+    color: 'white',
+    paddingTop: 10,
+    alignSelf: 'center'
+  },
+  iconContainer: {
+    flexDirection: 'row',
+    paddingTop: 25,
+    alignItems: 'flex-end',
+    justifyContent: 'space-evenly'
   }
 });
 
