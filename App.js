@@ -10,7 +10,7 @@ const RootNavigator = StackNavigator({
   Home: {
     screen: Home,
     navigationOptions: {
-      headerTitle: 'Home',
+      header: 'none',
       swipeEnabled: true,
       headerLeft: null
     }
@@ -18,7 +18,7 @@ const RootNavigator = StackNavigator({
   Instructions: {
     screen: TutorialNavigator,
     navigationOptions: {
-      headerTitle: 'Get Ready!'
+      header: 'none'
     }
   },
   Game: {
@@ -30,7 +30,7 @@ const RootNavigator = StackNavigator({
   Leaderboard: {
     screen: Leaderboard,
     navigationOptions: {
-      headerTitle: 'Leaderboard'
+      header: 'none'
     }
   }
 });
