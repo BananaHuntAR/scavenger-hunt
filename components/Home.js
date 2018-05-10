@@ -21,11 +21,19 @@ const Home = ({ navigation, currentUser }) => (
         style={{ alignSelf: 'center' }}
       />
       <Text style={styles.text}>Start</Text>
+      <Button
+        title={currentUser.email ? 'Logout' : 'Login/Sign Up'}
+        rounded
+        raised
+        style={{ width: 150, alignSelf: 'center' }}
+        backgroundColor="white"
+        color="gray"
+      />
     </View>
     <View
       style={{
         flexDirection: 'row',
-        paddingTop: 100,
+        paddingTop: 50,
         paddingBottom: 50,
         alignItems: 'flex-end',
         justifyContent: 'space-between'
