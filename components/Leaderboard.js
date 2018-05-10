@@ -59,3 +59,19 @@ export default class Leaderboard extends React.Component {
     );
   }
 }
+
+const styles = StyleSheet.create({
+  container: {
+    alignItems: 'center',
+    flex: 1,
+    justifyContent: 'center',
+    backgroundColor: '#E96B63',
+    paddingTop: 200,
+    paddingBottom: 100
+  },
+  text: {
+    color: 'white',
+    fontFamily: 'OriyaSangamMN',
+    padding: 10
+  }
+});
