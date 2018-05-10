@@ -7,7 +7,7 @@ const Home = ({ navigation }) => (
   <View style={styles.container}>
     <View>
       <Text h2 style={styles.headerText}>
-        Welcome to ScavengAR Hunt!
+        Welcome to{'\n'}Banana Hunt!
       </Text>
       <Text h4 style={styles.headerText}>
         An Augmented Reality Scavenger Hunt
