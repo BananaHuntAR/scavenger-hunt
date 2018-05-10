@@ -19,7 +19,7 @@ const TutorialStep = ({ navigation, title, desc, iconName }) => (
         onPress={() => navigation.navigate('Home')}
         raised
         rounded
-        title={(title = 'mission' ? "I'm ready!" : 'Skip Tutorial')}
+        title={title === 'Mission' ? "I'm ready!" : 'Skip Tutorial'}
         backgroundColor="white"
         color="gray"
       />
