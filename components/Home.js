@@ -1,6 +1,6 @@
 import React from 'react';
-import { StyleSheet, View, Image } from 'react-native';
-import { Text, Button } from 'react-native-elements';
+import { StyleSheet, View } from 'react-native';
+import { Text } from 'react-native-elements';
 import { EvilIcons, Ionicons } from '@expo/vector-icons';
 
 const Home = ({ navigation }) => (
@@ -14,7 +14,7 @@ const Home = ({ navigation }) => (
       </Text>
       <EvilIcons
         name="play"
-        size={200}
+        size={150}
         color="white"
         onPress={() => navigation.navigate('Game')}
         style={{ alignSelf: 'center' }}
@@ -24,8 +24,9 @@ const Home = ({ navigation }) => (
     <View
       style={{
         flexDirection: 'row',
-        paddingTop: 100,
-        paddingBottom: 50,
+        padding: 100,
+        // paddingTop: 100,
+        // paddingBottom: 50,
         alignItems: 'flex-end',
         justifyContent: 'space-between'
       }}

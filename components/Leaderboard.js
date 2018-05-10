@@ -1,8 +1,17 @@
 import React from 'react';
 import axios from 'axios';
 import { StyleSheet, View } from 'react-native';
-import { withNavigation } from 'react-navigation';
-import { List, ListItem, Body, Right, Text, Button } from 'native-base';
+import {
+  Content,
+  List,
+  ListItem,
+  Body,
+  Right,
+  Button,
+  Text
+} from 'native-base';
+import { EvilIcons } from '@expo/vector-icons';
+import LeaderboardItem from './LeaderboardItem';
 
 export default class Leaderboard extends React.Component {
   state = {
@@ -20,41 +29,49 @@ export default class Leaderboard extends React.Component {
     let rank = 0;
 
     return (
-      <View>
-        <Text>Leaderboard</Text>
-        <List>
-          <ListItem>
-            <Body>
-              <Text>Name</Text>
-            </Body>
-            <Right>
-              <Text>Time</Text>
-            </Right>
-          </ListItem>
+      <View style={styles.container}>
+        <EvilIcons
+          name="trophy"
+          size={80}
+          color="white"
+          style={{ alignSelf: 'center' }}
+        />
+        <Content>
+          <List>
+            <ListItem>
+              <Body>
+                <Text style={styles.columnHeader}>Name</Text>
+              </Body>
+              <Right>
+                <Text style={styles.columnHeader}>Time</Text>
+              </Right>
+            </ListItem>
 
-          {this.state.top10Results.map(result => {
-            rank++;
-            return (
-              <ListItem key={result.id}>
-                <Body>
-                  <Text>
-                    {rank}. {result.name}
-                  </Text>
-                </Body>
-                <Right>
-                  <Text>{result.time}</Text>
-                </Right>
-              </ListItem>
-            );
-          })}
-        </List>
-
-        <Button onPress={() => this.props.navigation.replace('Home')} rounded>
-          <Text>Home</Text>
-        </Button>
-        <Button rounded>
-          <Text>Play Again!</Text>
-        </Button>
+            {this.state.top10Results.map(result => {
+              rank++;
+              return (
+                <LeaderboardItem
+                  key={result.id}
+                  rank={rank}
+                  name={result.name}
+                  time={result.time}
+                />
+              );
+            })}
+          </List>
+        </Content>
+        <View style={styles.buttonContainer}>
+          <Button
+            onPress={() => this.props.navigation.replace('Home')}
+            rounded
+            style={styles.button}
+          >
+            <Text>Home</Text>
+          </Button>
+          <Button rounded style={styles.button}>
+            <Text>Play Again!</Text>
+          </Button>
+        </View>
       </View>
     );
   }
@@ -62,16 +79,22 @@ export default class Leaderboard extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
-    alignItems: 'center',
+    backgroundColor: '#3FBE94',
     flex: 1,
-    justifyContent: 'center',
-    backgroundColor: '#E96B63',
-    paddingTop: 200,
-    paddingBottom: 100
+    paddingTop: 50
   },
-  text: {
+  columnHeader: {
     color: 'white',
-    fontFamily: 'OriyaSangamMN',
-    padding: 10
+    padding: 5,
+    fontSize: 20,
+    fontFamily: 'OriyaSangamMN'
+  },
+  buttonContainer: {
+    flexDirection: 'row',
+    justifyContent: 'center'
+  },
+  button: {
+    margin: 20,
+    backgroundColor: '#E96B63'
   }
 });
