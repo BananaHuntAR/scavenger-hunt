@@ -2,8 +2,10 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Text } from 'react-native-elements';
 import { EvilIcons, Ionicons } from '@expo/vector-icons';
+import { connect } from 'react-redux';
+import { logout } from '../store/auth';
 
-const Home = ({ navigation }) => (
+const Home = ({ navigation, currentUser, logoutFunc }) => (
   <View style={styles.container}>
     <View>
       <Text h2 style={styles.headerText}>
@@ -14,14 +16,27 @@ const Home = ({ navigation }) => (
       </Text>
       <EvilIcons
         name="play"
-        size={125}
-        onPress={() => navigation.navigate('Game')}
-        style={styles.icon}
+size={125}
+onPress={() => navigation.navigate('Game')}
+style={styles.icon}
+/>
+<Text style={styles.iconText}>Play!</Text>
+      <Button
+        title={currentUser.email ? 'Logout' : 'Login/Sign Up'}
+        rounded
+        raised
+        style={{ width: 150, alignSelf: 'center' }}
+        backgroundColor="white"
+        color="gray"
+        onPress={() => {
+          return currentUser.email
+            ? logoutFunc(navigation)
+            : navigation.navigate('Login');
+        }}
       />
-      <Text style={styles.iconText}>Play!</Text>
     </View>
-    <View style={styles.iconContainer}>
-      <View>
+
+<View style={styles.iconContainer}>
         <Ionicons
           name="ios-clipboard-outline"
           size={50}
@@ -42,6 +57,14 @@ const Home = ({ navigation }) => (
     </View>
   </View>
 );
+
+const mapStateToProps = storeState => ({
+  currentUser: storeState.currentUser
+});
+
+const mapDispatchToProps = dispatch => ({
+  logoutFunc: navigation => dispatch(logout(navigation))
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -73,4 +96,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Home;
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
