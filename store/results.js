@@ -1,27 +1,27 @@
 import axios from 'axios';
 
 // ACTION TYPES
-const FETCH_LEADERBAORD = 'FETCH_LEADERBAORD';
+const FETCH_RESULTS = 'FETCH_RESULTS';
 
 // ACTION CREATORS
-export const fetchLeaderboard = leaderboard => ({
-  type: FETCH_LEADERBAORD,
-  leaderboard
+export const fetchResults = results => ({
+  type: FETCH_RESULTS,
+  results
 });
 
 // THUNK CREATORS
-export const leaderboardThunk = () => dispatch => {
+export const fetchResultsThunk = () => dispatch => {
   return axios
     .get(`http://scavengar-hunt.herokuapp.com/api/results`)
-    .then(res => dispatch(fetchLeaderboard(res.data)))
+    .then(res => dispatch(fetchResults(res.data)))
     .catch(err => console.error(err));
 };
 
 // REDUCER
 export default function(state = [], action) {
   switch (action.type) {
-    case FETCH_LEADERBAORD:
-      return action.leaderboard;
+    case FETCH_RESULTS:
+      return action.results;
     default:
       return state;
   }
