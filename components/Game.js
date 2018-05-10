@@ -67,6 +67,7 @@ export default class Game extends React.Component {
         cube.rotation.y += cube.speed;
 
         // Updates state to indicate if an itemInSight and prompts capture button
+        // .distanceTo(vector) handles calibration
         let dist = cube.position.distanceTo(camera.position);
         if (this.state.itemInSight === null) {
           if (dist < 0.3) {
