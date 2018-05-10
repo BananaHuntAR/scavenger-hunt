@@ -13,15 +13,15 @@ export default class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      score: 0
+      score: 0,
+      itemInSight: null
     };
-    this.itemInSight = null;
     this.gameItems = [];
     this.capturedItemMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
   }
 
   handlePress = () => {
-    let currentCube = this.gameItems[this.itemInSight]
+    let currentCube = this.gameItems[this.state.itemInSight]
     // User captures an item, stop item from animating and turn its color to gray
     currentCube.speed = 0
     currentCube.material = this.capturedItemMaterial;
@@ -50,7 +50,7 @@ export default class Game extends React.Component {
       1000       // far clipping plane
     );
 
-    generateItems(scene, this.gameItems, 1);
+    generateItems(scene, this.gameItems, 10);
 
     const animate = () => {
       camera.position.setFromMatrixPosition(camera.matrixWorld);
@@ -61,14 +61,14 @@ export default class Game extends React.Component {
         cube.rotation.x += cube.speed;
         cube.rotation.y += cube.speed;
         let dist = cube.position.distanceTo(camera.position);
-        if (this.itemInSight === null) {
+        if (this.state.itemInSight === null) {
           if (dist < 0.3) {
-            this.itemInSight = idx;
-            console.log('capture-----', this.itemInSight !== null && !this.gameItems[this.itemInSight].captured);
+            this.setState({ itemInSight: idx });
           }
         } else {
-          if (idx === this.itemInSight && dist > 0.3)
-            this.itemInSight = null;
+          if (idx === this.state.itemInSight && dist > 0.3) {
+            this.setState({ itemInSight: null });
+          }
         }
       });
 
@@ -90,7 +90,6 @@ export default class Game extends React.Component {
   }
 
   render() {
-    console.log('-----------')
     return (
       <View style={{ flex: 1 }}>
         <StatusBar hidden={true} />
@@ -103,15 +102,15 @@ export default class Game extends React.Component {
           <ExitButton  />
         </View>
         <View style={styles.timer}>
-
+          <Timer />
         </View>
         <View style={styles.score}>
           <Score score={this.state.score} />
         </View>
         <View style={styles.overlay}>
-        { this.itemInSight !== null && !this.gameItems[this.itemInSight].captured ?
-          (console.log('works'))
-          : (console.log('log-----', this.itemInSight))
+        { this.state.itemInSight !== null && !this.gameItems[this.state.itemInSight].captured ?
+          (<Button raised rounded title="Capture" onPress={this.handlePress} buttonStyle={{ width: 150 }} />)
+          : null
         }
         </View>
 
@@ -153,16 +152,14 @@ function generateItems(scene, items, num) {
 
   // -5 < (x,z) < 5 (meters)
   const randomizePosition = () => {
-    return Math.random() * 5 - 2.5; // -5 , 5
+    return Math.random() * 10 - 5; // -5 , 5
   };
 
   for (let i = 0; i < num; i++) {
     const cube = new THREE.Mesh(geometry, material);
     randomizePosition(cube);
-    // cube.position.z = randomizePosition();
-    // cube.position.x = randomizePosition();
-    cube.position.z = -0.04;
-    cube.position.x = 0;
+    cube.position.z = randomizePosition();
+    cube.position.x = randomizePosition();
     cube.position.y = 0;
     cube.speed = 0.05
     cube.captured = false;
