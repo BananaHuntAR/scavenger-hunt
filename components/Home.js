@@ -2,34 +2,42 @@ import React from 'react';
 import { StyleSheet, View, Image } from 'react-native';
 import { Text, Button } from 'react-native-elements';
 import { EvilIcons, Ionicons } from '@expo/vector-icons';
+import { connect } from 'react-redux';
 
-const Home = ({ navigation }) => (
+const Home = ({ navigation, currentUser }) => (
   <View style={styles.container}>
-    <View >
-    <Text h2 style={styles.text}>Welcome to ScavengAR Hunt!</Text>
-    <Text h4 style={styles.text}>An Augmented Reality Scavenger Hunt</Text>
+    <View>
+      <Text h2 style={styles.text}>
+        Welcome to ScavengAR Hunt!
+      </Text>
+      <Text h4 style={styles.text}>
+        An Augmented Reality Scavenger Hunt
+      </Text>
       <EvilIcons
         name="play"
         size={200}
-        color='white'
+        color="white"
         onPress={() => navigation.navigate('Game')}
-        style={{alignSelf: 'center'}}
+        style={{ alignSelf: 'center' }}
       />
-      <Text style={styles.text} >Start</Text>
+      <Text style={styles.text}>Start</Text>
     </View>
-    <View style={{
-      flexDirection: 'row',
-      paddingTop: 100,
-      paddingBottom: 50,
-      alignItems: 'flex-end',
-      justifyContent: 'space-between'
-    }}>
-      <View >
+    <View
+      style={{
+        flexDirection: 'row',
+        paddingTop: 100,
+        paddingBottom: 50,
+        alignItems: 'flex-end',
+        justifyContent: 'space-between'
+      }}
+    >
+      <View>
         <Ionicons
-          name='ios-clipboard-outline'
-          size={50} color='white'
+          name="ios-clipboard-outline"
+          size={50}
+          color="white"
           onPress={() => navigation.navigate('Instructions')}
-          style={{alignSelf: 'center'}}
+          style={{ alignSelf: 'center' }}
         />
         <Text style={styles.text}>Tutorial</Text>
       </View>
@@ -37,15 +45,21 @@ const Home = ({ navigation }) => (
         <EvilIcons
           name="trophy"
           size={60}
-          color='white'
+          color="white"
           onPress={() => navigation.navigate('Ranking')}
-          style={{alignSelf: 'center'}}
+          style={{ alignSelf: 'center' }}
         />
         <Text style={styles.text}>Leader Board</Text>
       </View>
     </View>
   </View>
 );
+
+const mapStateToProps = storeState => {
+  return {
+    currentUser: storeState.currentUser
+  };
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -67,4 +81,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Home;
+export default connect(mapStateToProps)(Home);

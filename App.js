@@ -39,6 +39,6 @@ const App = () => (
   <Provider store={store}>
     <RootNavigator />
   </Provider>
-)
+);
 
 export default App;
