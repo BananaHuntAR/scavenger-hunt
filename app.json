@@ -1,13 +1,17 @@
 {
   "expo": {
-    "name": "test-three-ar",
-    "description": "Testing expo-three plus arkit",
-    "slug": "test-three-ar",
+    "name": "Banana Hunt",
+    "description": "An augmented reality mobile app where users partake in a scavenger hunt to collect bananas scattered around them.",
+    "slug": "banana-hunt",
     "privacy": "public",
     "sdkVersion": "27.0.0",
     "platforms": ["ios", "android"],
     "version": "1.0.0",
-    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "loading": {
+      "icon": "./assets/logo.png",
+      "hideExponentText": false
+    },
     "updates": {
       "fallbackToCacheTimeout": 0
     },

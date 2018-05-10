@@ -1,4 +1,5 @@
-import { StackNavigator, TabNavigator } from 'react-navigation';
+import { StackNavigator } from 'react-navigation';
+import React from 'react';
 import { Provider } from 'react-redux';
 import store from './store';
 import Home from './components/Home';
