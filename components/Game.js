@@ -4,31 +4,35 @@ import ExpoTHREE from 'expo-three';
 import Expo from 'expo';
 import { View, NativeModules, StatusBar, StyleSheet, Dimensions } from 'react-native';
 import { Button } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { incrementItems } from '../store';
 import ExitButton from './ExitButton';
 import Score from './Score';
 import Timer from './Timer';
 console.disableYellowBox = true;
 
-export default class Game extends React.Component {
+const capturedItemMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
+
+class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      score: 0,
+      // score: 0,
       itemInSight: null
     };
     this.gameItems = [];
-    this.capturedItemMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
   }
 
   handlePress = () => {
-    let currentCube = this.gameItems[this.state.itemInSight]
+    const currentCube = this.gameItems[this.state.itemInSight]
     // User captures an item, stop item from animating and turn its color to gray
     currentCube.speed = 0
-    currentCube.material = this.capturedItemMaterial;
+    currentCube.material = capturedItemMaterial;
 
     // User's score increments by 1
     if ( !currentCube.captured ) {
-      this.setState({score: this.state.score + 1})
+      // this.setState({score: this.state.score + 1})
+      this.props.incrementItems(this.props.capturedItems);
       currentCube.captured = true;
     }
   }
@@ -115,7 +119,7 @@ export default class Game extends React.Component {
           <Timer />
         </View>
         <View style={styles.score}>
-          <Score score={this.state.score} />
+          <Score score={this.props.capturedItems} />
         </View>
         <View style={styles.overlay}>
         { this.state.itemInSight !== null && !this.gameItems[this.state.itemInSight].captured ?
@@ -161,8 +165,8 @@ function generateItems(scene, items, num) {
   const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // creates color for a cube
 
   // -5 < (x,z) < 5 (meters)
-  const randomizePosition = () => {
-    return Math.random() * 10 - 5; // -5 , 5
+  const randomizePosition = (range = 10) => {
+    return Math.random() * range - range / 2; // -5 , 5
   };
 
   for (let i = 0; i < num; i++) {
@@ -170,10 +174,25 @@ function generateItems(scene, items, num) {
     randomizePosition(cube);
     cube.position.z = randomizePosition();
     cube.position.x = randomizePosition();
-    cube.position.y = 0;
+    cube.position.y = randomizePosition(1);
     cube.speed = 0.05
     cube.captured = false;
     scene.add(cube);
     items.push(cube);
   }
 }
+
+
+const mapState = state => {
+  return { capturedItems: state.capturedItems }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    incrementItems(count) {
+      dispatch(incrementItems(count + 1));
+    }
+  }
+}
+
+export default connect(mapState, mapDispatch)(Game);
