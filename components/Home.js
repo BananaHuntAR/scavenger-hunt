@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { Text } from 'react-native-elements';
 import { EvilIcons, Ionicons } from '@expo/vector-icons';
 
@@ -7,11 +7,12 @@ const Home = ({ navigation }) => (
   <View style={styles.container}>
     <View>
       <Text h2 style={styles.headerText}>
-        Welcome to{'\n'}Banana Hunt!
+        Banana Hunt
       </Text>
-      <Text h4 style={styles.headerText}>
-        An Augmented Reality Scavenger Hunt
-      </Text>
+      <Image
+          style={{width: 100, height: 100}}
+          source={require('../assets/logo.png')}
+        />
       <EvilIcons
         name="play"
         size={125}
