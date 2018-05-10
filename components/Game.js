@@ -13,15 +13,15 @@ export default class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      score: 0
+      score: 0,
+      itemInSight: null
     };
-    this.itemInSight = null;
     this.gameItems = [];
     this.capturedItemMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
   }
 
   handlePress = () => {
-    let currentCube = this.gameItems[this.itemInSight]
+    let currentCube = this.gameItems[this.state.itemInSight]
     // User captures an item, stop item from animating and turn its color to gray
     currentCube.speed = 0
     currentCube.material = this.capturedItemMaterial;
@@ -56,18 +56,19 @@ export default class Game extends React.Component {
       camera.position.setFromMatrixPosition(camera.matrixWorld);
       const cameraPos = new THREE.Vector3(0, 0, 0);
       cameraPos.applyMatrix4(camera.matrixWorld);
-      this.setState({ camPos: camera.position });
 
       this.gameItems.forEach((cube, idx) => {
         cube.rotation.x += cube.speed;
         cube.rotation.y += cube.speed;
-        // this.setState({ distance: cube.position.distanceTo(camera.position) });
         let dist = cube.position.distanceTo(camera.position);
-        if (this.itemInSight === null) {
-          if (dist < 0.3) this.itemInSight = idx;
+        if (this.state.itemInSight === null) {
+          if (dist < 0.3) {
+            this.setState({ itemInSight: idx });
+          }
         } else {
-          if (idx === this.itemInSight && dist > 0.3)
-            this.itemInSight = null;
+          if (idx === this.state.itemInSight && dist > 0.3) {
+            this.setState({ itemInSight: null });
+          }
         }
       });
 
@@ -81,7 +82,11 @@ export default class Game extends React.Component {
   // Kill ARSession and cancel animation frame request.
   async componentWillUnmount(){
     cancelAnimationFrame(this.gameRequest);
-    await NativeModules.ExponentGLViewManager.stopARSessionAsync(this.arSession.sessionId);
+    try {
+      await NativeModules.ExponentGLViewManager.stopARSessionAsync(this.arSession.sessionId);
+    } catch (err) {
+      console.error(err);
+    }
   }
 
   render() {
@@ -97,14 +102,13 @@ export default class Game extends React.Component {
           <ExitButton  />
         </View>
         <View style={styles.timer}>
-          <Timer  />
+          <Timer />
         </View>
         <View style={styles.score}>
           <Score score={this.state.score} />
         </View>
-        {/* <Text>itemInSight: {this.itemInSight}</Text> */}
         <View style={styles.overlay}>
-        { this.itemInSight !== null && !this.gameItems[this.itemInSight].captured ?
+        { this.state.itemInSight !== null && !this.gameItems[this.state.itemInSight].captured ?
           (<Button raised rounded title="Capture" onPress={this.handlePress} buttonStyle={{ width: 150 }} />)
           : null
         }
