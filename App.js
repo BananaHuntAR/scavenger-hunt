@@ -1,5 +1,5 @@
 import React from 'react';
-import { StackNavigator, TabNavigator } from 'react-navigation';
+import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import store from './store';
 import Home from './components/Home';
@@ -25,7 +25,7 @@ const RootNavigator = StackNavigator(
         headerTitle: 'Login'
       }
     },
-    SignUp: {
+    Signup: {
       screen: Signup,
       navigationOptions: {
         headerTitle: 'SignUp'
