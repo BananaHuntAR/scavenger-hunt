@@ -1,18 +1,14 @@
-<<<<<<< HEAD
 import React from 'react';
-=======
-import React from 'react'
->>>>>>> master
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import store from './store';
 import Home from './components/Home';
 import Game from './components/Game';
 import Login from './components/Login';
+import Signup from './components/Signup';
 import Leaderboard from './components/Leaderboard';
 import TutorialNavigator from './components/TutorialNavigator';
 
-<<<<<<< HEAD
 const RootNavigator = StackNavigator(
   {
     Home: {
@@ -29,12 +25,12 @@ const RootNavigator = StackNavigator(
         headerTitle: 'Login'
       }
     },
-    // SignUp: {
-    //   screen: Signup,
-    //   navigationOptions: {
-    //     headerTitle: 'Signup'
-    //   }
-    // },
+    SignUp: {
+      screen: Signup,
+      navigationOptions: {
+        headerTitle: 'SignUp'
+      }
+    },
     Instructions: {
       screen: TutorialNavigator,
       navigationOptions: {
@@ -52,40 +48,13 @@ const RootNavigator = StackNavigator(
       navigationOptions: {
         headerTitle: 'Leaderboard'
       }
-=======
-const RootNavigator = StackNavigator({
-  Home: {
-    screen: Home,
-    navigationOptions: {
-      header: 'none',
-      swipeEnabled: true,
-      headerLeft: null
     }
   },
-  Instructions: {
-    screen: TutorialNavigator,
+  {
     navigationOptions: {
       header: 'none'
-    }
-  },
-  Game: {
-    screen: Game,
-    navigationOptions: {
-      header: 'none'
-    }
-  },
-  Leaderboard: {
-    screen: Leaderboard,
-    navigationOptions: {
-      header: 'none'
->>>>>>> master
     }
   }
-  // {
-  //   navigationOptions: {
-  //     header: false
-  //   }
-  // }
 );
 
 const App = () => (
