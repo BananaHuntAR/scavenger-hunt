@@ -4,6 +4,7 @@ import { Button } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
 import { postResult } from '../store';
+import { convertToTime } from '../utils/util.js';
 
 class ResultSubmitForm extends Component {
   state = {
@@ -39,7 +40,7 @@ class ResultSubmitForm extends Component {
           <View style={styles.container}>
             <View style={styles.modal}>
               <Text style={styles.text}>Your Time:</Text>
-              <Text style={styles.text}>{this.props.time}</Text>
+              <Text style={styles.text}>{convertToTime(this.props.time)}</Text>
 
               <Text style={styles.text}>Please enter your name</Text>
               <TextInput
@@ -60,6 +61,7 @@ class ResultSubmitForm extends Component {
                 backgroundColor="white" color="black"
                 buttonStyle={styles.button}
                 onPress={() => {
+                  this.setModalVisible(false);
                   this.props.navigation.popToTop()
                 }} />
             </View>
