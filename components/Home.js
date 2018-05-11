@@ -26,13 +26,12 @@ const Home = ({ navigation, currentUser, logoutFunc }) => (
 
     <Text
       h4
-      style={styles.logIn}
+      style={styles.loginText}
       onPress={() => {
         return currentUser.email
           ? logoutFunc(navigation)
           : navigation.navigate('Login');
       }}
-      style={styles.loginText}
     >
       {currentUser.email ? 'Logout' : 'Login'}
     </Text>
