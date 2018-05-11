@@ -5,9 +5,19 @@ import { connect } from 'react-redux';
 import { incrementTime, resetTime } from '../store';
 
 class Timer extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+
   componentDidMount() {
     this.props.resetTime();
     this.timeIncrement();
+  }
+
+  componentDidUpdate() {
+    if (this.props.isGameOver) {
+      clearInterval(this.intervalId);
+    }
   }
 
   componentWillUnmount() {

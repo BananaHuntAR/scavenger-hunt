@@ -9,6 +9,7 @@ import { incrementItems, resetItems } from '../store';
 import ExitButton from './ExitButton';
 import Score from './Score';
 import Timer from './Timer';
+import ResultSubmitForm from './ResultSubmitForm';
 console.disableYellowBox = true;
 // Turn off three.js warnings...
 const originalWarn = console.warn.bind( console )
@@ -20,7 +21,8 @@ class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      itemInSight: null
+      itemInSight: null,
+      isGameOver: false
     };
     this.gameItems = [];
     this.itemsNum = 2;
@@ -31,10 +33,13 @@ class Game extends React.Component {
   }
 
   componentDidUpdate() {
-    if (this.props.capturedItems === this.itemsNum) {
-
-      console.log('you win');
+    if (this.props.capturedItems === this.itemsNum && !this.state.isGameOver) {
+      this.gameOver();
     }
+  }
+
+  gameOver() {
+    this.setState({ isGameOver: true });
   }
 
   handlePress = () => {
@@ -129,17 +134,18 @@ class Game extends React.Component {
           <ExitButton  />
         </View>
         <View style={styles.timer}>
-          <Timer />
+          <Timer isGameOver={this.state.isGameOver} />
         </View>
         <View style={styles.score}>
           <Score capturedItems={this.props.capturedItems} itemsNum={this.itemsNum} />
         </View>
         <View style={styles.overlay}>
-        { this.state.itemInSight !== null && !this.gameItems[this.state.itemInSight].captured ?
-          (<Button raised rounded title="Capture" onPress={this.handlePress} buttonStyle={{ width: 150 }} />)
-          : null
-        }
+          { this.state.itemInSight !== null && !this.gameItems[this.state.itemInSight].captured ?
+            (<Button raised rounded title="Capture" onPress={this.handlePress} buttonStyle={{ width: 150 }} />)
+            : null
+          }
         </View>
+        <ResultSubmitForm isGameOver={this.state.isGameOver} />
 
       </View>
     );
