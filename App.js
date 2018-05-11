@@ -19,7 +19,12 @@ const RootNavigator = StackNavigator(
       }
     },
     Login: {
-      screen: Login
+      screen: Login,
+      swipeEnabled: true
+    },
+    Signup: {
+      screen: Signup,
+      swipeEnabled: true
     },
     Instructions: {
       screen: TutorialNavigator

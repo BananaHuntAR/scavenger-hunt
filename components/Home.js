@@ -44,13 +44,15 @@ const Home = ({ navigation, currentUser, logoutFunc }) => (
       </View>
     </View>
     <Text
+      h4
+      style={styles.logIn}
       onPress={() => {
         return currentUser.email
           ? logoutFunc(navigation)
           : navigation.navigate('Login');
       }}
     >
-      Log In
+      {currentUser.email ? 'Logout' : 'Login'}
     </Text>
   </View>
 );
@@ -90,6 +92,12 @@ const styles = StyleSheet.create({
     paddingTop: 25,
     alignItems: 'flex-end',
     justifyContent: 'space-evenly'
+  },
+  logIn: {
+    marginTop: 35,
+    alignSelf: 'center',
+    color: 'white',
+    textDecorationLine: 'underline'
   }
 });
 
