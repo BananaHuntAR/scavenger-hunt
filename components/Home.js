@@ -1,9 +1,10 @@
 import React from 'react';
 import { StyleSheet, View, Image, StatusBar } from 'react-native';
 import { Text } from 'react-native-elements';
-import { EvilIcons, Ionicons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { logout } from '../store/auth';
+import Toolbar from './Toolbar';
 
 const Home = ({ navigation, currentUser, logoutFunc }) => (
   <View style={styles.container}>
@@ -16,44 +17,26 @@ const Home = ({ navigation, currentUser, logoutFunc }) => (
           style={{width: 100, height: 100}}
           source={require('../assets/logo.png')}
         />
-      <EvilIcons
-        name="play"
+      <FontAwesome
+        name="play-circle"
         size={125}
         onPress={() => navigation.navigate('Game')}
         style={styles.icon}
       />
-      <Text style={styles.iconText}>Play!</Text>
     </View>
 
-    <View style={styles.iconContainer}>
-      <View>
-        <Ionicons
-          name="ios-clipboard-outline"
-          size={50}
-          onPress={() => navigation.navigate('Instructions')}
-          style={styles.icon}
-        />
-        <Text style={styles.iconText}>Tutorial</Text>
-      </View>
-      <View>
-        <EvilIcons
-          name="trophy"
-          size={60}
-          onPress={() => navigation.navigate('Leaderboard')}
-          style={styles.icon}
-        />
-        <Text style={styles.iconText}>Leaderboard</Text>
-      </View>
-    </View>
     <Text
       onPress={() => {
         return currentUser.email
           ? logoutFunc(navigation)
           : navigation.navigate('Login');
       }}
+      style={styles.loginText}
     >
-      Log In
+      Login
     </Text>
+
+    <Toolbar />
   </View>
 );
 
@@ -77,21 +60,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 10
   },
-  iconText: {
+  loginText: {
     color: 'white',
     textAlign: 'center',
+    padding: 20,
     fontSize: 16
   },
   icon: {
     color: 'white',
     paddingTop: 10,
     alignSelf: 'center'
-  },
-  iconContainer: {
-    flexDirection: 'row',
-    paddingTop: 25,
-    alignItems: 'flex-end',
-    justifyContent: 'space-evenly'
   }
 });
 
