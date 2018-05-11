@@ -3,11 +3,18 @@ import { Text, View } from 'react-native';
 import { Badge, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { incrementTime, resetTime } from '../store';
+import { convertToTime } from '../utils/util.js';
 
 class Timer extends React.Component {
   componentDidMount() {
     this.props.resetTime();
     this.timeIncrement();
+  }
+
+  componentDidUpdate() {
+    if (this.props.isGameOver) {
+      clearInterval(this.intervalId);
+    }
   }
 
   componentWillUnmount() {
@@ -21,12 +28,12 @@ class Timer extends React.Component {
     );
   };
 
-  convertToTime = time => {
-    let minutes = Math.floor(time / 60);
-    let seconds = time - minutes * 60;
-    seconds = seconds < 10 ? '0' + seconds : seconds; // displays seconds as two digits
-    return `${minutes}:${seconds}`;
-  };
+  // convertToTime = time => {
+  //   let minutes = Math.floor(time / 60);
+  //   let seconds = time - minutes * 60;
+  //   seconds = seconds < 10 ? '0' + seconds : seconds; // displays seconds as two digits
+  //   return `${minutes}:${seconds}`;
+  // };
 
   render() {
     const { time } = this.props;
@@ -39,9 +46,9 @@ class Timer extends React.Component {
           }}
         >
           <Icon name="timer" />
-          <Text>{this.convertToTime(time)}</Text>
+          <Text>{convertToTime(time)}</Text>
           <Icon name="food-apple" type="material-community" />
-          <Text>score / 10</Text>
+          <Text>{this.props.capturedItems} / {this.props.itemsNum}</Text>
         </Badge>
       </View>
     );
