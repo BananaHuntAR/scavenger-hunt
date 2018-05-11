@@ -47,13 +47,17 @@ class ResultSubmitForm extends Component {
               <Text style={styles.text}>Time:</Text>
               <Text style={styles.text}>{this.props.time}</Text>
               <Button
-                title="Submit"
+                raised rounded title="Submit"
+                backgroundColor="white" color="black"
+                buttonStyle={styles.button}
                 onPress={() => {
                   this.props.postResult(this.state.name, this.props.time)
                   this.props.navigation.replace('Leaderboard');
                 }} />
               <Button
-                title="Cancel"
+                raised rounded title="Cancel"
+                backgroundColor="white" color="black"
+                buttonStyle={styles.button}
                 onPress={() => {
                   this.props.navigation.popToTop()
                 }} />
@@ -77,20 +81,27 @@ const styles = StyleSheet.create({
   modal: {
     width: width * 0.8,
     height: height * 0.6,
+    paddingTop: 25,
     backgroundColor: '#39A792'
   },
   text: {
     textAlign: 'center',
     alignSelf: 'center',
     color: 'white',
-    fontSize: 23
+    fontSize: 23,
+    margin: 5
   },
   textInput: {
+    margin: 20,
     alignSelf: 'center',
     borderWidth: 1,
     borderColor: 'gray',
+    backgroundColor: 'white',
     height: 40,
     width: width * 0.5
+  },
+  button: {
+    margin: 10
   }
 });
 
