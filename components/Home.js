@@ -16,27 +16,15 @@ const Home = ({ navigation, currentUser, logoutFunc }) => (
       </Text>
       <EvilIcons
         name="play"
-size={125}
-onPress={() => navigation.navigate('Game')}
-style={styles.icon}
-/>
-<Text style={styles.iconText}>Play!</Text>
-      <Button
-        title={currentUser.email ? 'Logout' : 'Login/Sign Up'}
-        rounded
-        raised
-        style={{ width: 150, alignSelf: 'center' }}
-        backgroundColor="white"
-        color="gray"
-        onPress={() => {
-          return currentUser.email
-            ? logoutFunc(navigation)
-            : navigation.navigate('Login');
-        }}
+        size={125}
+        onPress={() => navigation.navigate('Game')}
+        style={styles.icon}
       />
+      <Text style={styles.iconText}>Play!</Text>
     </View>
 
-<View style={styles.iconContainer}>
+    <View style={styles.iconContainer}>
+      <View>
         <Ionicons
           name="ios-clipboard-outline"
           size={50}
@@ -55,6 +43,15 @@ style={styles.icon}
         <Text style={styles.iconText}>Leaderboard</Text>
       </View>
     </View>
+    <Text
+      onPress={() => {
+        return currentUser.email
+          ? logoutFunc(navigation)
+          : navigation.navigate('Login');
+      }}
+    >
+      Log In
+    </Text>
   </View>
 );
 

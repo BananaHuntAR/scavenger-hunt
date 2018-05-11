@@ -14,40 +14,21 @@ const RootNavigator = StackNavigator(
     Home: {
       screen: Home,
       navigationOptions: {
-        headerTitle: 'Home',
         swipeEnabled: true,
         headerLeft: null
       }
     },
     Login: {
-      screen: Login,
-      navigationOptions: {
-        headerTitle: 'Login'
-      }
-    },
-    Signup: {
-      screen: Signup,
-      navigationOptions: {
-        headerTitle: 'SignUp'
-      }
+      screen: Login
     },
     Instructions: {
-      screen: TutorialNavigator,
-      navigationOptions: {
-        headerTitle: 'Get Ready!'
-      }
+      screen: TutorialNavigator
     },
     Game: {
-      screen: Game,
-      navigationOptions: {
-        header: 'none'
-      }
+      screen: Game
     },
     Leaderboard: {
-      screen: Leaderboard,
-      navigationOptions: {
-        headerTitle: 'Leaderboard'
-      }
+      screen: Leaderboard
     }
   },
   {
