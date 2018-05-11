@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { fetchResultsThunk } from './results';
 
 // ACTION TYPES
 const INCREMENT_TIME = 'INCREMENT_TIME';
@@ -16,6 +17,7 @@ export const postResult = (name, time) => dispatch => {
   return axios
     .post(`http://scavengar-hunt.herokuapp.com/api/results`, { name, time })
     .then(res => dispatch(resetTime()))
+    .then(() => dispatch(fetchResultsThunk()))
     .catch(err => console.error(err));
 };
 

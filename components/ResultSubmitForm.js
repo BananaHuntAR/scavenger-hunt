@@ -38,14 +38,15 @@ class ResultSubmitForm extends Component {
           }}>
           <View style={styles.container}>
             <View style={styles.modal}>
+              <Text style={styles.text}>Your Time:</Text>
+              <Text style={styles.text}>{this.props.time}</Text>
+
               <Text style={styles.text}>Please enter your name</Text>
               <TextInput
                 style={styles.textInput}
                 placeholder="Your name here..."
                 onChangeText={(name) => this.setState({name})}
               />
-              <Text style={styles.text}>Time:</Text>
-              <Text style={styles.text}>{this.props.time}</Text>
               <Button
                 raised rounded title="Submit"
                 backgroundColor="white" color="black"
