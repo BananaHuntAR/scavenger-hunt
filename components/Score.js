@@ -5,11 +5,7 @@ import { Badge } from 'react-native-elements';
 const Score = ({ score }) => {
   return (
     <View>
-      <Badge
-        containerStyle={{
-          backgroundColor: 'white'
-        }}
-      >
+      <Badge containerStyle={{ backgroundColor: 'white' }}>
         <Text>Captured:</Text>
         <Text>{score} / 10</Text>
       </Badge>
