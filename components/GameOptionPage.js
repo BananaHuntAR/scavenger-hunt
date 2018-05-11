@@ -8,7 +8,7 @@ const GameOptionPage = ({ navigation }) => (
     <View>
       <Button
         style={{ width: 150 }}
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.navigate('Game')}
         raised
         rounded
         title='Quick Random Game'
@@ -17,7 +17,7 @@ const GameOptionPage = ({ navigation }) => (
       />
       <Button
         style={{ width: 150 }}
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.navigate('CustomGameList')}
         raised
         rounded
         title='Custom Games'
@@ -26,7 +26,7 @@ const GameOptionPage = ({ navigation }) => (
       />
       <Button
         style={{ width: 150 }}
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.navigate('GameCreator')}
         raised
         rounded
         title='Create a Custom Game'
@@ -60,4 +60,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(GameOptionPage);
+export default connect()(GameOptionPage);

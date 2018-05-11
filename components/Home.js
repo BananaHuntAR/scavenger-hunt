@@ -42,6 +42,15 @@ const Home = ({ navigation, currentUser, logoutFunc }) => (
         />
         <Text style={styles.iconText}>Leaderboard</Text>
       </View>
+      <View>
+        <EvilIcons
+          name="trophy"
+          size={60}
+          onPress={() => navigation.navigate('GameOptionPage')}
+          style={styles.icon}
+        />
+        <Text style={styles.iconText}>Test Game Option Page</Text>
+        </View>
     </View>
     <Text
       onPress={() => {
