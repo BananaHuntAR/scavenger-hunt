@@ -15,7 +15,10 @@ class Timer extends React.Component {
   }
 
   timeIncrement = () => {
-    this.intervalId = setInterval(() => this.props.incrementTime(this.props.time), 1000);
+    this.intervalId = setInterval(
+      () => this.props.incrementTime(this.props.time),
+      1000
+    );
   };
 
   convertToTime = time => {
@@ -37,6 +40,8 @@ class Timer extends React.Component {
         >
           <Icon name="timer" />
           <Text>{this.convertToTime(time)}</Text>
+          <Icon name="food-apple" type="material-community" />
+          <Text>score / 10</Text>
         </Badge>
       </View>
     );
@@ -44,8 +49,8 @@ class Timer extends React.Component {
 }
 
 const mapState = state => {
-  return { time: state.time }
-}
+  return { time: state.time };
+};
 
 const mapDispatch = dispatch => {
   return {
@@ -55,7 +60,7 @@ const mapDispatch = dispatch => {
     resetTime() {
       dispatch(resetTime());
     }
-  }
-}
+  };
+};
 
 export default connect(mapState, mapDispatch)(Timer);
