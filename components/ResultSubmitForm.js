@@ -12,7 +12,7 @@ class ResultSubmitForm extends Component {
     name: ''
   };
 
-  setModalVisible(visible) {
+  setModalVisible = visible => {
     this.setState({modalVisible: visible});
   }
 
