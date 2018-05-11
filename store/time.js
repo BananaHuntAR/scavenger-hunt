@@ -1,3 +1,5 @@
+import axios from 'axios';
+
 // ACTION TYPES
 const INCREMENT_TIME = 'INCREMENT_TIME';
 const RESET_TIME = 'RESET_TIME';
@@ -8,6 +10,14 @@ const defaultTime = 0;
 // ACTION CREATORS
 export const incrementTime = time => ({ type: INCREMENT_TIME, time });
 export const resetTime = () => ({ type: RESET_TIME });
+
+// THUNK CREATORS
+export const postResult = (name, time) => dispatch => {
+  return axios
+    .post(`http://scavengar-hunt.herokuapp.com/api/results`, { name, time })
+    .then(res => dispatch(resetTime()))
+    .catch(err => console.error(err));
+};
 
 // REDUCER
 export default function(state = defaultTime, action) {

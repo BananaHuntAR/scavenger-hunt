@@ -13,7 +13,6 @@ import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { incrementItems, resetItems } from '../store';
 import ExitButton from './ExitButton';
-import Score from './Score';
 import Timer from './Timer';
 import ResultSubmitForm from './ResultSubmitForm';
 console.disableYellowBox = true;

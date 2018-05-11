@@ -21,7 +21,6 @@ class Leaderboard extends React.Component {
 
   render() {
     let rank = 0;
-
     return (
       <View style={styles.container}>
         <EvilIcons
