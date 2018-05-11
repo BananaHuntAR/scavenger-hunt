@@ -4,6 +4,7 @@ import { Text } from 'react-native-elements';
 import { EvilIcons, Ionicons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { logout } from '../store/auth';
+import Toolbar from './Toolbar';
 
 const Home = ({ navigation, currentUser, logoutFunc }) => (
   <View style={styles.container}>
@@ -52,6 +53,7 @@ const Home = ({ navigation, currentUser, logoutFunc }) => (
     >
       Log In
     </Text>
+    <Toolbar />
   </View>
 );
 
