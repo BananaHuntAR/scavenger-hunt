@@ -1,10 +1,11 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, StatusBar } from 'react-native';
 import { Text } from 'react-native-elements';
 import { EvilIcons, Ionicons } from '@expo/vector-icons';
 
 const Home = ({ navigation }) => (
   <View style={styles.container}>
+    <StatusBar hidden={true} />
     <View>
       <Text h2 style={styles.headerText}>
         Welcome to{'\n'}Banana Hunt!
