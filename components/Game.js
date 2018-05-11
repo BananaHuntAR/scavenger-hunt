@@ -2,7 +2,13 @@ import React from 'react';
 import * as THREE from 'three';
 import ExpoTHREE from 'expo-three';
 import Expo from 'expo';
-import { View, NativeModules, StatusBar, StyleSheet, Dimensions } from 'react-native';
+import {
+  View,
+  NativeModules,
+  StatusBar,
+  StyleSheet,
+  Dimensions
+} from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { incrementItems, resetItems } from '../store';
@@ -53,7 +59,7 @@ class Game extends React.Component {
       this.props.incrementItems(this.props.capturedItems);
       currentCube.captured = true;
     }
-  }
+  };
 
   // Creates AR experience
   _onGLContextCreate = async gl => {
@@ -65,14 +71,17 @@ class Game extends React.Component {
     renderer.setSize(width, height);
     const scene = new THREE.Scene();
 
-    scene.background = ExpoTHREE.createARBackgroundTexture(this.arSession, renderer);
+    scene.background = ExpoTHREE.createARBackgroundTexture(
+      this.arSession,
+      renderer
+    );
 
     const camera = ExpoTHREE.createARCamera(
       this.arSession, // field of view
-      width,     // aspect ratio
-      height,    // aspect ratio
-      0.01,      // near clipping plane
-      1000       // far clipping plane
+      width, // aspect ratio
+      height, // aspect ratio
+      0.01, // near clipping plane
+      1000 // far clipping plane
     );
 
     // Items are added to the AR scene
@@ -111,10 +120,12 @@ class Game extends React.Component {
   };
 
   // Kill ARSession and cancel animation frame request
-  async componentWillUnmount(){
+  async componentWillUnmount() {
     cancelAnimationFrame(this.gameRequest);
     try {
-      await NativeModules.ExponentGLViewManager.stopARSessionAsync(this.arSession.sessionId);
+      await NativeModules.ExponentGLViewManager.stopARSessionAsync(
+        this.arSession.sessionId
+      );
     } catch (err) {
       console.error(err);
     }
@@ -130,14 +141,11 @@ class Game extends React.Component {
           style={{ flex: 1 }}
           onContextCreate={this._onGLContextCreate}
         />
-        <View style={styles.exitButton}>
-          <ExitButton  />
-        </View>
         <View style={styles.timer}>
-          <Timer isGameOver={this.state.isGameOver} />
+          <Timer isGameOver={this.state.isGameOver} capturedItems={this.props.capturedItems} itemsNum={this.itemsNum}/>
         </View>
-        <View style={styles.score}>
-          <Score capturedItems={this.props.capturedItems} itemsNum={this.itemsNum} />
+        <View style={styles.exitButton}>
+          <ExitButton />
         </View>
         <View style={styles.overlay}>
           { this.state.itemInSight !== null && !this.gameItems[this.state.itemInSight].captured ?
@@ -146,13 +154,12 @@ class Game extends React.Component {
           }
         </View>
         <ResultSubmitForm isGameOver={this.state.isGameOver} />
-
       </View>
     );
   }
 }
 
-const {height, width} = Dimensions.get('window');
+const { height, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
   overlay: {

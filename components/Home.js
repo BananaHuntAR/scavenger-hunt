@@ -2,8 +2,10 @@ import React from 'react';
 import { StyleSheet, View, StatusBar } from 'react-native';
 import { Text } from 'react-native-elements';
 import { EvilIcons, Ionicons } from '@expo/vector-icons';
+import { connect } from 'react-redux';
+import { logout } from '../store/auth';
 
-const Home = ({ navigation }) => (
+const Home = ({ navigation, currentUser, logoutFunc }) => (
   <View style={styles.container}>
     <StatusBar hidden={true} />
     <View>
@@ -21,6 +23,7 @@ const Home = ({ navigation }) => (
       />
       <Text style={styles.iconText}>Play!</Text>
     </View>
+
     <View style={styles.iconContainer}>
       <View>
         <Ionicons
@@ -41,8 +44,25 @@ const Home = ({ navigation }) => (
         <Text style={styles.iconText}>Leaderboard</Text>
       </View>
     </View>
+    <Text
+      onPress={() => {
+        return currentUser.email
+          ? logoutFunc(navigation)
+          : navigation.navigate('Login');
+      }}
+    >
+      Log In
+    </Text>
   </View>
 );
+
+const mapStateToProps = storeState => ({
+  currentUser: storeState.currentUser
+});
+
+const mapDispatchToProps = dispatch => ({
+  logoutFunc: navigation => dispatch(logout(navigation))
+});
 
 const styles = StyleSheet.create({
   container: {
@@ -74,4 +94,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Home;
+export default connect(mapStateToProps, mapDispatchToProps)(Home);

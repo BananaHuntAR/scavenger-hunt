@@ -1,5 +1,6 @@
 import React from 'react';
-import axios from 'axios';
+import { connect } from 'react-redux';
+import { fetchResultsThunk } from '../store';
 import { StyleSheet, View } from 'react-native';
 import {
   Content,
@@ -13,16 +14,9 @@ import {
 import { EvilIcons } from '@expo/vector-icons';
 import LeaderboardItem from './LeaderboardItem';
 
-export default class Leaderboard extends React.Component {
-  state = {
-    top10Results: []
-  };
-
+class Leaderboard extends React.Component {
   componentDidMount() {
-    axios
-      .get('http://scavengar-hunt.herokuapp.com/api/results')
-      .then(results => this.setState({ top10Results: results.data }))
-      .catch(err => console.error(err));
+    this.props.fetchResultsThunk();
   }
 
   render() {
@@ -47,7 +41,7 @@ export default class Leaderboard extends React.Component {
               </Right>
             </ListItem>
 
-            {this.state.top10Results.map(result => {
+            {this.props.results.map(result => {
               rank++;
               return (
                 <LeaderboardItem
@@ -76,6 +70,12 @@ export default class Leaderboard extends React.Component {
     );
   }
 }
+
+const mapState = state => ({
+  results: state.results
+});
+
+export default connect(mapState, { fetchResultsThunk })(Leaderboard);
 
 const styles = StyleSheet.create({
   container: {
