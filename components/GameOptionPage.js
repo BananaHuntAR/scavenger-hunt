@@ -16,7 +16,8 @@ const GameOptionPage = ({ navigation }) => (
       />
       <Button
         style={styles.gameOptionBtn}
-        onPress={() => navigation.navigate('CustomGameList')}
+        onPress={() => navigation.navigate('GameLoader')}
+        //reroute back to CustomGameList after testing objLoader
         raised
         rounded
         title='Custom Games'

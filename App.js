@@ -9,6 +9,7 @@ import Signup from './components/Signup';
 import GameOptionPage from './components/GameOptionPage'
 import Leaderboard from './components/Leaderboard';
 import CustomGameList from './components/CustomGameList'
+import GameLoader from './components/GameLoader'
 import TutorialNavigator from './components/TutorialNavigator';
 
 const RootNavigator = StackNavigator(
@@ -42,6 +43,9 @@ const RootNavigator = StackNavigator(
     },
     CustomGameList: {
       screen: CustomGameList
+    },
+    GameLoader: {
+      screen: GameLoader
     }
   },
   {
