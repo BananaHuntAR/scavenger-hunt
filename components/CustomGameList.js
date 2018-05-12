@@ -2,8 +2,13 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View } from 'react-native';
 import MapCard from './MapCard';
+import { fetchCustomMapsThunk } from '../store'
 
 class CustomGameList extends Component{
+  componentDidMount(){
+
+  }
+
   render(){
     return (
       <View style={styles.container} >
@@ -18,9 +23,9 @@ class CustomGameList extends Component{
   }
 }
 
-const mapState = ({customMaps}) => {
+const mapState = state => {
   return {
-    customMaps
+    customMaps: state.customMaps
   }
 }
 
