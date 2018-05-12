@@ -1,56 +1,36 @@
-# Blender MTL File: 'lowpoly fruits.blend'
-# Material Count: 6
-newmtl brown.004
-Ns 96.078431
-Ka 1.000000 1.000000 1.000000
-Kd 0.064009 0.024305 0.009742
-Ks 0.000000 0.000000 0.000000
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 1.000000
-illum 1
-newmtl brown.005
-Ns 96.078431
-Ka 1.000000 1.000000 1.000000
-Kd 0.064009 0.024305 0.009742
-Ks 0.000000 0.000000 0.000000
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 1.000000
-illum 1
-newmtl brown.006
-Ns 96.078431
-Ka 1.000000 1.000000 1.000000
-Kd 0.064009 0.024305 0.009742
-Ks 0.000000 0.000000 0.000000
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 1.000000
-illum 1
-newmtl yellow.002
-Ns 250.980392
-Ka 1.000000 1.000000 1.000000
-Kd 0.999983 0.676876 0.000000
-Ks 0.038462 0.038462 0.038462
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 1.000000
-illum 2
-newmtl yellow.003
-Ns 250.980392
-Ka 1.000000 1.000000 1.000000
-Kd 0.999983 0.676876 0.000000
-Ks 0.038462 0.038462 0.038462
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 1.000000
-illum 2
-newmtl yellow.004
-Ns 250.980392
-Ka 1.000000 1.000000 1.000000
-Kd 0.999983 0.676876 0.000000
-Ks 0.038462 0.038462 0.038462
-Ke 0.000000 0.000000 0.000000
-Ni 1.000000
-d 1.000000
-illum 2
+newmtl peach
+Kd 1 1 1
+Ke 0 0 0
+Ka 1 1 1
+Ks 0 0 0
+Ns 0
+Tr 0
+d 1
+Ni 0
+Tf 1 1 1
+map_Kd freeobjects&produkte/3dscans/Peach/peach.jpg
+
+newmtl banana2
+Kd 1 1 1
+Ke 0.1 0.1 0.1
+Ka 1 1 1
+Ks 0 0 0
+Ns 0
+Tr 0
+d 1
+Ni 0
+Tf 1 1 1
+map_Kd freeobjects&produkte/3dscans/Banana/banana.jpg
+
+newmtl pastry
+Kd 1 1 1
+Ke 0.25 0.25 0.25
+Ka 1 1 1
+Ks 0 0 0
+Ns 0
+Tr 0
+d 1
+Ni 0
+Tf 1 1 1
+map_Kd freeobjects&produkte/3dscans/pastry/pastry.jpg
+
