@@ -5,18 +5,17 @@ import { Button } from 'react-native-elements';
 
 const GameOptionPage = ({ navigation }) => (
   <View style={styles.container}>
-    <View>
       <Button
-        style={{ width: 150 }}
+        style={styles.gameOptionBtn}
         onPress={() => navigation.navigate('Game')}
         raised
         rounded
-        title='Quick Random Game'
+        title='Play Game Now'
         backgroundColor="white"
         color="gray"
       />
       <Button
-        style={{ width: 150 }}
+        style={styles.gameOptionBtn}
         onPress={() => navigation.navigate('CustomGameList')}
         raised
         rounded
@@ -25,7 +24,7 @@ const GameOptionPage = ({ navigation }) => (
         color="gray"
       />
       <Button
-        style={{ width: 150 }}
+        style={styles.gameOptionBtn}
         onPress={() => navigation.navigate('GameCreator')}
         raised
         rounded
@@ -33,7 +32,6 @@ const GameOptionPage = ({ navigation }) => (
         backgroundColor="white"
         color="gray"
       />
-    </View>
   </View>
 );
 
@@ -41,22 +39,13 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#3FBE94',
     flex: 1,
-    paddingBottom: 100
-  },
-  instructionsContainer: {
-    flex: 1,
     alignItems: 'center',
+    justifyContent: 'center'
+  },
+  gameOptionBtn: {
     justifyContent: 'space-around',
     borderRadius: 20,
-    padding: 10
-  },
-  text: {
-    textAlign: 'center',
-    justifyContent: 'center',
-    alignSelf: 'center',
-    color: 'white',
-    padding: 10,
-    fontFamily: 'OriyaSangamMN'
+    margin: 50
   }
 });
 
