@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import { Image } from 'react-native';
 import {
-  Container,
-  Header,
-  Content,
   Card,
   CardItem,
   Thumbnail,
@@ -16,13 +13,12 @@ export default class MapCard extends Component {
   render() {
     const { name, address, instructions } = this.props.customMap;
     return (
-      <Container>
-        <Header />
-        <Content>
-          <Card style={{flex: 0}}>
+          <Card style={{flex: 1}}>
             <CardItem>
               <Left>
-                <Thumbnail source={{uri: 'Image URL'}} />
+                <Thumbnail
+                  source={{uri: 'http://www.squishable.com/user_gallery/squish_banana_15/360s/squish_banana_15_design.jpg' }}
+                />
                 <Body>
                   <Text>{name}</Text>
                 </Body>
@@ -30,7 +26,9 @@ export default class MapCard extends Component {
             </CardItem>
             <CardItem>
               <Body>
-                <Image source={{uri: 'Image URL'}} style={{height: 200, width: 200, flex: 1}}/>
+                <Image
+                  source={{uri: 'https://media.mnn.com/assets/images/2018/03/banana_stem_rachis.jpg.838x0_q80.jpg' }}
+                  style={{height: 100, width: '100%', flex: 1}} />
                 <Text>
                   Address: {address}
                 </Text>
@@ -40,8 +38,6 @@ export default class MapCard extends Component {
               </Body>
             </CardItem>
           </Card>
-        </Content>
-      </Container>
     );
   }
 }
