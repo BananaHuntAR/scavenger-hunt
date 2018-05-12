@@ -1,5 +1,7 @@
 import React from 'react';
 import * as THREE from 'three';
+// const OBJLoader = require('three-obj-loader')(THREE);
+// const MTLLoader = require('three-mtl-loader');
 import ExpoTHREE from 'expo-three';
 import Expo from 'expo';
 import {
@@ -83,29 +85,36 @@ class Game extends React.Component {
       1000 // far clipping plane
     );
 
-    const mtlLoader = new THREE.MTLLoader()
-      mtlLoader.setTexturePath('/assets/')
-      mtlLoader.setPath('/assets/')
-      mtlLoader.load('banana.mtl', function(materials){
-        materials.preload();
-
-        const objLoader = new THREE.OBJLoader();
-        objLoader.setMaterials(materials)
-        objLoader.setPath('/assets/')
-        objLoader.load('banana.obj', function(object){
-          object.position.y = 0;
-          object.position.x = 1;
-          object.position.z = 1;
-          this.gameItems.push(object);
-          scene.add(object)
-        })
-      })
-
+    // const mtlLoader = new MTLLoader();
+      // mtlLoader.setTexturePath('./assets');
+      // mtlLoader.setPath('./assets');
+      // mtlLoader.load('banana.mtl', function(materials){
+      //   materials.preload();
+      //   console.log('no issues loading mtl for banana');
+        //Obj loader should go here!
+      // })
 
     // Items are added to the AR scene
     generateItems(scene, this.gameItems, this.itemsNum);
 
     const animate = () => {
+      console.log(typeof THREE.OBJLoader)
+      console.log(typeof THREE.MTLLoader)
+      // let onProgress = function(e){console.log("rendering:" + Object.values(e.type))}; //just for error checking
+      // let onError = function(e){console.log("error:" + Object.values(e.type))}; //just for error checking
+      // let objLoader = new THREE.OBJLoader();
+      // // objLoader.setMaterials(materials);
+      // // objLoader.setPath('../assets/');
+      // objLoader.load('assets/banana.obj', function(object){
+      //   console.log('Loading up banana obj');
+      //   object.position.y = 0.4;
+      //   object.position.x = 0;
+      //   object.position.z = 0;
+      //   this.gameItems.push(object);
+      //   scene.add(object)
+      //   console.log('object: ', object);
+      // }, onProgress, onError);
+
       camera.position.setFromMatrixPosition(camera.matrixWorld);
       const cameraPos = new THREE.Vector3(0, 0, 0);
       cameraPos.applyMatrix4(camera.matrixWorld);
