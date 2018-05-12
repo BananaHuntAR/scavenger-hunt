@@ -44,7 +44,7 @@ export default connect(mapState, mapDispatch)(CustomGameList);
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#3FBE94',
+    backgroundColor: '#E96B63',
     flex: 1,
     justifyContent: 'center',
     paddingVertical: 30,

@@ -10,33 +10,52 @@ import {
   Dimensions
 } from 'react-native';
 import { Button } from 'react-native-elements';
+import { connect } from 'react-redux';
+import { incrementItems, resetItems } from '../store';
 import ExitButton from './ExitButton';
-import Score from './Score';
 import Timer from './Timer';
+import ResultSubmitForm from './ResultSubmitForm';
 console.disableYellowBox = true;
+// Turn off three.js warnings...
+const originalWarn = console.warn.bind( console )
+console.warn = (text) => !text.includes('THREE') && originalWarn(text);
 
-export default class Game extends React.Component {
+const capturedItemMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
+
+class Game extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      score: 0,
-      itemInSight: null
+      itemInSight: null,
+      isGameOver: false
     };
     this.gameItems = [];
-    this.capturedItemMaterial = new THREE.MeshBasicMaterial({
-      color: 0xcccccc
-    });
+    this.itemsNum = 2;
+  }
+
+  componentDidMount() {
+    this.props.resetItems();
+  }
+
+  componentDidUpdate() {
+    if (this.props.capturedItems === this.itemsNum && !this.state.isGameOver) {
+      this.gameOver();
+    }
+  }
+
+  gameOver() {
+    this.setState({ isGameOver: true });
   }
 
   handlePress = () => {
-    let currentCube = this.gameItems[this.state.itemInSight];
+    const currentCube = this.gameItems[this.state.itemInSight]
     // User captures an item, stop item from animating and turn its color to gray
     currentCube.speed = 0;
-    currentCube.material = this.capturedItemMaterial;
+    currentCube.material = capturedItemMaterial;
 
-    // User's score increments by 1
-    if (!currentCube.captured) {
-      this.setState({ score: this.state.score + 1 });
+    // capturedItems increments by 1
+    if ( !currentCube.captured ) {
+      this.props.incrementItems(this.props.capturedItems);
       currentCube.captured = true;
     }
   };
@@ -64,8 +83,8 @@ export default class Game extends React.Component {
       1000 // far clipping plane
     );
 
-    // Items are added to on AR scene
-    generateItems(scene, this.gameItems, 10);
+    // Items are added to the AR scene
+    generateItems(scene, this.gameItems, this.itemsNum);
 
     const animate = () => {
       camera.position.setFromMatrixPosition(camera.matrixWorld);
@@ -78,10 +97,10 @@ export default class Game extends React.Component {
         cube.rotation.y += cube.speed;
 
         // Updates state to indicate if an itemInSight and prompts capture button
-        // .distanceTo(vector) handles calibration
+        // .distanceTo(vector) returns the distance between the camera and the items
         let dist = cube.position.distanceTo(camera.position);
         if (this.state.itemInSight === null) {
-          if (dist < 0.3) {
+          if (dist < 0.3 && !cube.captured) {
             this.setState({ itemInSight: idx });
           }
         } else {
@@ -122,26 +141,18 @@ export default class Game extends React.Component {
           onContextCreate={this._onGLContextCreate}
         />
         <View style={styles.timer}>
-          <Timer />
+          <Timer isGameOver={this.state.isGameOver} capturedItems={this.props.capturedItems} itemsNum={this.itemsNum}/>
         </View>
         <View style={styles.exitButton}>
           <ExitButton />
         </View>
-        {/*<View style={styles.score}>
-          <Score score={this.state.score} />
-    </View>*/}
         <View style={styles.overlay}>
-          {this.state.itemInSight !== null &&
-          !this.gameItems[this.state.itemInSight].captured ? (
-            <Button
-              raised
-              rounded
-              title="Capture"
-              onPress={this.handlePress}
-              buttonStyle={{ width: 150 }}
-            />
-          ) : null}
+          { this.state.itemInSight !== null && !this.gameItems[this.state.itemInSight].captured ?
+            (<Button raised rounded title="Capture" onPress={this.handlePress} buttonStyle={{ width: 150 }} />)
+            : null
+          }
         </View>
+        <ResultSubmitForm isGameOver={this.state.isGameOver} />
       </View>
     );
   }
@@ -178,20 +189,38 @@ function generateItems(scene, items, num) {
   const geometry = new THREE.BoxGeometry(0.07, 0.07, 0.07); // creates template for a cube
   const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // creates color for a cube
 
-  // -5 < (x,z) < 5 (meters)
-  const randomizePosition = () => {
-    return Math.random() * 10 - 5; // -5 , 5
+  // - range / 2 < (x,y,z) < range / 2 (in meters)
+  const randomizePosition = (range = 10) => {
+    return Math.random() * range - range / 2;
   };
 
   for (let i = 0; i < num; i++) {
     const cube = new THREE.Mesh(geometry, material);
     randomizePosition(cube);
-    cube.position.z = randomizePosition();
-    cube.position.x = randomizePosition();
-    cube.position.y = 0;
-    cube.speed = 0.05;
+    cube.position.z = randomizePosition(1);  // (-5, 5) meters
+    cube.position.x = randomizePosition(1);  // (-5, 5) meters
+    cube.position.y = randomizePosition(1); // (-0.5, 0.5) meters
+    cube.speed = 0.05
     cube.captured = false;
     scene.add(cube);
     items.push(cube);
   }
 }
+
+
+const mapState = state => {
+  return { capturedItems: state.capturedItems }
+}
+
+const mapDispatch = dispatch => {
+  return {
+    incrementItems(count) {
+      dispatch(incrementItems(count + 1));
+    },
+    resetItems() {
+      dispatch(resetItems());
+    }
+  }
+}
+
+export default connect(mapState, mapDispatch)(Game);

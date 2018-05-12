@@ -1,12 +1,14 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, StatusBar } from 'react-native';
 import { Text } from 'react-native-elements';
-import { EvilIcons, Ionicons } from '@expo/vector-icons';
+import { FontAwesome, EvilIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { logout } from '../store/auth';
+import Toolbar from './Toolbar';
 
 const Home = ({ navigation, currentUser, logoutFunc }) => (
   <View style={styles.container}>
+    <StatusBar hidden={true} />
     <View>
       <Text h2 style={styles.headerText}>
         Welcome to{'\n'}Banana Hunt!
@@ -14,53 +16,26 @@ const Home = ({ navigation, currentUser, logoutFunc }) => (
       <Text h4 style={styles.headerText}>
         An Augmented Reality Scavenger Hunt
       </Text>
-      <EvilIcons
-        name="play"
+      <FontAwesome
+        name="play-circle"
         size={125}
-        onPress={() => navigation.navigate('Game')}
+        onPress={() => navigation.navigate('GameOptionPage')}
         style={styles.icon}
       />
-      <Text style={styles.iconText}>Play!</Text>
-    </View>
-
-    <View style={styles.iconContainer}>
-      <View>
-        <Ionicons
-          name="ios-clipboard-outline"
-          size={50}
-          onPress={() => navigation.navigate('Instructions')}
-          style={styles.icon}
-        />
-        <Text style={styles.iconText}>Tutorial</Text>
-      </View>
-      <View>
-        <EvilIcons
-          name="trophy"
-          size={60}
-          onPress={() => navigation.navigate('Leaderboard')}
-          style={styles.icon}
-        />
-        <Text style={styles.iconText}>Leaderboard</Text>
-      </View>
-      <View>
-        <EvilIcons
-          name="trophy"
-          size={60}
-          onPress={() => navigation.navigate('GameOptionPage')}
-          style={styles.icon}
-        />
-        <Text style={styles.iconText}>Test Game Option Page</Text>
-        </View>
     </View>
     <Text
+      h4
+      style={styles.loginText}
       onPress={() => {
         return currentUser.email
           ? logoutFunc(navigation)
           : navigation.navigate('Login');
       }}
     >
-      Log In
+      {currentUser.email ? 'Logout' : 'Login'}
     </Text>
+
+    <Toolbar />
   </View>
 );
 
@@ -84,21 +59,16 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     padding: 10
   },
-  iconText: {
+  loginText: {
     color: 'white',
     textAlign: 'center',
+    padding: 20,
     fontSize: 16
   },
   icon: {
     color: 'white',
     paddingTop: 10,
     alignSelf: 'center'
-  },
-  iconContainer: {
-    flexDirection: 'row',
-    paddingTop: 25,
-    alignItems: 'flex-end',
-    justifyContent: 'space-evenly'
   }
 });
 

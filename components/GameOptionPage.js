@@ -37,7 +37,7 @@ const GameOptionPage = ({ navigation }) => (
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#3FBE94',
+    backgroundColor: '#E96B63',
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center'
