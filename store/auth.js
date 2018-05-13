@@ -32,14 +32,14 @@ export const login = (credentials, navigation) => dispatch => {
   axios
     .put(`${domain}/auth/login`, credentials)
     .then(res => setUserAndRedirect(res.data, navigation, dispatch))
-    .catch(() => navigation.navigate('SignedOut', { error: 'Login failed.' }));
+    .catch(() => navigation.navigate('Login', { error: 'Login failed.' }));
 };
 
 export const signup = (credentials, navigation) => dispatch => {
   axios
     .post(`${domain}/auth/signup`, credentials)
     .then(res => setUserAndRedirect(res.data, navigation, dispatch))
-    .catch(() => navigation.navigate('SignedOut', { error: 'Signup failed.' }));
+    .catch(() => navigation.navigate('Home', { error: 'Signup failed.' }));
 };
 
 export const logout = navigation => dispatch => {
@@ -47,7 +47,7 @@ export const logout = navigation => dispatch => {
     .delete(`${domain}/auth/logout`)
     .then(() => {
       dispatch(removeCurrentUser());
-      navigation.navigate('SignedOut', { error: 'Logout successful.' });
+      navigation.navigate('Home', { error: 'Logout successful.' });
     })
     .catch(error => console.error('Logout successful:  ', error));
 };
@@ -56,5 +56,5 @@ export const logout = navigation => dispatch => {
 
 function setUserAndRedirect(user, navigation, dispatch) {
   dispatch(setCurrentUser(user));
-  navigation.navigate('SignedIn');
+  navigation.navigate('Home');
 }

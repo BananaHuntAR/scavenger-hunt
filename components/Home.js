@@ -26,14 +26,15 @@ const Home = ({ navigation, currentUser, logoutFunc }) => (
     </View>
 
     <Text
+      h4
+      style={styles.loginText}
       onPress={() => {
         return currentUser.email
           ? logoutFunc(navigation)
           : navigation.navigate('Login');
       }}
-      style={styles.loginText}
     >
-      Login
+      {currentUser.email ? 'Logout' : 'Login'}
     </Text>
 
     <Toolbar />

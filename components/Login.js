@@ -8,7 +8,6 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-
 import { login } from '../store/auth';
 
 class Login extends React.Component {
@@ -38,7 +37,7 @@ class Login extends React.Component {
   handleSubmit() {
     const email = this.state.email;
     const password = this.state.password;
-    this.props.login(
+    this.props.loginFunc(
       {
         email,
         password
@@ -64,7 +63,7 @@ class Login extends React.Component {
             style={styles.textInput}
             autoCapitalize="none"
             autoCorrect={false}
-            maxLength={15}
+            maxLength={30}
             placeholder="Enter email here"
             placeholderTextColor="white"
             value={this.state.email}
@@ -85,7 +84,7 @@ class Login extends React.Component {
           <Button
             rounded
             raised
-            style={styles.button}
+            style={styles.loginButton}
             backgroundColor="white"
             color="gray"
             title="Login"
@@ -94,7 +93,7 @@ class Login extends React.Component {
           <Button
             rounded
             raised
-            style={{ width: 280, alignSelf: 'center', marginTop: 15 }}
+            style={styles.signupbutton}
             backgroundColor="gray"
             color="white"
             title="New to Banana Hunt? Sign Up"
@@ -114,7 +113,8 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  login: (credentials, navigation) => dispatch(login(credentials, navigation))
+  loginFunc: (credentials, navigation) =>
+    dispatch(login(credentials, navigation))
 });
 
 export default connect(null, mapDispatchToProps)(Login);
@@ -132,7 +132,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
     color: 'white',
     alignSelf: 'center',
-    marginTop: 20,
+    marginTop: 100,
     padding: 40,
     paddingBottom: 0,
     textAlign: 'center'
@@ -149,22 +149,28 @@ const styles = StyleSheet.create({
     margin: 10,
     paddingLeft: 10,
     alignSelf: 'center',
-    color: 'tomato',
+    color: 'white',
     fontSize: 15,
     borderWidth: 2,
     borderRadius: 5,
     borderColor: 'white'
   },
-  button: {
-    width: 150,
-    marginTop: 20,
+  loginButton: {
+    width: 120,
+    margin: 20,
     alignSelf: 'center'
+  },
+  signupButton: {
+    width: 280,
+    alignSelf: 'center',
+    marginTop: 15
   },
   error: {
     fontSize: 15,
-    color: 'blue',
+    color: 'black',
     marginVertical: 0,
-    paddingLeft: 10,
+    paddingTop: 10,
+    alignSelf: 'center',
     fontWeight: 'bold'
   }
 });
