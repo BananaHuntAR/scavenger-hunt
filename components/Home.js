@@ -9,6 +9,10 @@ import Toolbar from './Toolbar';
 const Home = ({ navigation, currentUser, logoutFunc }) => (
   <View style={styles.container}>
     <StatusBar hidden={true} />
+    <Image
+      style={styles.bgImage}
+      source={require('../assets/home-bg.png')}
+      />
     <View>
       <Text h2 style={styles.headerText}>
         Banana Hunt
@@ -55,6 +59,11 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     backgroundColor: '#E96B63',
     paddingTop: 50
+  },
+  bgImage: {
+    flex: 1,
+    position: 'absolute',
+    resizeMode: 'stretch'
   },
   headerText: {
     color: 'white',
