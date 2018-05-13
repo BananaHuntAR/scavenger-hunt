@@ -1,49 +1,70 @@
 import React from 'react';
 import { StyleSheet, View, Image, StatusBar } from 'react-native';
+import { Font } from 'expo';
 import { Text } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { logout } from '../store/auth';
 import Toolbar from './Toolbar';
 
-const Home = ({ navigation, currentUser, logoutFunc }) => (
-  <View style={styles.container}>
-    <StatusBar hidden={true} />
-    <Image
-      style={styles.bgImage}
-      source={require('../assets/home-bg.png')}
-      />
-    <View>
-      <Text h2 style={styles.headerText}>
-        Banana Hunt
-      </Text>
-      <Image
-          style={{width: 100, height: 100}}
-          source={require('../assets/logo.png')}
+class Home extends React.Component {
+  state = {
+    loaded: false
+  }
+
+  async componentDidMount() {
+    await Font.loadAsync({
+      'nanum-pen-script': require('../assets/NanumScript.ttf'),
+      'opensans-light': require('../assets/OpenSans-Light.ttf')
+    });
+
+    this.setState({ loaded: true });
+  }
+
+  render() {
+    const { navigation, currentUser, logoutFunc } = this.props;
+    return (
+      <View style={styles.container}>
+        <StatusBar hidden={true} />
+        <Image
+          style={styles.bgImage}
+          source={require('../assets/home-bg.png')}
+          />
+        {
+          this.state.loaded ? (
+            <Text style={styles.headerText}>Banana Hunt</Text>
+          ) : null
+        }
+        <Image
+            style={styles.logo}
+            source={require('../assets/logo.png')}
+          />
+        <FontAwesome
+          name="play-circle"
+          size={120}
+          onPress={() => navigation.navigate('Game')}
+          style={styles.icon}
         />
-      <FontAwesome
-        name="play-circle"
-        size={125}
-        onPress={() => navigation.navigate('Game')}
-        style={styles.icon}
-      />
-    </View>
+        {
+          this.state.loaded ? (
+            <Text
+              style={styles.loginText}
+              onPress={() => {
+                return currentUser.email
+                  ? logoutFunc(navigation)
+                  : navigation.navigate('Login');
+              }}
+            >
+              {currentUser.email ? 'Logout' : 'Login'}
+            </Text>
+          ) : null
+        }
 
-    <Text
-      h4
-      style={styles.loginText}
-      onPress={() => {
-        return currentUser.email
-          ? logoutFunc(navigation)
-          : navigation.navigate('Login');
-      }}
-    >
-      {currentUser.email ? 'Logout' : 'Login'}
-    </Text>
-
-    <Toolbar />
-  </View>
-);
+        <Toolbar />
+      </View>
+    )
+  }
+}
 
 const mapStateToProps = storeState => ({
   currentUser: storeState.currentUser
@@ -58,26 +79,31 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     backgroundColor: '#E96B63',
-    paddingTop: 50
+    alignItems: 'center'
   },
   bgImage: {
-    flex: 1,
     position: 'absolute',
-    resizeMode: 'stretch'
+    resizeMode: 'stretch',
+    top: 0
+  },
+  logo: {
+    width: 200,
+    height: 200,
   },
   headerText: {
-    color: 'white',
-    textAlign: 'center',
-    padding: 10
+    fontFamily: 'nanum-pen-script',
+    fontSize: 55,
+    color: '#8A4F3B',
+    textAlign: 'center'
   },
   loginText: {
-    color: 'white',
-    textAlign: 'center',
+    fontFamily: 'opensans-light',
+    color: '#F3EED9',
     padding: 20,
-    fontSize: 16
+    fontSize: 20
   },
   icon: {
-    color: 'white',
+    color: '#F3EED9',
     paddingTop: 10,
     alignSelf: 'center'
   }
