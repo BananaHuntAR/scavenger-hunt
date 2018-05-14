@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { addItem, resetItems } from '../store';
+import { addItem, resetCustomItems } from '../store';
 import ExitButton from './ExitButton';
 console.disableYellowBox = true;
 // Turn off three.js warnings...
@@ -23,11 +23,11 @@ const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // creates co
 
 class CreateMap extends React.Component {
   componentDidMount() {
-    this.props.resetItems();
+    this.props.resetCustomItems();
   }
 
   handleDrop = () => {
-    dropItem(this.scene, this.state.customItems, this.props.addItem, this.camera.position);
+    dropItem(this.scene, this.props.customItems, this.props.addItem, this.camera.position);
   };
 
   _onGLContextCreate = async gl => {
@@ -57,7 +57,8 @@ class CreateMap extends React.Component {
       const cameraPos = new THREE.Vector3(0, 0, 0);
       cameraPos.applyMatrix4(this.camera.matrixWorld);
 
-      this.state.customItems.forEach((cube) => {
+      this.props.customItems.length && this.props.customItems.forEach((cube) => {
+        // console.log('cube: ', cube);
         // Animates items for live movement
         cube.rotation.x += cube.speed;
         cube.rotation.y += cube.speed;
@@ -84,7 +85,7 @@ class CreateMap extends React.Component {
   }
 
   render() {
-    console.log("items: ", this.state.customItems);
+    // console.log("items: ", this.props.customItems);
     return (
       <View style={{ flex: 1 }}>
         <StatusBar hidden={true} />
@@ -140,15 +141,15 @@ const styles = StyleSheet.create({
 });
 
 
-function dropItem(scene, item, addItemFunc, dropPos) {
+function dropItem(scene, items, addItemFunc, dropPos) {
   const cube = new THREE.Mesh(geometry, material);
   cube.position.x = dropPos.x;
   cube.position.y = dropPos.y;
   cube.position.z = dropPos.z;
   cube.speed = 0.05
   scene.add(cube);
-  // items.push(cube);
-  addItemFunc(item);
+  items.push(cube);
+  addItemFunc(items);
 }
 
 
@@ -158,11 +159,11 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    addItem(item) {
-      dispatch(addItem(item));
+    addItem(items) {
+      dispatch(addItem(items));
     },
-    resetItems() {
-      dispatch(resetItems());
+    resetCustomItems() {
+      dispatch(resetCustomItems());
     }
   }
 }
