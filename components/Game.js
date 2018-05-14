@@ -33,7 +33,7 @@ class Game extends React.Component {
     };
     this.gameItems = [];
     this.itemsNum = 2;
-    // this.preloadAssets();
+    this.preloadAssets();
   }
 
   async preloadAssets() {
@@ -100,7 +100,7 @@ class Game extends React.Component {
     );
 
     // Items are added to the AR scene
-    // generateItems(scene, this.gameItems, this.itemsNum);
+    generateItems(scene, this.gameItems, this.itemsNum);
 
     const animate = () => {
       camera.position.setFromMatrixPosition(camera.matrixWorld);
@@ -109,8 +109,8 @@ class Game extends React.Component {
 
       this.gameItems.forEach((cube, idx) => {
         // Animates items for live movement
-        cube.rotation.x += cube.speed;
-        cube.rotation.y += cube.speed;
+        // cube.rotation.x += cube.speed;
+        // cube.rotation.y += cube.speed;
 
         // Updates state to indicate if an itemInSight and prompts capture button
         // .distanceTo(vector) returns the distance between the camera and the items
@@ -217,15 +217,15 @@ async function generateItems(scene, items, num) {
   };
 
   for (let i = 0; i < num; i++) {
-    const cube = new THREE.Mesh(model, material);
-    randomizePosition(cube);
-    cube.position.z = randomizePosition(1);  // (-5, 5) meters
-    cube.position.x = randomizePosition(1);  // (-5, 5) meters
-    cube.position.y = randomizePosition(1); // (-0.5, 0.5) meters
-    cube.speed = 0.05
-    cube.captured = false;
-    scene.add(cube);
-    items.push(cube);
+    // const cube = new THREE.Mesh(model, material);
+    randomizePosition(model);
+    model.position.z = randomizePosition(1);  // (-5, 5) meters
+    model.position.x = randomizePosition(1);  // (-5, 5) meters
+    model.position.y = randomizePosition(1); // (-0.5, 0.5) meters
+    model.speed = 0.05
+    model.captured = false;
+    scene.add(model);
+    items.push(model);
   }
 }
 
