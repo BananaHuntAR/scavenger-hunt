@@ -146,9 +146,13 @@ class Game extends React.Component {
         <View style={styles.exitButton}>
           <ExitButton />
         </View>
-        <View style={styles.overlay}>
+        <View style={styles.capture}>
           { this.state.itemInSight !== null && !this.gameItems[this.state.itemInSight].captured ?
-            (<Button raised rounded title="Capture" onPress={this.handlePress} buttonStyle={{ width: 150 }} />)
+            (<Button raised rounded title="Capture" onPress={this.handlePress} buttonStyle={{
+                backgroundColor: '#E96B63',
+                width: 130,
+                height: 130,
+              }} />)
             : null
           }
         </View>
@@ -161,8 +165,7 @@ class Game extends React.Component {
 const { height, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  overlay: {
-    backgroundColor: 'rgba(255, 255, 255, 0)',
+  capture: {
     position: 'absolute',
     top: height / 2,
     left: width / 2 - 75

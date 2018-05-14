@@ -25,10 +25,10 @@ const GameOptionPage = ({ navigation }) => (
       />
       <Button
         style={styles.gameOptionBtn}
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => navigation.navigate('CreateMap')}
         raised
         rounded
-        title='Create a Custom Game - Goes to home for now'
+        title='Create a Custom Game'
         backgroundColor="white"
         color="gray"
       />
