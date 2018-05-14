@@ -1,44 +1,48 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { Content } from 'native-base';
 import MapCard from './MapCard';
-import { fetchCustomMapsThunk } from '../store'
+import { fetchCustomMapsThunk } from '../store';
+import HomeIcon from './HomeIcon';
 
-class CustomGameList extends Component{
-  componentDidMount(){
+class CustomGameList extends Component {
+  componentDidMount() {
     this.props.loadCustomMaps();
   }
 
-  render(){
+  render() {
     return (
-      <View style={styles.container} >
+      <View style={styles.container}>
+        <Image
+          style={styles.bgImage}
+          source={require('../assets/home-bg.png')}
+        />
+        <HomeIcon />
         <Content>
-        { this.props.customMaps && this.props.customMaps.map(customMap => {
-            return (
-              <MapCard customMap={customMap} key={customMap.id} />
-            )
-          })
-        }
+          {this.props.customMaps &&
+            this.props.customMaps.map(customMap => {
+              return <MapCard customMap={customMap} key={customMap.id} />;
+            })}
         </Content>
       </View>
-    )
+    );
   }
 }
 
 const mapState = state => {
   return {
     customMaps: state.customMaps
-  }
-}
+  };
+};
 
 const mapDispatch = dispatch => {
   return {
-    loadCustomMaps: function(){
-      dispatch(fetchCustomMapsThunk())
+    loadCustomMaps: function() {
+      dispatch(fetchCustomMapsThunk());
     }
-  }
-}
+  };
+};
 
 export default connect(mapState, mapDispatch)(CustomGameList);
 
@@ -49,5 +53,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingVertical: 30,
     paddingHorizontal: 15
+  },
+  bgImage: {
+    position: 'absolute',
+    resizeMode: 'stretch',
+    top: 0
   }
 });

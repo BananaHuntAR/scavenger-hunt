@@ -6,10 +6,11 @@ import Home from './components/Home';
 import Game from './components/Game';
 import Login from './components/Login';
 import Signup from './components/Signup';
-import GameOptionPage from './components/GameOptionPage'
+import GameOptionPage from './components/GameOptionPage';
 import Leaderboard from './components/Leaderboard';
-import CustomGameList from './components/CustomGameList'
+import CustomGameList from './components/CustomGameList';
 import TutorialNavigator from './components/TutorialNavigator';
+import { isSignedIn } from './auth';
 
 const RootNavigator = StackNavigator(
   {
@@ -50,10 +51,26 @@ const RootNavigator = StackNavigator(
   }
 );
 
-const App = () => (
-  <Provider store={store}>
-    <RootNavigator />
-  </Provider>
-);
+export default class App extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      signedIn: false,
+      checkedSignIn: false
+    };
+  }
 
-export default App;
+  componentWillMount() {
+    isSignedIn()
+      .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
+      .catch(error => console.error(error));
+  }
+
+  render() {
+    return (
+      <Provider store={store}>
+        <RootNavigator />
+      </Provider>
+    );
+  }
+}
