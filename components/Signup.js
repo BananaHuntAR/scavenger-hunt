@@ -59,7 +59,6 @@ class Signup extends React.Component {
         password2: '',
         error: ''
       });
-      this.props.navigation.navigate('GameOptionPage');
     } else {
       this.setState({
         password1: '',
@@ -80,7 +79,6 @@ class Signup extends React.Component {
             style={styles.textInput}
             autoCapitalize="none"
             autoCorrect={false}
-            maxLength={15}
             value={this.state.email}
             onChangeText={email => this.handleChangeEmail(email)}
           />
@@ -90,7 +88,6 @@ class Signup extends React.Component {
             secureTextEntry={true}
             autoCapitalize="none"
             autoCorrect={false}
-            maxLength={15}
             value={this.state.password1}
             onChangeText={password1 => this.handleChangePassword1(password1)}
           />
@@ -100,7 +97,6 @@ class Signup extends React.Component {
             secureTextEntry={true}
             autoCapitalize="none"
             autoCorrect={false}
-            maxLength={15}
             value={this.state.password2}
             onChangeText={password2 => this.handleChangePassword2(password2)}
           />
