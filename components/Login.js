@@ -10,7 +10,6 @@ import { Button, SocialIcon } from 'react-native-elements';
 import HomeIcon from './HomeIcon';
 import { connect } from 'react-redux';
 import { login } from '../store/auth';
-import domain from '../domain';
 
 class Login extends React.Component {
   constructor(props) {
