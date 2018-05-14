@@ -1,9 +1,8 @@
 /* eslint-disable react/display-name*/
-
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
-import TutorialStep from './TutorialStep';
-import { Ionicons, FontAwesome } from '@expo/vector-icons';
+import TutorialStep from '../TutorialStep';
+import { Ionicons } from '@expo/vector-icons';
 
 const CustomTutorialNavigator = TabNavigator(
   {
@@ -12,7 +11,7 @@ const CustomTutorialNavigator = TabNavigator(
         <TutorialStep
           //passing title & desc props so that we can reuse our TutorialStep component
           title={'Pin Location'}
-          desc={`You'll pin your current location and then enter your address.`}
+          desc={`The first step is to pin your current location as the starting point.`}
           iconName={'ios-pin'}
         />
       )
@@ -31,7 +30,7 @@ const CustomTutorialNavigator = TabNavigator(
         <TutorialStep
           title={'Drop Bananas'}
           desc={`As you walk around, hit the "Drop" button to leave bananas in your path!`}
-          img={require('../assets/banana-128.png')}
+          img={require('../../assets/banana-128.png')}
         />
       )
     },

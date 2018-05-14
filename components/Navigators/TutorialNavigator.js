@@ -2,7 +2,7 @@
 
 import React from 'react';
 import { TabNavigator } from 'react-navigation';
-import TutorialStep from './TutorialStep';
+import TutorialStep from '../TutorialStep';
 import { Ionicons } from '@expo/vector-icons';
 
 const TutorialNavigator = TabNavigator(
