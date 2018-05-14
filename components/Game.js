@@ -219,9 +219,12 @@ async function generateItems(scene, items, num) {
   for (let i = 0; i < num; i++) {
     // const cube = new THREE.Mesh(model, material);
     randomizePosition(model);
-    model.position.z = randomizePosition(1);  // (-5, 5) meters
-    model.position.x = randomizePosition(1);  // (-5, 5) meters
-    model.position.y = randomizePosition(1); // (-0.5, 0.5) meters
+    model.position.z = 0;
+    model.position.x = 0;
+    model.position.y = 0;
+    // model.position.z = randomizePosition(1);  // (-5, 5) meters
+    // model.position.x = randomizePosition(1);  // (-5, 5) meters
+    // model.position.y = randomizePosition(1); // (-0.5, 0.5) meters
     model.speed = 0.05
     model.captured = false;
     scene.add(model);
