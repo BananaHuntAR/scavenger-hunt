@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Image, StatusBar } from 'react-native';
 import { Font } from 'expo';
 import { Text } from 'react-native-elements';
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome, EvilIcons } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { logout } from '../store/auth';
 import Toolbar from './Toolbar';
@@ -42,7 +42,7 @@ class Home extends React.Component {
         <FontAwesome
           name="play-circle"
           size={120}
-          onPress={() => navigation.navigate('Game')}
+          onPress={() => navigation.navigate('GameOptionPage')}
           style={styles.icon}
         />
         {

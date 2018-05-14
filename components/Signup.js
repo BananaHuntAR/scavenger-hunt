@@ -59,7 +59,7 @@ class Signup extends React.Component {
         password2: '',
         error: ''
       });
-      this.props.navigation.navigate('Home');
+      this.props.navigation.navigate('GameOptionPage');
     } else {
       this.setState({
         password1: '',
