@@ -5,33 +5,33 @@ import { Button } from 'react-native-elements';
 
 const GameOptionPage = ({ navigation }) => (
   <View style={styles.container}>
-      <Button
-        style={styles.gameOptionBtn}
-        onPress={() => navigation.navigate('Game')}
-        raised
-        rounded
-        title='Play Game Now'
-        backgroundColor="white"
-        color="gray"
-      />
-      <Button
-        style={styles.gameOptionBtn}
-        onPress={() => navigation.navigate('CustomGameList')}
-        raised
-        rounded
-        title='Custom Games'
-        backgroundColor="white"
-        color="gray"
-      />
-      <Button
-        style={styles.gameOptionBtn}
-        onPress={() => navigation.navigate('Home')}
-        raised
-        rounded
-        title='Create a Custom Game - Goes to home for now'
-        backgroundColor="white"
-        color="gray"
-      />
+    <Button
+      style={styles.gameOptionBtn}
+      onPress={() => navigation.navigate('Game')}
+      raised
+      rounded
+      title="Play Game Now"
+      backgroundColor="white"
+      color="gray"
+    />
+    <Button
+      style={styles.gameOptionBtn}
+      onPress={() => navigation.navigate('CustomGameList')}
+      raised
+      rounded
+      title="Custom Games"
+      backgroundColor="white"
+      color="gray"
+    />
+    <Button
+      style={styles.gameOptionBtn}
+      onPress={() => navigation.navigate('Home')}
+      raised
+      rounded
+      title="Create a Custom Game - Goes to home for now"
+      backgroundColor="white"
+      color="gray"
+    />
   </View>
 );
 
