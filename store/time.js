@@ -16,7 +16,7 @@ export const resetTime = () => ({ type: RESET_TIME });
 // THUNK CREATORS
 export const postResult = (name, time) => dispatch => {
   return axios
-    .post(`${domain}`, { name, time })
+    .post(`${domain}/api/results`, { name, time })
     .then(() => {
       dispatch(resetTime());
       dispatch(fetchResultsThunk());
