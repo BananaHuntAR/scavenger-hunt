@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  KeyboardAvoidingView,
-  ScrollView
-} from 'react-native';
+import { StyleSheet, Text, TextInput, View, ScrollView } from 'react-native';
 import { Button } from 'react-native-elements';
 import HomeIcon from './HomeIcon';
 import { connect } from 'react-redux';
@@ -71,7 +65,7 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView behavior="position" style={styles.container}>
+      <View style={styles.container}>
         <ScrollView>
           <HomeIcon />
           <Text style={styles.title}>Create an account</Text>
@@ -112,7 +106,7 @@ class Signup extends React.Component {
             onPress={this.handleSubmit}
           />
         </ScrollView>
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }
@@ -136,7 +130,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
     color: 'white',
     alignSelf: 'center',
-    paddingTop: 40,
+    paddingTop: 10,
     textAlign: 'center'
   },
   textLabel: {

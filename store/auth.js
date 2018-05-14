@@ -1,5 +1,6 @@
 import axios from 'axios';
 import domain from '../domain.js';
+import { onSignIn, setStorage } from '../auth';
 
 /* -----------------    ACTION TYPES    ------------------ */
 

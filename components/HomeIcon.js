@@ -5,11 +5,11 @@ import { withNavigation } from 'react-navigation';
 const HomeIcon = ({ navigation }) => (
   <Icon
     iconStyle={{
-      paddingTop: 100,
+      paddingTop: 50,
       alignSelf: 'flex-end'
     }}
     name="home"
-    color="white"
+    color="#F3EED9"
     underlayColor="#3FBE94"
     onPress={() => navigation.navigate('Home')}
   />

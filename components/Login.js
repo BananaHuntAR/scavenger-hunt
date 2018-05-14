@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TextInput,
-  KeyboardAvoidingView,
-  ScrollView
-} from 'react-native';
+import { StyleSheet, Text, TextInput, View, ScrollView } from 'react-native';
 import { Button, SocialIcon } from 'react-native-elements';
 import HomeIcon from './HomeIcon';
 import { connect } from 'react-redux';
@@ -55,7 +49,7 @@ class Login extends React.Component {
 
   render() {
     return (
-      <KeyboardAvoidingView behavior="position" style={styles.container}>
+      <View style={styles.container}>
         <ScrollView>
           <HomeIcon />
           <Text style={styles.title}>Log in to get playing!</Text>
@@ -91,13 +85,7 @@ class Login extends React.Component {
             onPress={this.handleSubmit}
           />
           <Text style={styles.or}>OR</Text>
-          <SocialIcon
-            title="Sign in with Google"
-            button
-            style={styles.googleButton}
-            width={280}
-            type="google-plus-official"
-          />
+
           <Button
             rounded
             raised
@@ -115,7 +103,7 @@ class Login extends React.Component {
             }}
           />
         </ScrollView>
-      </KeyboardAvoidingView>
+      </View>
     );
   }
 }
