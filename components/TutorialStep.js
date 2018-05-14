@@ -1,17 +1,21 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, View, Image } from 'react-native';
 import { Button, Text } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
 import { skipTutorialNavigation } from '../utils';
 
-const TutorialStep = ({ navigation, title, desc, iconName }) => (
+const TutorialStep = ({ navigation, title, desc, iconName, img }) => (
   <View style={styles.container}>
     <View style={styles.instructionsContainer}>
       <Text h2 style={styles.text}>
         {title}
       </Text>
-      <Ionicons name={iconName} size={130} color={'white'} />
+      {iconName ? (
+        <Ionicons name={iconName} size={130} color={'white'} />
+      ) : (
+        <Image source={img} size={130} />
+      )}
       <Text h4 style={styles.text}>
         {desc}
       </Text>
@@ -36,6 +40,7 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: '#3FBE94',
     flex: 1,
+    paddingTop: 20,
     paddingBottom: 100
   },
   instructionsContainer: {

@@ -30,9 +30,8 @@ const CustomTutorialNavigator = TabNavigator(
       screen: () => (
         <TutorialStep
           title={'Drop Bananas'}
-          desc={`As you walk around, hit the "Drop" button to leave bananas! The map will remember these coordinates for future game play.`}
-          img={require('../assets/bananaIcon.png')}
-          iconName={'ios-walk-outline'}
+          desc={`As you walk around, hit the "Drop" button to leave bananas in your path!`}
+          img={require('../assets/banana-128.png')}
         />
       )
     },
@@ -40,7 +39,7 @@ const CustomTutorialNavigator = TabNavigator(
       screen: () => (
         <TutorialStep
           title={'Save Map'}
-          desc={`Once your all set, hit "Save." If you choose to share, others can participate in your banana hunt as well!`}
+          desc={`Once you're all set, hit "Save." Now others can participate in your banana hunt as well!`}
           iconName={'ios-share-outline'}
         />
       )
