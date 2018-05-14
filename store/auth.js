@@ -1,5 +1,5 @@
-import domain from '../domain';
 import axios from 'axios';
+import domain from '../domain.js';
 
 /* -----------------    ACTION TYPES    ------------------ */
 
