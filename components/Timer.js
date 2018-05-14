@@ -28,29 +28,25 @@ class Timer extends React.Component {
     );
   };
 
-  // convertToTime = time => {
-  //   let minutes = Math.floor(time / 60);
-  //   let seconds = time - minutes * 60;
-  //   seconds = seconds < 10 ? '0' + seconds : seconds; // displays seconds as two digits
-  //   return `${minutes}:${seconds}`;
-  // };
-
   render() {
     const { time } = this.props;
     return (
       <View>
         <Badge
           containerStyle={{
-            backgroundColor: 'white',
-            flexDirection: 'row'
+            backgroundColor: 'white'
           }}
         >
-          <Icon name="timer" />
-          <Text>{convertToTime(time)}</Text>
-          <Icon name="food-apple" type="material-community" />
-          <Text>
-            {this.props.capturedItems} / {this.props.itemsNum}
-          </Text>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Icon name="timer" />
+            <Text>{convertToTime(time)}</Text>
+          </View>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Icon name="food-apple" type="material-community" />
+            <Text>
+              {this.props.capturedItems} / {this.props.itemsNum}
+            </Text>
+          </View>
         </Badge>
       </View>
     );
