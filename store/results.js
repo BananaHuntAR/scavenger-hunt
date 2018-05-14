@@ -1,4 +1,5 @@
 import axios from 'axios';
+import domain from '../domain.js';
 
 // ACTION TYPES
 const FETCH_RESULTS = 'FETCH_RESULTS';
@@ -12,7 +13,7 @@ export const fetchResults = results => ({
 // THUNK CREATORS
 export const fetchResultsThunk = () => dispatch => {
   return axios
-    .get(`http://scavengar-hunt.herokuapp.com/api/results`)
+    .get(`${domain}/api/results`)
     .then(res => dispatch(fetchResults(res.data)))
     .catch(err => console.error(err));
 };

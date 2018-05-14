@@ -2,7 +2,7 @@ import React from 'react';
 import { StyleSheet, View, Image, StatusBar } from 'react-native';
 import { Font } from 'expo';
 import { Text } from 'react-native-elements';
-import { FontAwesome, EvilIcons } from '@expo/vector-icons';
+import { FontAwesome } from '@expo/vector-icons';
 import { connect } from 'react-redux';
 import { logout } from '../store/auth';
 import Toolbar from './Toolbar';
@@ -10,14 +10,13 @@ import Toolbar from './Toolbar';
 class Home extends React.Component {
   state = {
     loaded: false
-  }
+  };
 
   async componentDidMount() {
     await Font.loadAsync({
       'nanum-pen-script': require('../assets/NanumScript.ttf'),
       'opensans-light': require('../assets/OpenSans-Light.ttf')
     });
-
     this.setState({ loaded: true });
   }
 
@@ -29,40 +28,33 @@ class Home extends React.Component {
         <Image
           style={styles.bgImage}
           source={require('../assets/home-bg.png')}
-          />
-        {
-          this.state.loaded ? (
-            <Text style={styles.headerText}>Banana Hunt</Text>
-          ) : null
-        }
-        <Image
-            style={styles.logo}
-            source={require('../assets/logo.png')}
-          />
+        />
+        {this.state.loaded ? (
+          <Text style={styles.headerText}>Banana Hunt</Text>
+        ) : null}
+        <Image style={styles.logo} source={require('../assets/logo.png')} />
         <FontAwesome
           name="play-circle"
           size={120}
           onPress={() => navigation.navigate('GameOptionPage')}
           style={styles.icon}
         />
-        {
-          this.state.loaded ? (
-            <Text
-              style={styles.loginText}
-              onPress={() => {
-                return currentUser.email
-                  ? logoutFunc(navigation)
-                  : navigation.navigate('Login');
-              }}
-            >
-              {currentUser.email ? 'Logout' : 'Login'}
-            </Text>
-          ) : null
-        }
+        {this.state.loaded ? (
+          <Text
+            style={styles.loginText}
+            onPress={() => {
+              return currentUser.email
+                ? logoutFunc(navigation)
+                : navigation.navigate('Login');
+            }}
+          >
+            {!currentUser.email && 'Login'}
+          </Text>
+        ) : null}
 
         <Toolbar />
       </View>
-    )
+    );
   }
 }
 
@@ -88,7 +80,7 @@ const styles = StyleSheet.create({
   },
   logo: {
     width: 200,
-    height: 200,
+    height: 200
   },
   headerText: {
     fontFamily: 'nanum-pen-script',

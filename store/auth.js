@@ -1,5 +1,6 @@
-import domain from '../domain';
 import axios from 'axios';
+import domain from '../domain.js';
+import { onSignIn, setStorage } from '../auth';
 
 /* -----------------    ACTION TYPES    ------------------ */
 
@@ -54,7 +55,7 @@ export const logout = navigation => dispatch => {
 
 /* ------------      HELPER FUNCTIONS     ------------------ */
 
-function setUserAndRedirect(user, navigation, dispatch) {
+export function setUserAndRedirect(user, navigation, dispatch) {
   dispatch(setCurrentUser(user));
   navigation.navigate('GameOptionPage');
 }

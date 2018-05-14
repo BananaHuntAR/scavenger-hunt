@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { fetchResultsThunk } from './results';
+import domain from '../domain.js';
 
 // ACTION TYPES
 const INCREMENT_TIME = 'INCREMENT_TIME';
@@ -15,9 +16,11 @@ export const resetTime = () => ({ type: RESET_TIME });
 // THUNK CREATORS
 export const postResult = (name, time) => dispatch => {
   return axios
-    .post(`http://scavengar-hunt.herokuapp.com/api/results`, { name, time })
-    .then(res => dispatch(resetTime()))
-    .then(() => dispatch(fetchResultsThunk()))
+    .post(`${domain}/api/results`, { name, time })
+    .then(() => {
+      dispatch(resetTime());
+      dispatch(fetchResultsThunk());
+    })
     .catch(err => console.error(err));
 };
 
