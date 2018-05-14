@@ -65,7 +65,6 @@ class Login extends React.Component {
             style={styles.textInput}
             autoCapitalize="none"
             autoCorrect={false}
-            maxLength={30}
             placeholder="Enter email here"
             placeholderTextColor="white"
             value={this.state.email}
@@ -77,7 +76,6 @@ class Login extends React.Component {
             secureTextEntry={true}
             autoCapitalize="none"
             autoCorrect={false}
-            maxLength={15}
             placeholder="Enter password here"
             placeholderTextColor="white"
             value={this.state.password}

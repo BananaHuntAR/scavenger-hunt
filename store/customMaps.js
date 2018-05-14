@@ -1,4 +1,5 @@
 import axios from 'axios';
+import domain from './domain';
 
 // ACTION TYPES
 const FETCH_CUSTOM_MAPS = 'FETCH_CUSTOM_MAPS';
@@ -12,7 +13,7 @@ export const fetchCustomMaps = customMaps => ({
 // THUNK CREATORS
 export const fetchCustomMapsThunk = () => dispatch => {
   return axios
-    .get(`http://scavengar-hunt.herokuapp.com/api/customMaps`)
+    .get(`${domain}/api/customMaps`)
     .then(res => dispatch(fetchCustomMaps(res.data)))
     .then(() => console.log('fetched custom maps'))
     .catch(err => console.error(err));
