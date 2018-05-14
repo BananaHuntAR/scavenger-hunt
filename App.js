@@ -19,8 +19,7 @@ const RootNavigator = StackNavigator(
       }
     },
     Login: {
-      screen: Login,
-      swipeEnabled: true
+      screen: Login
     },
     Signup: {
       screen: Signup,
