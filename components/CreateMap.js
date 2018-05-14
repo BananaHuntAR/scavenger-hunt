@@ -11,7 +11,7 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-// import {  } from '../store';
+import { addItem, resetItems } from '../store';
 import ExitButton from './ExitButton';
 console.disableYellowBox = true;
 // Turn off three.js warnings...
@@ -22,14 +22,12 @@ const geometry = new THREE.BoxGeometry(0.07, 0.07, 0.07); // creates template fo
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // creates color for a cube
 
 class CreateMap extends React.Component {
-  constructor(props) {
-    super(props);
-    this.customItems = [];
+  componentDidMount() {
+    this.props.resetItems();
   }
 
   handleDrop = () => {
-    console.log('drop: ', this.camera.position);
-    dropItem(this.scene, this.customItems, this.camera.position);
+    dropItem(this.scene, this.state.customItems, this.props.addItem, this.camera.position);
   };
 
   _onGLContextCreate = async gl => {
@@ -59,7 +57,7 @@ class CreateMap extends React.Component {
       const cameraPos = new THREE.Vector3(0, 0, 0);
       cameraPos.applyMatrix4(this.camera.matrixWorld);
 
-      this.customItems.forEach((cube, idx) => {
+      this.state.customItems.forEach((cube) => {
         // Animates items for live movement
         cube.rotation.x += cube.speed;
         cube.rotation.y += cube.speed;
@@ -86,7 +84,7 @@ class CreateMap extends React.Component {
   }
 
   render() {
-    console.log('once');
+    console.log("items: ", this.state.customItems);
     return (
       <View style={{ flex: 1 }}>
         <StatusBar hidden={true} />
@@ -142,24 +140,30 @@ const styles = StyleSheet.create({
 });
 
 
-function dropItem(scene, items, dropPos) {
+function dropItem(scene, item, addItemFunc, dropPos) {
   const cube = new THREE.Mesh(geometry, material);
   cube.position.x = dropPos.x;
   cube.position.y = dropPos.y;
   cube.position.z = dropPos.z;
   cube.speed = 0.05
   scene.add(cube);
-  items.push(cube);
+  // items.push(cube);
+  addItemFunc(item);
 }
 
 
 const mapState = state => {
-  return {  }
+  return { customItems: state.customItems };
 }
 
 const mapDispatch = dispatch => {
   return {
-
+    addItem(item) {
+      dispatch(addItem(item));
+    },
+    resetItems() {
+      dispatch(resetItems());
+    }
   }
 }
 
