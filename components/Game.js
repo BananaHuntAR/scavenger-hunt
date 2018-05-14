@@ -1,7 +1,8 @@
 import React from 'react';
 import * as THREE from 'three';
 import ExpoTHREE from 'expo-three';
-import Expo from 'expo';
+import Expo, { Asset } from 'expo';
+require('../utils/OBJLoader');
 import {
   View,
   NativeModules,
@@ -27,10 +28,25 @@ class Game extends React.Component {
     super(props);
     this.state = {
       itemInSight: null,
-      isGameOver: false
+      isGameOver: false,
+      loaded: false
     };
     this.gameItems = [];
     this.itemsNum = 2;
+    // this.preloadAssets();
+  }
+
+  async preloadAssets() {
+    try {
+
+      await Promise.all([
+        require('../assets/banana.obj'),
+        require('../assets/banana.mtl')
+      ].map((module) => Expo.Asset.fromModule(module).downloadAsync()));
+    } catch (err) {
+      console.error(err);
+    }
+    this.setState({ loaded: true });
   }
 
   componentDidMount() {
@@ -84,7 +100,7 @@ class Game extends React.Component {
     );
 
     // Items are added to the AR scene
-    generateItems(scene, this.gameItems, this.itemsNum);
+    // generateItems(scene, this.gameItems, this.itemsNum);
 
     const animate = () => {
       camera.position.setFromMatrixPosition(camera.matrixWorld);
@@ -184,10 +200,16 @@ const styles = StyleSheet.create({
   }
 });
 
-function generateItems(scene, items, num) {
+async function generateItems(scene, items, num) {
   // Creating items
-  const geometry = new THREE.BoxGeometry(0.07, 0.07, 0.07); // creates template for a cube
+  // const geometry = new THREE.BoxGeometry(0.07, 0.07, 0.07); // creates template for a cube
   const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // creates color for a cube
+
+  const modelAsset = Asset.fromModule(require('../assets/banana.obj'));
+  await modelAsset.downloadAsync();
+  const loader = new THREE.OBJLoader();
+  const model = loader.parse(
+    await Expo.FileSystem.readAsStringAsync(modelAsset.localUri))
 
   // - range / 2 < (x,y,z) < range / 2 (in meters)
   const randomizePosition = (range = 10) => {
@@ -195,7 +217,7 @@ function generateItems(scene, items, num) {
   };
 
   for (let i = 0; i < num; i++) {
-    const cube = new THREE.Mesh(geometry, material);
+    const cube = new THREE.Mesh(model, material);
     randomizePosition(cube);
     cube.position.z = randomizePosition(1);  // (-5, 5) meters
     cube.position.x = randomizePosition(1);  // (-5, 5) meters
