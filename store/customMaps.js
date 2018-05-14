@@ -1,5 +1,5 @@
 import axios from 'axios';
-import domain from './domain';
+import domain from '../domain.js';
 
 // ACTION TYPES
 const FETCH_CUSTOM_MAPS = 'FETCH_CUSTOM_MAPS';

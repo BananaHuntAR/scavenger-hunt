@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { fetchResultsThunk } from './results';
-import domain from './domain';
+import domain from '../domain.js';
 
 // ACTION TYPES
 const INCREMENT_TIME = 'INCREMENT_TIME';
