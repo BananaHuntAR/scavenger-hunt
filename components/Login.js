@@ -6,7 +6,8 @@ import {
   KeyboardAvoidingView,
   ScrollView
 } from 'react-native';
-import { Button } from 'react-native-elements';
+import { Button, SocialIcon } from 'react-native-elements';
+import HomeIcon from './HomeIcon';
 import { connect } from 'react-redux';
 import { login } from '../store/auth';
 
@@ -37,7 +38,7 @@ class Login extends React.Component {
   handleSubmit() {
     const email = this.state.email;
     const password = this.state.password;
-    this.props.loginFunc(
+    this.props.login(
       {
         email,
         password
@@ -56,6 +57,7 @@ class Login extends React.Component {
     return (
       <KeyboardAvoidingView behavior="position" style={styles.container}>
         <ScrollView>
+          <HomeIcon />
           <Text style={styles.title}>Log in to get playing!</Text>
           <Text style={styles.error}>{this.state.error}</Text>
           <Text style={styles.textLabel}>Email</Text>
@@ -90,6 +92,14 @@ class Login extends React.Component {
             title="Login"
             onPress={this.handleSubmit}
           />
+          <Text style={styles.or}>OR</Text>
+          <SocialIcon
+            title="Sign in with Google"
+            button
+            style={styles.googleButton}
+            width={280}
+            type="google-plus-official"
+          />
           <Button
             rounded
             raised
@@ -113,8 +123,7 @@ class Login extends React.Component {
 }
 
 const mapDispatchToProps = dispatch => ({
-  loginFunc: (credentials, navigation) =>
-    dispatch(login(credentials, navigation))
+  login: (credentials, navigation) => dispatch(login(credentials, navigation))
 });
 
 export default connect(null, mapDispatchToProps)(Login);
@@ -124,23 +133,21 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#E96B63',
+    backgroundColor: '#3FBE94',
     paddingHorizontal: 5,
     flex: 1
   },
   title: {
-    fontSize: 40,
+    fontSize: 35,
+    paddingTop: 10,
     color: 'white',
     alignSelf: 'center',
-    marginTop: 100,
-    padding: 40,
-    paddingBottom: 0,
-    textAlign: 'center'
+    textAlign: 'center',
+    width: 290
   },
   textLabel: {
     fontSize: 20,
-    marginTop: 10,
-    padding: 10,
+    paddingLeft: 10,
     color: 'white'
   },
   textInput: {
@@ -153,17 +160,28 @@ const styles = StyleSheet.create({
     fontSize: 15,
     borderWidth: 2,
     borderRadius: 5,
-    borderColor: 'white'
+    borderColor: 'white',
+    marginBottom: 20
   },
   loginButton: {
-    width: 120,
-    margin: 20,
-    alignSelf: 'center'
+    alignSelf: 'center',
+    width: 290
+  },
+  or: {
+    fontSize: 20,
+    fontWeight: 'bold',
+    color: 'white',
+    alignSelf: 'center',
+    textAlign: 'center',
+    padding: 10
+  },
+  googleButton: {
+    alignSelf: 'center',
+    width: 290,
+    backgroundColor: '#4885ed'
   },
   signupButton: {
-    width: 280,
-    alignSelf: 'center',
-    marginTop: 15
+    alignSelf: 'center'
   },
   error: {
     fontSize: 15,

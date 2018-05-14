@@ -54,7 +54,7 @@ export const logout = navigation => dispatch => {
 
 /* ------------      HELPER FUNCTIONS     ------------------ */
 
-function setUserAndRedirect(user, navigation, dispatch) {
+export function setUserAndRedirect(user, navigation, dispatch) {
   dispatch(setCurrentUser(user));
   navigation.navigate('Home');
 }

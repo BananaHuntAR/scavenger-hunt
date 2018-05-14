@@ -34,7 +34,7 @@ const Home = ({ navigation, currentUser, logoutFunc }) => (
       }}
       style={styles.loginText}
     >
-      {currentUser.email ? 'Logout' : 'Login'}
+      {currentUser && currentUser.email ? null : 'Login'}
     </Text>
 
     <Toolbar />
