@@ -2,7 +2,8 @@ import React from 'react';
 import { StyleSheet, View } from 'react-native';
 import { Button, Text } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
-import Ionicons from '@expo/vector-icons/Ionicons';
+import { Ionicons } from '@expo/vector-icons';
+import { skipTutorialNavigation } from '../utils';
 
 const TutorialStep = ({ navigation, title, desc, iconName }) => (
   <View style={styles.container}>
@@ -16,10 +17,14 @@ const TutorialStep = ({ navigation, title, desc, iconName }) => (
       </Text>
       <Button
         style={{ width: 150 }}
-        onPress={() => navigation.navigate('Home')}
+        onPress={() => skipTutorialNavigation(navigation, title)}
         raised
         rounded
-        title={title === 'Mission' ? "I'm ready!" : 'Skip Tutorial'}
+        title={
+          title === 'Mission' || title === 'Save Map'
+            ? "I'm ready!"
+            : 'Skip Tutorial'
+        }
         backgroundColor="white"
         color="gray"
       />

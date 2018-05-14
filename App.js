@@ -10,6 +10,7 @@ import GameOptionPage from './components/GameOptionPage';
 import Leaderboard from './components/Leaderboard';
 import CustomGameList from './components/CustomGameList';
 import TutorialNavigator from './components/TutorialNavigator';
+import CustomTutorialNavigator from './components/CustomTutorialNavigator';
 import { isSignedIn } from './auth';
 
 const RootNavigator = StackNavigator(
@@ -42,6 +43,9 @@ const RootNavigator = StackNavigator(
     },
     CustomGameList: {
       screen: CustomGameList
+    },
+    CustomInstructions: {
+      screen: CustomTutorialNavigator
     }
   },
   {

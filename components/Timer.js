@@ -3,7 +3,7 @@ import { Text, View } from 'react-native';
 import { Badge, Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { incrementTime, resetTime } from '../store';
-import { convertToTime } from '../utils/util.js';
+import { convertToTime } from '../utils';
 
 class Timer extends React.Component {
   componentDidMount() {
@@ -48,7 +48,9 @@ class Timer extends React.Component {
           <Icon name="timer" />
           <Text>{convertToTime(time)}</Text>
           <Icon name="food-apple" type="material-community" />
-          <Text>{this.props.capturedItems} / {this.props.itemsNum}</Text>
+          <Text>
+            {this.props.capturedItems} / {this.props.itemsNum}
+          </Text>
         </Badge>
       </View>
     );
