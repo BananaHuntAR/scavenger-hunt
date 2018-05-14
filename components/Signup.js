@@ -7,6 +7,7 @@ import {
   ScrollView
 } from 'react-native';
 import { Button } from 'react-native-elements';
+import HomeIcon from './HomeIcon';
 import { connect } from 'react-redux';
 import { signup } from '../store/auth';
 
@@ -73,18 +74,19 @@ class Signup extends React.Component {
     return (
       <KeyboardAvoidingView behavior="position" style={styles.container}>
         <ScrollView>
-          <Text style={styles.title}>Please enter your information below</Text>
+          <HomeIcon />
+          <Text style={styles.title}>Create an account</Text>
           <Text style={styles.error}>{this.state.error}</Text>
-          <Text style={styles.textLabel}>Enter your email address</Text>
+          <Text style={styles.textLabel}>Email address</Text>
           <TextInput
             style={styles.textInput}
             autoCapitalize="none"
             autoCorrect={false}
-            maxLength={15}
+            maxLength={25}
             value={this.state.email}
             onChangeText={email => this.handleChangeEmail(email)}
           />
-          <Text style={styles.textLabel}>Enter a password</Text>
+          <Text style={styles.textLabel}> Password</Text>
           <TextInput
             style={styles.textInput}
             secureTextEntry={true}
@@ -130,23 +132,20 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'space-between',
     alignItems: 'center',
-    backgroundColor: '#E96B63',
+    backgroundColor: '#3FBE94',
     paddingHorizontal: 5,
     flex: 1
   },
   title: {
-    fontSize: 40,
+    fontSize: 35,
     color: 'white',
     alignSelf: 'center',
-    padding: 20,
-    marginTop: 100,
-    paddingBottom: 0,
+    paddingTop: 40,
     textAlign: 'center'
   },
   textLabel: {
     fontSize: 20,
     marginTop: 10,
-    alignSelf: 'center',
     color: 'white',
     marginLeft: 10
   },
