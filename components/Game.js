@@ -207,9 +207,34 @@ async function generateItems(scene, items, num) {
 
   const modelAsset = Asset.fromModule(require('../assets/banana.obj'));
   await modelAsset.downloadAsync();
+  // var ambientLight = new THREE.AmbientLight( 0xcccccc, 0.4 );
+  // scene.add( ambientLight );
+  // var pointLight = new THREE.PointLight( 0xffffff, 0.8 );
+  // camera.add( pointLight );
+  // scene.add( camera );
+
+
+
+
+  const textureLoader = new THREE.TextureLoader();
+  const texture = textureLoader.load('../assets/globe.jpg')
   const loader = new THREE.OBJLoader();
-  const model = loader.parse(
-    await Expo.FileSystem.readAsStringAsync(modelAsset.localUri))
+  const model = loader.load(modelAsset.localUri, function(object){
+    object.traverse(function(child){
+      if (child instanceof THREE.Mesh ){
+
+        console.log('you should see mesjdfljasdkfjsalkdfj');
+        // child.material.map = texture;
+        child.material = material;
+      }
+    })
+    object.position.z = 0;
+    object.position.x = 0;
+    object.position.y = 0;
+    // console.log('object: ', object);
+    scene.add(object)
+  })
+    // await Expo.FileSystem.readAsStringAsync(modelAsset.localUri))
 
   // - range / 2 < (x,y,z) < range / 2 (in meters)
   const randomizePosition = (range = 10) => {
@@ -218,7 +243,8 @@ async function generateItems(scene, items, num) {
 
   for (let i = 0; i < num; i++) {
     // const cube = new THREE.Mesh(model, material);
-    randomizePosition(model);
+    // console.log('??????', model.isMesh);
+    // randomizePosition(model);
     model.position.z = 0;
     model.position.x = 0;
     model.position.y = 0;
