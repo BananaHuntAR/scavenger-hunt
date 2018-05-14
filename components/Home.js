@@ -17,9 +17,8 @@ class Home extends React.Component {
       'nanum-pen-script': require('../assets/NanumScript.ttf'),
       'opensans-light': require('../assets/OpenSans-Light.ttf')
     });
-
     this.setState({ loaded: true });
-  }
+  };
 
   render() {
     const { navigation, currentUser, logoutFunc } = this.props;
@@ -55,7 +54,7 @@ class Home extends React.Component {
                   : navigation.navigate('Login');
               }}
             >
-              {currentUser.email ? 'Logout' : 'Login'}
+              {currentUser && currentUser.email ? 'null' : 'Login'}
             </Text>
           ) : null
         }
