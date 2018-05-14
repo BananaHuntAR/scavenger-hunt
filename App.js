@@ -6,7 +6,9 @@ import Home from './components/Home';
 import Game from './components/Game';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import GameOptionPage from './components/GameOptionPage'
 import Leaderboard from './components/Leaderboard';
+import CustomGameList from './components/CustomGameList'
 import TutorialNavigator from './components/TutorialNavigator';
 
 const RootNavigator = StackNavigator(
@@ -33,6 +35,12 @@ const RootNavigator = StackNavigator(
     },
     Leaderboard: {
       screen: Leaderboard
+    },
+    GameOptionPage: {
+      screen: GameOptionPage
+    },
+    CustomGameList: {
+      screen: CustomGameList
     }
   },
   {

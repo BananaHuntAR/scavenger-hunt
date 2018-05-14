@@ -56,5 +56,5 @@ export const logout = navigation => dispatch => {
 
 export function setUserAndRedirect(user, navigation, dispatch) {
   dispatch(setCurrentUser(user));
-  navigation.navigate('Home');
+  navigation.navigate('GameOptionPage');
 }
