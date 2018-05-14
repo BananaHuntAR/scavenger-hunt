@@ -10,6 +10,7 @@ import { Button, SocialIcon } from 'react-native-elements';
 import HomeIcon from './HomeIcon';
 import { connect } from 'react-redux';
 import { login } from '../store/auth';
+import domain from '../domain';
 
 class Login extends React.Component {
   constructor(props) {
@@ -165,7 +166,8 @@ const styles = StyleSheet.create({
   },
   loginButton: {
     alignSelf: 'center',
-    width: 290
+    width: 290,
+    height: 50
   },
   or: {
     fontSize: 20,
@@ -178,10 +180,12 @@ const styles = StyleSheet.create({
   googleButton: {
     alignSelf: 'center',
     width: 290,
-    backgroundColor: '#4885ed'
+    backgroundColor: '#4885ed',
+    height: 50
   },
   signupButton: {
-    alignSelf: 'center'
+    alignSelf: 'center',
+    height: 50
   },
   error: {
     fontSize: 15,

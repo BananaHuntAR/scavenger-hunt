@@ -81,7 +81,7 @@ class Signup extends React.Component {
             style={styles.textInput}
             autoCapitalize="none"
             autoCorrect={false}
-            maxLength={15}
+            maxLength={25}
             value={this.state.email}
             onChangeText={email => this.handleChangeEmail(email)}
           />
