@@ -202,39 +202,32 @@ const styles = StyleSheet.create({
 
 async function generateItems(scene, items, num) {
   // Creating items
-  // const geometry = new THREE.BoxGeometry(0.07, 0.07, 0.07); // creates template for a cube
-  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // creates color for a cube
+
+  var light1 = new THREE.DirectionalLight( 0xffffff );
+  var light2 = new THREE.DirectionalLight( 0xffffff );
+    light1.position.set( -3, 3, 0 ).normalize();
+    light2.position.set( 3, 3, 0 ).normalize();
+    scene.add(light1);
+    scene.add(light2);
+  const material = new THREE.MeshPhongMaterial( { ambient: 0x050505, color: '#FFFF00', specular: 0x555555, shininess: 50 } ); // color for banana
 
   const modelAsset = Asset.fromModule(require('../assets/banana.obj'));
   await modelAsset.downloadAsync();
-  // var ambientLight = new THREE.AmbientLight( 0xcccccc, 0.4 );
-  // scene.add( ambientLight );
-  // var pointLight = new THREE.PointLight( 0xffffff, 0.8 );
-  // camera.add( pointLight );
-  // scene.add( camera );
-
-
-
-
   const textureLoader = new THREE.TextureLoader();
   const texture = textureLoader.load('../assets/globe.jpg')
   const loader = new THREE.OBJLoader();
+
   const model = loader.load(modelAsset.localUri, function(object){
     object.traverse(function(child){
       if (child instanceof THREE.Mesh ){
-
-        console.log('you should see mesjdfljasdkfjsalkdfj');
-        // child.material.map = texture;
         child.material = material;
       }
     })
     object.position.z = 0;
     object.position.x = 0;
     object.position.y = 0;
-    // console.log('object: ', object);
     scene.add(object)
   })
-    // await Expo.FileSystem.readAsStringAsync(modelAsset.localUri))
 
   // - range / 2 < (x,y,z) < range / 2 (in meters)
   const randomizePosition = (range = 10) => {
@@ -242,9 +235,6 @@ async function generateItems(scene, items, num) {
   };
 
   for (let i = 0; i < num; i++) {
-    // const cube = new THREE.Mesh(model, material);
-    // console.log('??????', model.isMesh);
-    // randomizePosition(model);
     model.position.z = 0;
     model.position.x = 0;
     model.position.y = 0;
