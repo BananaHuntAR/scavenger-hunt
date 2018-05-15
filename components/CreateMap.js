@@ -14,6 +14,8 @@ import { connect } from 'react-redux';
 import { addItem, resetCustomItems } from '../store';
 import ExitButton from './ExitButton';
 import MapSubmitForm from './MapSubmitForm';
+const { _getLocationAsync } = require('../utils');
+
 console.disableYellowBox = true;
 // Turn off three.js warnings...
 const originalWarn = console.warn.bind( console )
@@ -30,9 +32,13 @@ class CreateMap extends React.Component {
       saveClicked: 0
     };
     this.gameItems = [];
+    this.geolocation = [];
   }
 
   componentDidMount() {
+    _getLocationAsync().then(location => {
+      this.geolocation = [location.coords.latitude, location.coords.longitude];
+    });
     this.props.resetCustomItems();
   }
 
@@ -128,7 +134,7 @@ class CreateMap extends React.Component {
             padding: 0
           }} textStyle={{ fontSize: 13 }} />
         </View>
-        <MapSubmitForm toSave={this.state.toSave} saveClicked={this.state.saveClicked} />
+        <MapSubmitForm toSave={this.state.toSave} saveClicked={this.state.saveClicked} geolocation={this.geolocation} />
       </View>
     );
   }

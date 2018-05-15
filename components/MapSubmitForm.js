@@ -20,7 +20,8 @@ class MapSubmitForm extends Component {
 
   static getDerivedStateFromProps(nextProps) {
     if (nextProps.toSave) {
-      return {modalVisible: true};
+      // console.log(nextProps.geolocation);
+      return { modalVisible: true, geolocation: nextProps.geolocation };
     }
     return null;
   }
@@ -67,7 +68,7 @@ class MapSubmitForm extends Component {
                 backgroundColor="white" color="black"
                 buttonStyle={styles.button}
                 onPress={() => {
-                  this.props.postMap(this.state.name, this.state.address, this.state.instructions, this.props.customItems)
+                  this.props.postMap(this.state.name, this.state.address, this.state.instructions, this.state.geolocation, this.props.customItems)
                   this.props.navigation.replace('GameOptionPage');
                 }} />
               <Button
@@ -131,11 +132,12 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    postMap(name, address, instructions, customItems) {
+    postMap(name, address, instructions, geolocation, customItems) {
       let map = {
         name,
         address,
         instructions,
+        geolocation,
         customItems
       }
       dispatch(postMap(map));
