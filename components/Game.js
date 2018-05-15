@@ -1,7 +1,8 @@
 import React from 'react';
 import * as THREE from 'three';
 import ExpoTHREE from 'expo-three';
-import Expo from 'expo';
+import Expo, { Asset } from 'expo';
+require('../utils/OBJLoader');
 import {
   View,
   NativeModules,
@@ -18,7 +19,12 @@ import ResultSubmitForm from './ResultSubmitForm';
 console.disableYellowBox = true;
 const { _getLocationAsync } = require('../utils');
 
-const capturedItemMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
+const capturedItemMaterial = new THREE.MeshPhongMaterial({
+  ambient: 0x050505,
+  color: 0xcccccc,
+  specular: 0x555555,
+  shininess: 100
+});
 
 class Game extends React.Component {
   constructor(props) {
@@ -46,11 +52,16 @@ class Game extends React.Component {
     this.setState({ isGameOver: true });
   }
 
+  // Capture button
   handlePress = () => {
     const currentCube = this.gameItems[this.state.itemInSight];
     // User captures an item, stop item from animating and turn its color to gray
     currentCube.speed = 0;
-    currentCube.material = capturedItemMaterial;
+    currentCube.traverse(function(child){
+      if (child instanceof THREE.Mesh ) {
+        child.material = capturedItemMaterial;
+      }
+    })
 
     // capturedItems increments by 1
     if (!currentCube.captured) {
@@ -78,9 +89,12 @@ class Game extends React.Component {
       this.arSession, // field of view
       width, // aspect ratio
       height, // aspect ratio
-      0.01, // near clipping plane
-      1000 // far clipping plane
+      0.01, // near clipping plane - sets outer fencing of AR field
+      1000 // far clipping plane - sets outer fencing of AR field
     );
+
+    // Lighting to show shading
+    generateLighting(scene);
 
     // Items are added to the AR scene
     generateItems(scene, this.gameItems, this.itemsNum);
@@ -90,20 +104,20 @@ class Game extends React.Component {
       const cameraPos = new THREE.Vector3(0, 0, 0);
       cameraPos.applyMatrix4(camera.matrixWorld);
 
-      this.gameItems.forEach((cube, idx) => {
+      this.gameItems.forEach((banana, idx) => {
         // Animates items for live movement
-        cube.rotation.x += cube.speed;
-        cube.rotation.y += cube.speed;
+        banana.rotation.x += banana.speed;
+        banana.rotation.y += banana.speed;
 
         // Updates state to indicate if an itemInSight and prompts capture button
         // .distanceTo(vector) returns the distance between the camera and the items
-        let dist = cube.position.distanceTo(camera.position);
+        let dist = banana.position.distanceTo(camera.position);
         if (this.state.itemInSight === null) {
-          if (dist < 0.3 && !cube.captured) {
+          if (dist < 0.6 && !banana.captured) {
             this.setState({ itemInSight: idx });
           }
         } else {
-          if (idx === this.state.itemInSight && dist > 0.3) {
+          if (idx === this.state.itemInSight && dist > 0.6) {
             this.setState({ itemInSight: null });
           }
         }
@@ -198,27 +212,57 @@ const styles = StyleSheet.create({
   }
 });
 
-function generateItems(scene, items, num) {
-  // Creating items
-  const geometry = new THREE.BoxGeometry(0.07, 0.07, 0.07); // creates template for a cube
-  const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // creates color for a cube
+// - range / 2 < (x,y,z) < range / 2 (in meters)
+const randomizePosition = (range = 10) => {
+  return Math.random() * range - range / 2;
+};
 
-  // - range / 2 < (x,y,z) < range / 2 (in meters)
-  const randomizePosition = (range = 10) => {
-    return Math.random() * range - range / 2;
-  };
+async function generateItems(scene, items, num) {
+  // Load banana3.obj file from file system
+  const modelAsset = Asset.fromModule(require('../assets/banana3.obj'));
+  await modelAsset.downloadAsync();
 
-  for (let i = 0; i < num; i++) {
-    const cube = new THREE.Mesh(geometry, material);
-    randomizePosition(cube);
-    cube.position.z = randomizePosition(1); // (-5, 5) meters
-    cube.position.x = randomizePosition(1); // (-5, 5) meters
-    cube.position.y = randomizePosition(1); // (-0.5, 0.5) meters
-    cube.speed = 0.05;
-    cube.captured = false;
-    scene.add(cube);
-    items.push(cube);
-  }
+  const bananaMaterial = new THREE.MeshPhongMaterial({
+    ambient: 0x050505,
+    color: '#FFFF00',
+    specular: 0x555555,
+    shininess: 100
+  });
+  const loader = new THREE.OBJLoader();
+
+  // Makes use of loaded banana
+  loader.load(modelAsset.localUri, function(object){
+    //Adds color to banana but will need lighting to see it
+    //See generateLighting function
+    object.traverse(function(child){
+      if (child instanceof THREE.Mesh ) {
+        child.material = bananaMaterial;
+      }
+    })
+
+    for (let i = 0; i < num; i++) {
+      let banana = object.clone();
+      banana.position.z = randomizePosition(2);  // (-5, 5) meters
+      banana.position.x = randomizePosition(2);  // (-5, 5) meters
+      banana.position.y = randomizePosition(1); // (-0.5, 0.5) meters
+      banana.speed = 0.02;
+      banana.captured = false;
+      scene.add(banana);
+      items.push(banana);
+    }
+  })
+}
+
+function generateLighting(scene) {
+  const leftLight = new THREE.DirectionalLight( 0xffffff );
+  const rightLight = new THREE.DirectionalLight( 0xffffff );
+  const bottomLight = new THREE.DirectionalLight( 0xffffff );
+    leftLight.position.set( -3, 5, 0 ).normalize();
+    rightLight.position.set( 3, 5, 0 ).normalize();
+    bottomLight.position.set( 0, -5, 0 ).normalize();
+    scene.add(leftLight);
+    scene.add(rightLight);
+    scene.add(bottomLight);
 }
 
 const mapState = state => {
