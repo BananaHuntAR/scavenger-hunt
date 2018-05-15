@@ -16,7 +16,11 @@ import { incrementItems, resetItems } from '../store';
 import ExitButton from './ExitButton';
 import Timer from './Timer';
 import ResultSubmitForm from './ResultSubmitForm';
+
 console.disableYellowBox = true;
+// Turn off three.js warnings...
+const originalWarn = console.warn.bind( console )
+console.warn = (text) => !text.includes('THREE') && originalWarn(text);
 
 const capturedItemMaterial = new THREE.MeshPhongMaterial({
   color: 0xcccccc,
@@ -220,7 +224,6 @@ async function generateItems(scene, items, num) {
   await modelAsset.downloadAsync();
 
   const bananaMaterial = new THREE.MeshPhongMaterial({
-    ambient: 0x050505,
     color: '#FFFF00',
     specular: 0x555555,
     shininess: 100
