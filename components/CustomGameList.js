@@ -22,8 +22,15 @@ class CustomGameList extends Component {
         <Content>
           {this.props.customMaps &&
             this.props.customMaps.map(customMap => {
-              return <MapCard customMap={customMap} key={customMap.id} />;
-            })}
+              return (
+                <MapCard
+                  button
+                  customMap={customMap}
+                  key={customMap.id}
+                />
+              )
+            }
+          )}
         </Content>
       </View>
     );

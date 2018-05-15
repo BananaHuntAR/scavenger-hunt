@@ -9,15 +9,17 @@ import capturedItems from './capturedItems';
 import users from './users';
 import customMaps from './customMaps';
 import customItems from './customItems';
+import selectedMap from './selectedMap';
 
 const reducer = combineReducers({
-  results,
-  time,
-  capturedItems,
-  currentUser,
-  users,
-  customMaps,
-  customItems
+  results, //[]
+  time, //0
+  capturedItems, //0
+  currentUser, //{}
+  users, //
+  customMaps, //[]
+  customItems, // []
+  selectedMap //{}
 });
 const middleware = composeWithDevTools(
   applyMiddleware(
@@ -35,3 +37,4 @@ export * from './capturedItems';
 export * from './users';
 export * from './customMaps';
 export * from './customItems';
+export * from './selectedMap';
