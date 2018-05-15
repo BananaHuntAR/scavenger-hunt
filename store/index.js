@@ -10,16 +10,18 @@ import userResults from './userResults';
 import userMaps from './userMaps';
 import customMaps from './customMaps';
 import customItems from './customItems';
+import selectedMap from './selectedMap';
 
 const reducer = combineReducers({
-  results,
-  time,
-  capturedItems,
-  currentUser,
-  userResults,
-  userMaps,
-  customMaps,
-  customItems
+  results, // intial value: []
+  time, // intial value: 0
+  capturedItems, // intial value: 0
+  currentUser, // intial value: {}
+  userResults, // intial value: []
+  userMaps, // intial value: []
+  customMaps, // intial value: []
+  customItems, // intial value: []
+  selectedMap // intial value: {}
 });
 const middleware = composeWithDevTools(
   applyMiddleware(
@@ -38,3 +40,4 @@ export * from './userResults';
 export * from './userMaps';
 export * from './customMaps';
 export * from './customItems';
+export * from './selectedMap';

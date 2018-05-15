@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import * as THREE from 'three';
 import ExpoTHREE from 'expo-three';
 import Expo, { Asset } from 'expo';
@@ -12,15 +12,12 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { incrementItems, resetItems } from '../store';
+import { incrementItems, resetItems, clearSelectedMap } from '../store';
 import ExitButton from './ExitButton';
 import Timer from './Timer';
 import ResultSubmitForm from './ResultSubmitForm';
 
 console.disableYellowBox = true;
-// Turn off three.js warnings...
-const originalWarn = console.warn.bind( console )
-console.warn = (text) => !text.includes('THREE') && originalWarn(text);
 
 const capturedItemMaterial = new THREE.MeshPhongMaterial({
   color: 0xcccccc,
@@ -28,24 +25,43 @@ const capturedItemMaterial = new THREE.MeshPhongMaterial({
   shininess: 100
 });
 
-class Game extends React.Component {
+class Game extends Component {
   constructor(props) {
     super(props);
     this.state = {
       itemInSight: null,
-      isGameOver: false
+      isGameOver: false,
+      customGame: false
     };
     this.gameItems = [];
-    this.itemsNum = 2;
+    this.itemsNum = 10;
   }
 
   componentDidMount() {
+    this.gameItems = [];
     this.props.resetItems();
+    if (Object.keys(this.props.selectedMap).length !== 0){
+      // this.setState({customGame: true, selectedMap: this.props.selectedMap}) //Prompted not to setState in componentDidMount
+      // console.log("i've selected a game", this.props.selectedMap);
+    }
   }
 
   componentDidUpdate() {
     if (this.props.capturedItems === this.itemsNum && !this.state.isGameOver) {
       this.gameOver();
+    }
+  }
+
+  // Kill ARSession and cancel animation frame request
+  async componentWillUnmount() {
+    this.props.clearSelectedMap();
+    cancelAnimationFrame(this.gameRequest);
+    try {
+      await NativeModules.ExponentGLViewManager.stopARSessionAsync(
+        this.arSession.sessionId
+      );
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -73,19 +89,25 @@ class Game extends React.Component {
 
   // Creates AR experience
   _onGLContextCreate = async gl => {
+    //1. Starts an AR session
+    this.arSession = await this._glView.startARSessionAsync();
+
+    //2. Get view dimensions
     const width = gl.drawingBufferWidth;
     const height = gl.drawingBufferHeight;
-    // Starts an AR session
-    this.arSession = await this._glView.startARSessionAsync();
+
+    //3. Create a renderer (`Expo.GLView`-compatible THREE)
     const renderer = ExpoTHREE.createRenderer({ gl });
     renderer.setSize(width, height);
-    const scene = new THREE.Scene();
 
+    //4. Set the scene (Creates video feed)
+    const scene = new THREE.Scene();
     scene.background = ExpoTHREE.createARBackgroundTexture(
       this.arSession,
       renderer
     );
 
+    //5. Set up AR camera
     const camera = ExpoTHREE.createARCamera(
       this.arSession, // field of view
       width, // aspect ratio
@@ -94,15 +116,24 @@ class Game extends React.Component {
       1000 // far clipping plane - sets outer fencing of AR field
     );
 
-    // Lighting to show shading
+    //6. Add lighting to the AR scene to show shading
     generateLighting(scene);
 
-    // Items are added to the AR scene
-    generateItems(scene, this.gameItems, this.itemsNum);
+    //7. Items are added to the AR scene
+    if (Object.keys(this.props.selectedMap).length !== 0){
+      //Custom map
+      // this.itemsNum = this.props.selectedMap.customItems.length
+      generateItems(scene, this.gameItems, this.props.selectedMap.customItems.length, this.props.selectedMap.customItems);
+    } else {
+      //Random map
+      generateItems(scene, this.gameItems, this.itemsNum);
+    }
 
+    const cameraPos = new THREE.Vector3(0, 0, 0);
+
+    //8. Start animation (listener for events)
     const animate = () => {
       camera.position.setFromMatrixPosition(camera.matrixWorld);
-      const cameraPos = new THREE.Vector3(0, 0, 0);
       cameraPos.applyMatrix4(camera.matrixWorld);
 
       this.gameItems.forEach((banana, idx) => {
@@ -132,24 +163,14 @@ class Game extends React.Component {
     animate();
   };
 
-  // Kill ARSession and cancel animation frame request
-  async componentWillUnmount() {
-    cancelAnimationFrame(this.gameRequest);
-    try {
-      await NativeModules.ExponentGLViewManager.stopARSessionAsync(
-        this.arSession.sessionId
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  }
-
   render() {
     return (
       <View style={{ flex: 1 }}>
         <StatusBar hidden={true} />
 
         <Expo.GLView
+          // Create an `Expo.GLView` covering the whole screen,
+          // tell it to call our `_onGLContextCreate` function once it's initialized.
           ref={ref => (this._glView = ref)}
           style={{ flex: 1 }}
           onContextCreate={this._onGLContextCreate}
@@ -218,7 +239,7 @@ const randomizePosition = (range = 10) => {
   return Math.random() * range - range / 2;
 };
 
-async function generateItems(scene, items, num) {
+async function generateItems(scene, items, num, customItems) {
   // Load banana3.obj file from file system
   const modelAsset = Asset.fromModule(require('../assets/banana3.obj'));
   await modelAsset.downloadAsync();
@@ -242,9 +263,16 @@ async function generateItems(scene, items, num) {
 
     for (let i = 0; i < num; i++) {
       let banana = object.clone();
-      banana.position.z = randomizePosition(2);  // (-5, 5) meters
-      banana.position.x = randomizePosition(2);  // (-5, 5) meters
-      banana.position.y = randomizePosition(1); // (-0.5, 0.5) meters
+      if (customItems){
+        console.log('customItems[i]: ', customItems[i]);
+        banana.position.z = customItems[i].z;
+        banana.position.x = customItems[i].x;
+        banana.position.y = customItems[i].y;
+      } else {
+        banana.position.z = randomizePosition(2);  // (-5, 5) meters
+        banana.position.x = randomizePosition(2);  // (-5, 5) meters
+        banana.position.y = randomizePosition(1); // (-0.5, 0.5) meters
+      }
       banana.speed = 0.02;
       banana.captured = false;
       scene.add(banana);
@@ -266,7 +294,10 @@ function generateLighting(scene) {
 }
 
 const mapState = state => {
-  return { capturedItems: state.capturedItems };
+  return {
+    capturedItems: state.capturedItems,
+    selectedMap: state.selectedMap
+  };
 };
 
 const mapDispatch = dispatch => {
@@ -276,6 +307,9 @@ const mapDispatch = dispatch => {
     },
     resetItems() {
       dispatch(resetItems());
+    },
+    clearSelectedMap() {
+      dispatch(clearSelectedMap());
     }
   };
 };
