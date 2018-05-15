@@ -30,21 +30,21 @@ export default function reducer(currentUser = {}, action) {
 /* ------------       THUNK CREATORS     ------------------ */
 
 export const login = (credentials, navigation) => dispatch => {
-  axios
+  return axios
     .put(`${domain}/auth/login`, credentials)
     .then(res => setUserAndRedirect(res.data, navigation, dispatch))
     .catch(() => navigation.navigate('Login', { error: 'Login failed.' }));
 };
 
 export const signup = (credentials, navigation) => dispatch => {
-  axios
+  return axios
     .post(`${domain}/auth/signup`, credentials)
     .then(res => setUserAndRedirect(res.data, navigation, dispatch))
     .catch(() => navigation.navigate('Home', { error: 'Signup failed.' }));
 };
 
 export const logout = navigation => dispatch => {
-  axios
+  return axios
     .delete(`${domain}/auth/logout`)
     .then(() => {
       dispatch(removeCurrentUser());
@@ -57,5 +57,5 @@ export const logout = navigation => dispatch => {
 
 export function setUserAndRedirect(user, navigation, dispatch) {
   dispatch(setCurrentUser(user));
-  navigation.navigate('GameOptionPage');
+  navigation.navigate('UserProfile', { currentUser: user });
 }

@@ -16,7 +16,7 @@ import ExitButton from './ExitButton';
 import Timer from './Timer';
 import ResultSubmitForm from './ResultSubmitForm';
 console.disableYellowBox = true;
-const { _getLocationAsync } = require('../utils/util');
+const { _getLocationAsync } = require('../utils');
 
 const capturedItemMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
 

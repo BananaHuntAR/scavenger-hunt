@@ -29,7 +29,7 @@ const GameOptionPage = ({ navigation }) => (
       />
       <Button
         style={styles.gameOptionBtn}
-        onPress={() => navigation.navigate('CreateMap')}
+        onPress={() => navigation.navigate('CustomInstructions')}
         raised
         rounded
         title="Create Custom Game"
