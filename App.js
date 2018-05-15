@@ -6,10 +6,12 @@ import Home from './components/Home';
 import Game from './components/Game';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import UserProfile from './components/UserProfile';
 import GameOptionPage from './components/GameOptionPage';
 import Leaderboard from './components/Leaderboard';
 import CustomGameList from './components/CustomGameList';
-import TutorialNavigator from './components/TutorialNavigator';
+import TutorialNavigator from './components/Navigators/TutorialNavigator';
+import CustomTutorialNavigator from './components/Navigators/CustomTutorialNavigator';
 import { isSignedIn } from './auth';
 
 const RootNavigator = StackNavigator(
@@ -17,16 +19,20 @@ const RootNavigator = StackNavigator(
     Home: {
       screen: Home,
       navigationOptions: {
-        swipeEnabled: true,
         headerLeft: null
       }
     },
     Login: {
       screen: Login
     },
+    UserProfile: {
+      screen: UserProfile,
+      navigationOptions: {
+        gesturesEnabled: false
+      }
+    },
     Signup: {
-      screen: Signup,
-      swipeEnabled: true
+      screen: Signup
     },
     Instructions: {
       screen: TutorialNavigator
@@ -42,6 +48,9 @@ const RootNavigator = StackNavigator(
     },
     CustomGameList: {
       screen: CustomGameList
+    },
+    CustomInstructions: {
+      screen: CustomTutorialNavigator
     }
   },
   {
