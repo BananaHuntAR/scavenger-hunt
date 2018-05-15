@@ -42,18 +42,8 @@ const CustomTutorialNavigator = TabNavigator(
           iconName={'ios-share-outline'}
         />
       )
-    },
-    CustomTutorialStepFive: {
-      screen: () => (
-        <TutorialStep
-          title={'Input Instructions to Start'}
-          desc={`Once you're all set, hit "Save." Now others can participate in your banana hunt as well!`}
-          iconName={'ios-share-outline'}
-        />
-      )
     }
   },
-
   {
     navigationOptions: () => ({
       tabBarIcon: ({ tintColor }) => (

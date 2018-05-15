@@ -22,7 +22,7 @@ const _getLocationAsync = () => {
 const skipTutorialNavigation = (navigation, title) => {
   const titles = ['Game Overview', 'How to Play', 'Mission'];
   if (titles.includes(title)) return navigation.navigate('Home');
-  else return navigation.navigate('CreateMap');
+  else return navigation.navigate('InputInstructions');
 };
 
 module.exports = {
