@@ -11,7 +11,7 @@ const CustomTutorialNavigator = TabNavigator(
         <TutorialStep
           //passing title & desc props so that we can reuse our TutorialStep component
           title={'Pin Location'}
-          desc={`The first step is to pin your current location as the starting point.`}
+          desc={`Banana Hunt will ask to access your location, so that it can be pinned as the starting point.`}
           iconName={'ios-pin'}
         />
       )
@@ -38,6 +38,15 @@ const CustomTutorialNavigator = TabNavigator(
       screen: () => (
         <TutorialStep
           title={'Save Map'}
+          desc={`Once you're all set, hit "Save." Now others can participate in your banana hunt as well!`}
+          iconName={'ios-share-outline'}
+        />
+      )
+    },
+    CustomTutorialStepFive: {
+      screen: () => (
+        <TutorialStep
+          title={'Input Instructions to Start'}
           desc={`Once you're all set, hit "Save." Now others can participate in your banana hunt as well!`}
           iconName={'ios-share-outline'}
         />
