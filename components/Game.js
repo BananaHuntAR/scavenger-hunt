@@ -21,7 +21,12 @@ console.disableYellowBox = true;
 const originalWarn = console.warn.bind( console )
 console.warn = (text) => !text.includes('THREE') && originalWarn(text);
 
-const capturedItemMaterial = new THREE.MeshBasicMaterial({ color: 0xcccccc });
+const capturedItemMaterial = new THREE.MeshPhongMaterial({
+  ambient: 0x050505,
+  color: 0xcccccc,
+  specular: 0x555555,
+  shininess: 100
+});
 
 class Game extends React.Component {
   constructor(props) {
@@ -66,7 +71,11 @@ class Game extends React.Component {
     const currentCube = this.gameItems[this.state.itemInSight]
     // User captures an item, stop item from animating and turn its color to gray
     currentCube.speed = 0;
-    currentCube.material = capturedItemMaterial;
+    currentCube.traverse(function(child){
+      if (child instanceof THREE.Mesh ) {
+        child.material = capturedItemMaterial;
+      }
+    })
 
     // capturedItems increments by 1
     if ( !currentCube.captured ) {
@@ -94,20 +103,12 @@ class Game extends React.Component {
       this.arSession, // field of view
       width, // aspect ratio
       height, // aspect ratio
-      0.01, // near clipping plane
-      1000 // far clipping plane
+      0.01, // near clipping plane - sets outer fencing of AR field
+      1000 // far clipping plane - sets outer fencing of AR field
     );
 
     // Lighting to show shading
-    const leftLight = new THREE.DirectionalLight( 0xffffff );
-    const rightLight = new THREE.DirectionalLight( 0xffffff );
-    const bottomLight = new THREE.DirectionalLight( 0xffffff );
-      leftLight.position.set( -3, 5, 0 ).normalize();
-      rightLight.position.set( 3, 5, 0 ).normalize();
-      bottomLight.position.set( 0, -5, 0 ).normalize();
-      scene.add(leftLight);
-      scene.add(rightLight);
-      scene.add(bottomLight);
+    generateLighting(scene);
 
     // Items are added to the AR scene
     generateItems(scene, this.gameItems, this.itemsNum);
@@ -126,11 +127,11 @@ class Game extends React.Component {
         // .distanceTo(vector) returns the distance between the camera and the items
         let dist = banana.position.distanceTo(camera.position);
         if (this.state.itemInSight === null) {
-          if (dist < 0.3 && !banana.captured) {
+          if (dist < 0.7 && !banana.captured) {
             this.setState({ itemInSight: idx });
           }
         } else {
-          if (idx === this.state.itemInSight && dist > 0.3) {
+          if (idx === this.state.itemInSight && dist > 0.7) {
             this.setState({ itemInSight: null });
           }
         }
@@ -216,7 +217,7 @@ const randomizePosition = (range = 10) => {
 };
 
 async function generateItems(scene, items, num) {
-  const modelAsset = Asset.fromModule(require('../assets/banana1.obj'));
+  const modelAsset = Asset.fromModule(require('../assets/banana2.obj'));
   await modelAsset.downloadAsync();
 
   const bananaMaterial = new THREE.MeshPhongMaterial({
@@ -231,7 +232,6 @@ async function generateItems(scene, items, num) {
     object.traverse(function(child){
       if (child instanceof THREE.Mesh ) {
         child.material = bananaMaterial;
-        console.log('child: ', child.material);
       }
     })
 
@@ -246,6 +246,18 @@ async function generateItems(scene, items, num) {
       items.push(banana);
     }
   })
+}
+
+function generateLighting(scene) {
+  const leftLight = new THREE.DirectionalLight( 0xffffff );
+  const rightLight = new THREE.DirectionalLight( 0xffffff );
+  const bottomLight = new THREE.DirectionalLight( 0xffffff );
+    leftLight.position.set( -3, 5, 0 ).normalize();
+    rightLight.position.set( 3, 5, 0 ).normalize();
+    bottomLight.position.set( 0, -5, 0 ).normalize();
+    scene.add(leftLight);
+    scene.add(rightLight);
+    scene.add(bottomLight);
 }
 
 const mapState = state => {
