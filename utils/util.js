@@ -1,3 +1,5 @@
+import { Location, Permissions } from 'expo';
+
 const convertToTime = time => {
   let minutes = Math.floor(time / 60);
   let seconds = time - minutes * 60;
@@ -5,6 +7,19 @@ const convertToTime = time => {
   return `${minutes}:${seconds}`;
 };
 
+const _getLocationAsync = () => {
+  Permissions.askAsync(Permissions.LOCATION).then(result => {
+    if (result.status !== 'granted') {
+      return 'Access to location denied';
+    }
+  });
+  let location = Location.getCurrentPositionAsync({
+    enableHighAccuracy: true
+  });
+  return location;
+};
+
 module.exports = {
-  convertToTime
-}
+  convertToTime,
+  _getLocationAsync
+};
