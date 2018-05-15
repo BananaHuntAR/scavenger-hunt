@@ -22,7 +22,6 @@ const _getLocationAsync = () => {
 const skipTutorialNavigation = (navigation, title) => {
   const titles = ['Game Overview', 'How to Play', 'Mission'];
   if (titles.includes(title)) return navigation.navigate('Home');
-  //once CreateCustomMap screen is complete navigate there
   else return navigation.navigate('CreateMap');
 };
 

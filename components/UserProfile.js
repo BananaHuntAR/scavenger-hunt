@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
-import { Text, Card, Divider, ListItem } from 'react-native-elements';
+import { Card, ListItem, Text } from 'react-native-elements';
 import HomeIcon from './HomeIcon';
 import { connect } from 'react-redux';
 import { fetchCustomMapsByUserThunk, fetchResultsByUserThunk } from '../store';
@@ -14,32 +14,36 @@ class UserProfile extends React.Component {
 
   render() {
     //currentUser was passed as a prop on navigation from Toolbar
-    const { userResults, userMaps } = this.props;
-    console.log(userResults);
+    const { userResults, userMaps, navigation } = this.props;
     return (
       <View style={styles.container}>
         <ScrollView>
           <HomeIcon />
-          <Card title="Past Results">
+          <Text style={styles.text}>My Account</Text>
+          <Card title="Past Results" containerStyle={styles.card}>
             {userResults &&
               userResults.map(result => {
                 return (
                   <ListItem
+                    hideChevron
                     key={result.id}
-                    style={styles.card}
                     title={result.time}
+                    subtitle={result.createdAt.slice(0, 10)}
                   />
                 );
               })}
           </Card>
-          <Card title="Created Maps">
+          <Card title="Created Maps" containerStyle={styles.card}>
             {userMaps &&
-              userMaps.map(result => {
+              userMaps.map(map => {
                 return (
                   <ListItem
-                    key={result.id}
-                    style={styles.card}
-                    title={result.time}
+                    key={map.id}
+                    title={map.name}
+                    subtitle={map.createdAt.slice(0, 10)}
+                    onPress={() =>
+                      navigation.navigate('Game', { customMap: map })
+                    }
                   />
                 );
               })}
@@ -69,9 +73,18 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     flex: 1
   },
-  card: {},
+  card: {
+    width: 280,
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    borderColor: 'gray',
+    borderWidth: 5,
+    borderRadius: 25
+  },
   text: {
-    color: 'black'
+    color: 'white',
+    fontSize: 20,
+    alignSelf: 'center'
   }
 });
 

@@ -6,7 +6,8 @@ import currentUser from './auth';
 import results from './results';
 import time from './time';
 import capturedItems from './capturedItems';
-import users from './users';
+import userResults from './userResults';
+import userMaps from './userMaps';
 import customMaps from './customMaps';
 import customItems from './customItems';
 
@@ -15,7 +16,8 @@ const reducer = combineReducers({
   time,
   capturedItems,
   currentUser,
-  users,
+  userResults,
+  userMaps,
   customMaps,
   customItems
 });
@@ -32,6 +34,7 @@ export * from './auth';
 export * from './results';
 export * from './time';
 export * from './capturedItems';
-export * from './users';
+export * from './userResults';
+export * from './userMaps';
 export * from './customMaps';
 export * from './customItems';
