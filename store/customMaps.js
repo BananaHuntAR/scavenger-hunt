@@ -11,9 +11,9 @@ export const fetchCustomMaps = customMaps => ({
   customMaps
 });
 
-export const fetchCustomMapsByUser = user => ({
+export const fetchCustomMapsByUser = userMaps => ({
   type: FETCH_CUSTOM_MAPS_BY_USER,
-  user
+  userMaps
 });
 
 // THUNK CREATORS
@@ -29,7 +29,7 @@ export const fetchCustomMapsByUserThunk = userId => dispatch => {
   return axios
     .get(`${domain}/api/users/${userId}/customMaps`)
     .then(res => res.data)
-    .then(user => dispatch(fetchCustomMapsByUser(user)));
+    .then(userMaps => dispatch(fetchCustomMapsByUser(userMaps)));
 };
 
 // REDUCER
@@ -38,7 +38,7 @@ export default function(state = [], action) {
     case FETCH_CUSTOM_MAPS:
       return action.customMaps;
     case FETCH_CUSTOM_MAPS_BY_USER:
-      return state.filter(customMap => customMap.userId === action.user.id);
+      return action.userMaps;
     default:
       return state;
   }
