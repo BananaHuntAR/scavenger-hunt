@@ -113,11 +113,11 @@ class Game extends React.Component {
         // .distanceTo(vector) returns the distance between the camera and the items
         let dist = banana.position.distanceTo(camera.position);
         if (this.state.itemInSight === null) {
-          if (dist < 0.7 && !banana.captured) {
+          if (dist < 0.6 && !banana.captured) {
             this.setState({ itemInSight: idx });
           }
         } else {
-          if (idx === this.state.itemInSight && dist > 0.7) {
+          if (idx === this.state.itemInSight && dist > 0.6) {
             this.setState({ itemInSight: null });
           }
         }
@@ -218,7 +218,8 @@ const randomizePosition = (range = 10) => {
 };
 
 async function generateItems(scene, items, num) {
-  const modelAsset = Asset.fromModule(require('../assets/banana2.obj'));
+  // Load banana3.obj file from file system
+  const modelAsset = Asset.fromModule(require('../assets/banana3.obj'));
   await modelAsset.downloadAsync();
 
   const bananaMaterial = new THREE.MeshPhongMaterial({
@@ -229,7 +230,10 @@ async function generateItems(scene, items, num) {
   });
   const loader = new THREE.OBJLoader();
 
+  // Makes use of loaded banana
   loader.load(modelAsset.localUri, function(object){
+    //Adds color to banana but will need lighting to see it
+    //See generateLighting function
     object.traverse(function(child){
       if (child instanceof THREE.Mesh ) {
         child.material = bananaMaterial;
