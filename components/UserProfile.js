@@ -7,7 +7,7 @@ import { fetchCustomMapsByUserThunk, fetchResultsByUserThunk } from '../store';
 
 class UserProfile extends React.Component {
   componentDidMount() {
-    const currentUser = this.props.navigation.state.params.currentUser;
+    const { currentUser } = this.props;
     this.props.loadPastResults(+currentUser.id);
     this.props.loadCustomMaps(+currentUser.id);
   }
@@ -56,7 +56,8 @@ class UserProfile extends React.Component {
 
 const mapStateToProps = storeState => ({
   userResults: storeState.userResults,
-  userMaps: storeState.userMaps
+  userMaps: storeState.userMaps,
+  currentUser: storeState.currentUser
 });
 
 const mapDispatchToProps = dispatch => ({
