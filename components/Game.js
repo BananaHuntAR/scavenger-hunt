@@ -17,10 +17,8 @@ import ExitButton from './ExitButton';
 import Timer from './Timer';
 import ResultSubmitForm from './ResultSubmitForm';
 console.disableYellowBox = true;
-const { _getLocationAsync } = require('../utils');
 
 const capturedItemMaterial = new THREE.MeshPhongMaterial({
-  ambient: 0x050505,
   color: 0xcccccc,
   specular: 0x555555,
   shininess: 100
@@ -38,7 +36,6 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
-    _getLocationAsync().then(location => console.log(location.coords));
     this.props.resetItems();
   }
 
