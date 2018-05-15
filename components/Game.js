@@ -40,6 +40,9 @@ class Game extends Component {
   componentDidMount() {
     _getLocationAsync().then(location => console.log(location.coords));
     this.props.resetItems();
+    if (Object.keys(this.props.selectedMap)){
+      console.log("i've selected a game", this.props.selectedMap);
+    }
   }
 
   componentDidUpdate() {
@@ -266,7 +269,10 @@ function generateLighting(scene) {
 }
 
 const mapState = state => {
-  return { capturedItems: state.capturedItems };
+  return {
+    capturedItems: state.capturedItems,
+    selectedMap: state.selectedMap
+  };
 };
 
 const mapDispatch = dispatch => {

@@ -12,7 +12,7 @@ export const clearSelectedMap = () => ({ type: CLEAR_SELECTED_MAP });
 export default function reducer (state = {}, action) {
   switch (action.type) {
     case SELECT_MAP:
-      return action.customMap;
+      return { selectedMap: action.customMap};
     case CLEAR_SELECTED_MAP:
       return {};
     default:
