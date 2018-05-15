@@ -3,11 +3,17 @@ import domain from '../domain.js';
 
 // ACTION TYPES
 const FETCH_RESULTS = 'FETCH_RESULTS';
+const FETCH_RESULTS_BY_USER = 'FETCH_RESULTS_BY_USER';
 
 // ACTION CREATORS
 export const fetchResults = results => ({
   type: FETCH_RESULTS,
   results
+});
+
+export const fetchResultsByUser = user => ({
+  type: FETCH_RESULTS_BY_USER,
+  user
 });
 
 // THUNK CREATORS
@@ -18,11 +24,20 @@ export const fetchResultsThunk = () => dispatch => {
     .catch(err => console.error(err));
 };
 
+export const fetchCustomResultsByUserThunk = userId => dispatch => {
+  return axios
+    .get(`${domain}/api/users/${userId}/results`)
+    .then(res => res.data)
+    .then(user => dispatch(fetchResultsByUser(user)));
+};
+
 // REDUCER
 export default function(state = [], action) {
   switch (action.type) {
     case FETCH_RESULTS:
       return action.results;
+    case FETCH_RESULTS_BY_USER:
+      return state.filter(result => result.userId === action.user.id);
     default:
       return state;
   }

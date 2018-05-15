@@ -52,7 +52,7 @@ class Home extends React.Component {
           </Text>
         ) : null}
 
-        <Toolbar />
+        <Toolbar currentUser={currentUser} />
       </View>
     );
   }
