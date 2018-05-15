@@ -99,6 +99,14 @@ class Game extends React.Component {
       1000 // far clipping plane
     );
 
+    // Lighting to show shading
+    const leftLight = new THREE.DirectionalLight( 0xffffff );
+    const rightLight = new THREE.DirectionalLight( 0xffffff );
+      leftLight.position.set( -3, 5, 0 ).normalize();
+      rightLight.position.set( 3, 5, 0 ).normalize();
+      scene.add(leftLight);
+      scene.add(rightLight);
+
     // Items are added to the AR scene
     generateItems(scene, this.gameItems, this.itemsNum);
 
@@ -107,16 +115,16 @@ class Game extends React.Component {
       const cameraPos = new THREE.Vector3(0, 0, 0);
       cameraPos.applyMatrix4(camera.matrixWorld);
 
-      this.gameItems.forEach((cube, idx) => {
+      this.gameItems.forEach((banana, idx) => {
         // Animates items for live movement
-        // cube.rotation.x += cube.speed;
-        // cube.rotation.y += cube.speed;
+        banana.rotation.x += banana.speed;
+        banana.rotation.y += banana.speed;
 
         // Updates state to indicate if an itemInSight and prompts capture button
         // .distanceTo(vector) returns the distance between the camera and the items
-        let dist = cube.position.distanceTo(camera.position);
+        let dist = banana.position.distanceTo(camera.position);
         if (this.state.itemInSight === null) {
-          if (dist < 0.3 && !cube.captured) {
+          if (dist < 0.3 && !banana.captured) {
             this.setState({ itemInSight: idx });
           }
         } else {
@@ -203,49 +211,32 @@ const styles = StyleSheet.create({
 async function generateItems(scene, items, num) {
   // Creating items
 
-  var light1 = new THREE.DirectionalLight( 0xffffff );
-  var light2 = new THREE.DirectionalLight( 0xffffff );
-    light1.position.set( -3, 3, 0 ).normalize();
-    light2.position.set( 3, 3, 0 ).normalize();
-    scene.add(light1);
-    scene.add(light2);
-  const material = new THREE.MeshPhongMaterial( { ambient: 0x050505, color: '#FFFF00', specular: 0x555555, shininess: 50 } ); // color for banana
+  // Color for banana
+  const material = new THREE.MeshPhongMaterial( { ambient: 0x050505, color: '#FFFF00', specular: 0x555555, shininess: 100 } );
 
-  const modelAsset = Asset.fromModule(require('../assets/banana.obj'));
+  const modelAsset = Asset.fromModule(require('../assets/banana1.obj'));
   await modelAsset.downloadAsync();
-  const textureLoader = new THREE.TextureLoader();
-  const texture = textureLoader.load('../assets/globe.jpg')
   const loader = new THREE.OBJLoader();
-
-  const model = loader.load(modelAsset.localUri, function(object){
-    object.traverse(function(child){
-      if (child instanceof THREE.Mesh ){
-        child.material = material;
-      }
-    })
-    object.position.z = 0;
-    object.position.x = 0;
-    object.position.y = 0;
-    scene.add(object)
-  })
 
   // - range / 2 < (x,y,z) < range / 2 (in meters)
   const randomizePosition = (range = 10) => {
     return Math.random() * range - range / 2;
   };
 
-  for (let i = 0; i < num; i++) {
-    model.position.z = 0;
-    model.position.x = 0;
-    model.position.y = 0;
-    // model.position.z = randomizePosition(1);  // (-5, 5) meters
-    // model.position.x = randomizePosition(1);  // (-5, 5) meters
-    // model.position.y = randomizePosition(1); // (-0.5, 0.5) meters
-    model.speed = 0.05
-    model.captured = false;
-    scene.add(model);
-    items.push(model);
-  }
+  loader.load(modelAsset.localUri, function(banana){
+    for (let i = 0; i < num; i++) {
+      banana.traverse(function(child){
+        if (child instanceof THREE.Mesh ) child.material = material;
+      })
+      banana.position.z = randomizePosition(5);  // (-5, 5) meters
+      banana.position.x = randomizePosition(5);  // (-5, 5) meters
+      banana.position.y = randomizePosition(1); // (-0.5, 0.5) meters
+      banana.speed = 0.02;
+      banana.captured = false;
+      scene.add(banana);
+      items.push(banana);
+    }
+  })
 }
 
 
@@ -265,3 +256,14 @@ const mapDispatch = dispatch => {
 }
 
 export default connect(mapState, mapDispatch)(Game);
+
+    // model.position.z = randomizePosition(1);  // (-5, 5) meters
+    // model.position.x = randomizePosition(1);  // (-5, 5) meters
+    // model.position.y = randomizePosition(1); // (-0.5, 0.5) meters
+    // model.speed = 0.05
+    // model.captured = false;
+    // scene.add(model);
+    // items.push(model);
+
+// const textureLoader = new THREE.TextureLoader();
+  // const texture = textureLoader.load('../assets/globe.jpg')
