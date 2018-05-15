@@ -17,7 +17,8 @@ const reducer = combineReducers({
   time, // intial value: 0
   capturedItems, // intial value: 0
   currentUser, // intial value: {}
-  users, // intial value: empty
+  userResults, // intial value: []
+  userMaps, // intial value: []
   customMaps, // intial value: []
   customItems, // intial value: []
   selectedMap // intial value: {}
