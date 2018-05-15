@@ -38,7 +38,6 @@ class Game extends React.Component {
 
   async preloadAssets() {
     try {
-
       await Promise.all([
         require('../assets/banana.obj'),
         require('../assets/banana.mtl')
@@ -208,28 +207,27 @@ const styles = StyleSheet.create({
   }
 });
 
+// - range / 2 < (x,y,z) < range / 2 (in meters)
+const randomizePosition = (range = 10) => {
+  return Math.random() * range - range / 2;
+};
+
 async function generateItems(scene, items, num) {
-  // Creating items
-
-  // Color for banana
-  const material = new THREE.MeshPhongMaterial( { ambient: 0x050505, color: '#FFFF00', specular: 0x555555, shininess: 100 } );
-
   const modelAsset = Asset.fromModule(require('../assets/banana1.obj'));
   await modelAsset.downloadAsync();
+
+  const material = new THREE.MeshPhongMaterial( { ambient: 0x050505, color: '#FFFF00', specular: 0x555555, shininess: 100 } );
   const loader = new THREE.OBJLoader();
 
-  // - range / 2 < (x,y,z) < range / 2 (in meters)
-  const randomizePosition = (range = 10) => {
-    return Math.random() * range - range / 2;
-  };
+  loader.load(modelAsset.localUri, function(object){
+    object.traverse(function(child){
+      if (child instanceof THREE.Mesh ) child.material = material;
+    })
 
-  loader.load(modelAsset.localUri, function(banana){
-    for (let i = 0; i < num; i++) {
-      banana.traverse(function(child){
-        if (child instanceof THREE.Mesh ) child.material = material;
-      })
-      banana.position.z = randomizePosition(5);  // (-5, 5) meters
-      banana.position.x = randomizePosition(5);  // (-5, 5) meters
+    for (let i = 0; i < 10; i++) {
+      let banana = object.clone();
+      banana.position.z = randomizePosition(2);  // (-5, 5) meters
+      banana.position.x = randomizePosition(2);  // (-5, 5) meters
       banana.position.y = randomizePosition(1); // (-0.5, 0.5) meters
       banana.speed = 0.02;
       banana.captured = false;
@@ -238,7 +236,6 @@ async function generateItems(scene, items, num) {
     }
   })
 }
-
 
 const mapState = state => {
   return { capturedItems: state.capturedItems }
