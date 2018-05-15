@@ -10,6 +10,7 @@ import UserProfile from './components/UserProfile';
 import GameOptionPage from './components/GameOptionPage';
 import Leaderboard from './components/Leaderboard';
 import CustomGameList from './components/CustomGameList';
+import CreateMap from './components/CreateMap';
 import TutorialNavigator from './components/Navigators/TutorialNavigator';
 import CustomTutorialNavigator from './components/Navigators/CustomTutorialNavigator';
 import { isSignedIn } from './auth';
@@ -51,6 +52,9 @@ const RootNavigator = StackNavigator(
     },
     CustomInstructions: {
       screen: CustomTutorialNavigator
+    },
+    CreateMap: {
+      screen: CreateMap
     }
   },
   {
