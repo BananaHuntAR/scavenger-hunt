@@ -101,10 +101,13 @@ class Game extends React.Component {
     // Lighting to show shading
     const leftLight = new THREE.DirectionalLight( 0xffffff );
     const rightLight = new THREE.DirectionalLight( 0xffffff );
+    const bottomLight = new THREE.DirectionalLight( 0xffffff );
       leftLight.position.set( -3, 5, 0 ).normalize();
       rightLight.position.set( 3, 5, 0 ).normalize();
+      bottomLight.position.set( 0, -5, 0 ).normalize();
       scene.add(leftLight);
       scene.add(rightLight);
+      scene.add(bottomLight);
 
     // Items are added to the AR scene
     generateItems(scene, this.gameItems, this.itemsNum);
@@ -216,15 +219,23 @@ async function generateItems(scene, items, num) {
   const modelAsset = Asset.fromModule(require('../assets/banana1.obj'));
   await modelAsset.downloadAsync();
 
-  const material = new THREE.MeshPhongMaterial( { ambient: 0x050505, color: '#FFFF00', specular: 0x555555, shininess: 100 } );
+  const bananaMaterial = new THREE.MeshPhongMaterial({
+    ambient: 0x050505,
+    color: '#FFFF00',
+    specular: 0x555555,
+    shininess: 100
+  });
   const loader = new THREE.OBJLoader();
 
   loader.load(modelAsset.localUri, function(object){
     object.traverse(function(child){
-      if (child instanceof THREE.Mesh ) child.material = material;
+      if (child instanceof THREE.Mesh ) {
+        child.material = bananaMaterial;
+        console.log('child: ', child.material);
+      }
     })
 
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < num; i++) {
       let banana = object.clone();
       banana.position.z = randomizePosition(2);  // (-5, 5) meters
       banana.position.x = randomizePosition(2);  // (-5, 5) meters
@@ -253,14 +264,3 @@ const mapDispatch = dispatch => {
 }
 
 export default connect(mapState, mapDispatch)(Game);
-
-    // model.position.z = randomizePosition(1);  // (-5, 5) meters
-    // model.position.x = randomizePosition(1);  // (-5, 5) meters
-    // model.position.y = randomizePosition(1); // (-0.5, 0.5) meters
-    // model.speed = 0.05
-    // model.captured = false;
-    // scene.add(model);
-    // items.push(model);
-
-// const textureLoader = new THREE.TextureLoader();
-  // const texture = textureLoader.load('../assets/globe.jpg')
