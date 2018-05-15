@@ -24,11 +24,12 @@ export const fetchResultsThunk = () => dispatch => {
     .catch(err => console.error(err));
 };
 
-export const fetchCustomResultsByUserThunk = userId => dispatch => {
+export const fetchResultsByUserThunk = userId => dispatch => {
   return axios
     .get(`${domain}/api/users/${userId}/results`)
     .then(res => res.data)
-    .then(user => dispatch(fetchResultsByUser(user)));
+    .then(user => dispatch(fetchResultsByUser(user)))
+    .catch(err => console.error(err));
 };
 
 // REDUCER

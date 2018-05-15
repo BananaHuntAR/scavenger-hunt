@@ -7,13 +7,13 @@ import { fetchCustomMapsByUserThunk, fetchResultsByUserThunk } from '../store';
 
 class UserProfile extends React.Component {
   componentDidMount() {
-    this.props.loadPastResults();
-    this.props.loadCustomMaps();
+    const currentUser = this.props.navigation.state.params.currentUser;
+    this.props.loadPastResults(currentUser.id);
+    this.props.loadCustomMaps(currentUser.id);
   }
 
   render() {
     //currentUser was passed as a prop on navigation from Toolbar
-    const currentUser = this.props.navigation.state.params.currentUser;
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -42,4 +42,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(mapDispatchToProps)(UserProfile);
+export default connect(null, mapDispatchToProps)(UserProfile);
