@@ -113,11 +113,11 @@ class Game extends React.Component {
         // .distanceTo(vector) returns the distance between the camera and the items
         let dist = banana.position.distanceTo(camera.position);
         if (this.state.itemInSight === null) {
-          if (dist < 0.7 && !banana.captured) {
+          if (dist < 0.6 && !banana.captured) {
             this.setState({ itemInSight: idx });
           }
         } else {
-          if (idx === this.state.itemInSight && dist > 0.7) {
+          if (idx === this.state.itemInSight && dist > 0.6) {
             this.setState({ itemInSight: null });
           }
         }
