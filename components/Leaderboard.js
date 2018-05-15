@@ -13,6 +13,7 @@ import {
 } from 'native-base';
 import { EvilIcons } from '@expo/vector-icons';
 import LeaderboardItem from './LeaderboardItem';
+import HomeIcon from './HomeIcon';
 
 class Leaderboard extends React.Component {
   componentDidMount() {
@@ -23,6 +24,7 @@ class Leaderboard extends React.Component {
     let rank = 0;
     return (
       <View style={styles.container}>
+        <HomeIcon />
         <EvilIcons
           name="trophy"
           size={80}
@@ -55,13 +57,10 @@ class Leaderboard extends React.Component {
         </Content>
         <View style={styles.buttonContainer}>
           <Button
-            onPress={() => this.props.navigation.replace('Home')}
+            onPress={() => this.props.navigation.navigate('GameOptionPage')}
             rounded
             style={styles.button}
           >
-            <Text>Home</Text>
-          </Button>
-          <Button rounded style={styles.button}>
             <Text>Play Again!</Text>
           </Button>
         </View>
@@ -89,7 +88,6 @@ const styles = StyleSheet.create({
     fontFamily: 'OriyaSangamMN'
   },
   buttonContainer: {
-    flexDirection: 'row',
     justifyContent: 'center'
   },
   button: {
