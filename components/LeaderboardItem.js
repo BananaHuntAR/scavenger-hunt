@@ -20,7 +20,7 @@ const LeaderboardItem = ({ rank, name, time }) => {
 
 const styles = StyleSheet.create({
   text: {
-    color: 'white'
+    color: 'black'
   }
 });
 
