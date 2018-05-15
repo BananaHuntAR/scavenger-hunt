@@ -12,6 +12,7 @@ class Toolbar extends Component {
   }
 
   render() {
+    const { currentUser } = this.props;
     return (
       <Fab
         active={this.state.active}
@@ -24,7 +25,13 @@ class Toolbar extends Component {
         <Icon name="md-more" />
         <Button
           style={{ backgroundColor: '#fced4e' }}
-          onPress={() => this.props.navigation.navigate('Login')}
+          onPress={() => {
+            currentUser
+              ? this.props.navigation.navigate('Login')
+              : this.props.navigation.navigate('UserProfile', {
+                  currentUser: currentUser
+                });
+          }}
         >
           {/* if user is logged in, take them to their profile page with past score history
           if user not logged in, redirect them to the login / sign-up page */}

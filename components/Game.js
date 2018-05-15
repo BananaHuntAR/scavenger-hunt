@@ -17,9 +17,7 @@ import ExitButton from './ExitButton';
 import Timer from './Timer';
 import ResultSubmitForm from './ResultSubmitForm';
 console.disableYellowBox = true;
-// Turn off three.js warnings...
-const originalWarn = console.warn.bind( console )
-console.warn = (text) => !text.includes('THREE') && originalWarn(text);
+const { _getLocationAsync } = require('../utils');
 
 const capturedItemMaterial = new THREE.MeshPhongMaterial({
   ambient: 0x050505,
@@ -40,6 +38,7 @@ class Game extends React.Component {
   }
 
   componentDidMount() {
+    _getLocationAsync().then(location => console.log(location.coords));
     this.props.resetItems();
   }
 
@@ -55,7 +54,7 @@ class Game extends React.Component {
 
   // Capture button
   handlePress = () => {
-    const currentCube = this.gameItems[this.state.itemInSight]
+    const currentCube = this.gameItems[this.state.itemInSight];
     // User captures an item, stop item from animating and turn its color to gray
     currentCube.speed = 0;
     currentCube.traverse(function(child){
@@ -65,7 +64,7 @@ class Game extends React.Component {
     })
 
     // capturedItems increments by 1
-    if ( !currentCube.captured ) {
+    if (!currentCube.captured) {
       this.props.incrementItems(this.props.capturedItems);
       currentCube.captured = true;
     }
@@ -155,16 +154,32 @@ class Game extends React.Component {
           onContextCreate={this._onGLContextCreate}
         />
         <View style={styles.timer}>
-          <Timer isGameOver={this.state.isGameOver} capturedItems={this.props.capturedItems} itemsNum={this.itemsNum}/>
+          <Timer
+            isGameOver={this.state.isGameOver}
+            capturedItems={this.props.capturedItems}
+            itemsNum={this.itemsNum}
+          />
         </View>
         <View style={styles.exitButton}>
           <ExitButton />
         </View>
-        <View style={styles.overlay}>
-          { this.state.itemInSight !== null && !this.gameItems[this.state.itemInSight].captured ?
-            (<Button raised rounded title="Capture" onPress={this.handlePress} buttonStyle={{ width: 150 }} />)
-            : null
-          }
+
+        <View style={styles.capture}>
+          {this.state.itemInSight !== null &&
+          !this.gameItems[this.state.itemInSight].captured ? (
+            <Button
+              raised
+              rounded
+              title="Capture"
+              onPress={this.handlePress}
+              buttonStyle={{
+                backgroundColor: '#E96B63',
+                width: 130,
+                height: 130,
+              }}
+            />
+          ) : null}
+
         </View>
         <ResultSubmitForm isGameOver={this.state.isGameOver} />
       </View>
@@ -175,8 +190,7 @@ class Game extends React.Component {
 const { height, width } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
-  overlay: {
-    backgroundColor: 'rgba(255, 255, 255, 0)',
+  capture: {
     position: 'absolute',
     top: height / 2,
     left: width / 2 - 75
@@ -248,8 +262,8 @@ function generateLighting(scene) {
 }
 
 const mapState = state => {
-  return { capturedItems: state.capturedItems }
-}
+  return { capturedItems: state.capturedItems };
+};
 
 const mapDispatch = dispatch => {
   return {
@@ -259,7 +273,7 @@ const mapDispatch = dispatch => {
     resetItems() {
       dispatch(resetItems());
     }
-  }
-}
+  };
+};
 
 export default connect(mapState, mapDispatch)(Game);
