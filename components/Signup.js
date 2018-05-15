@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, TextInput, View, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Button } from 'react-native-elements';
 import HomeIcon from './HomeIcon';
 import { connect } from 'react-redux';
@@ -65,8 +65,8 @@ class Signup extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <ScrollView>
+      <KeyboardAvoidingView behavior="padding" enabled style={styles.container}>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <HomeIcon />
           <Text style={styles.title}>Create an account</Text>
           <Text style={styles.error}>{this.state.error}</Text>
@@ -106,7 +106,7 @@ class Signup extends React.Component {
             onPress={this.handleSubmit}
           />
         </ScrollView>
-      </View>
+        </KeyboardAvoidingView>
     );
   }
 }

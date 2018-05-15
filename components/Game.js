@@ -16,10 +16,10 @@ import { incrementItems, resetItems, clearSelectedMap } from '../store';
 import ExitButton from './ExitButton';
 import Timer from './Timer';
 import ResultSubmitForm from './ResultSubmitForm';
+
 console.disableYellowBox = true;
 
 const capturedItemMaterial = new THREE.MeshPhongMaterial({
-  ambient: 0x050505,
   color: 0xcccccc,
   specular: 0x555555,
   shininess: 100
@@ -38,7 +38,7 @@ class Game extends Component {
   }
 
   componentDidMount() {
-    this.gameItems = []
+    this.gameItems = [];
     this.props.resetItems();
     if (Object.keys(this.props.selectedMap).length !== 0){
       // this.setState({customGame: true, selectedMap: this.props.selectedMap}) //Prompted not to setState in componentDidMount
@@ -240,13 +240,11 @@ const randomizePosition = (range = 10) => {
 };
 
 async function generateItems(scene, items, num, customItems) {
-  console.log('customItems: ', customItems);
   // Load banana3.obj file from file system
   const modelAsset = Asset.fromModule(require('../assets/banana3.obj'));
   await modelAsset.downloadAsync();
 
   const bananaMaterial = new THREE.MeshPhongMaterial({
-    ambient: 0x050505,
     color: '#FFFF00',
     specular: 0x555555,
     shininess: 100
@@ -267,9 +265,9 @@ async function generateItems(scene, items, num, customItems) {
       let banana = object.clone();
       if (customItems){
         console.log('customItems[i]: ', customItems[i]);
-        banana.position.z = customItems[i].z;  // (-5, 5) meters
-        banana.position.x = customItems[i].x;  // (-5, 5) meters
-        banana.position.y = customItems[i].y; // (-0.5, 0.5) meters
+        banana.position.z = customItems[i].z;
+        banana.position.x = customItems[i].x;
+        banana.position.y = customItems[i].y;
       } else {
         banana.position.z = randomizePosition(2);  // (-5, 5) meters
         banana.position.x = randomizePosition(2);  // (-5, 5) meters

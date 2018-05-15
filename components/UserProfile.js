@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
-import { Text, Card, Dividder, ListItem } from 'react-native-elements';
+import { Card, ListItem, Text } from 'react-native-elements';
 import HomeIcon from './HomeIcon';
 import { connect } from 'react-redux';
 import { fetchCustomMapsByUserThunk, fetchResultsByUserThunk } from '../store';
@@ -8,24 +8,46 @@ import { fetchCustomMapsByUserThunk, fetchResultsByUserThunk } from '../store';
 class UserProfile extends React.Component {
   componentDidMount() {
     const currentUser = this.props.navigation.state.params.currentUser;
-    this.props.loadPastResults(currentUser.id);
-    this.props.loadCustomMaps(currentUser.id);
+    this.props.loadPastResults(+currentUser.id);
+    this.props.loadCustomMaps(+currentUser.id);
   }
 
   render() {
     //currentUser was passed as a prop on navigation from Toolbar
-    const { userResults, userMaps } = this.props;
+    const { userResults, userMaps, navigation } = this.props;
     return (
       <View style={styles.container}>
         <ScrollView>
           <HomeIcon />
-          <Card title="Past Results">
+          <Text style={styles.text}>My Account</Text>
+          <Card title="Past Results" containerStyle={styles.card}>
             {userResults &&
               userResults.map(result => {
-                return <View key={result.id} style={styles.result} />;
+                return (
+                  <ListItem
+                    hideChevron
+                    key={result.id}
+                    title={result.time}
+                    subtitle={result.createdAt.slice(0, 10)}
+                  />
+                );
               })}
           </Card>
-          <Text h1>Custom Maps</Text>
+          <Card title="Created Maps" containerStyle={styles.card}>
+            {userMaps &&
+              userMaps.map(map => {
+                return (
+                  <ListItem
+                    key={map.id}
+                    title={map.name}
+                    subtitle={map.createdAt.slice(0, 10)}
+                    onPress={() =>
+                      navigation.navigate('Game', { customMap: map })
+                    }
+                  />
+                );
+              })}
+          </Card>
         </ScrollView>
       </View>
     );
@@ -51,7 +73,19 @@ const styles = StyleSheet.create({
     paddingHorizontal: 5,
     flex: 1
   },
-  result: {}
+  card: {
+    width: 280,
+    alignSelf: 'center',
+    backgroundColor: 'white',
+    borderColor: 'gray',
+    borderWidth: 5,
+    borderRadius: 25
+  },
+  text: {
+    color: 'white',
+    fontSize: 20,
+    alignSelf: 'center'
+  }
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

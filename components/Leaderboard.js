@@ -1,9 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { fetchResultsThunk } from '../store';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet, Image, View } from 'react-native';
 import {
   Content,
+  Card,
+  CardItem,
   List,
   ListItem,
   Body,
@@ -13,6 +15,7 @@ import {
 } from 'native-base';
 import { EvilIcons } from '@expo/vector-icons';
 import LeaderboardItem from './LeaderboardItem';
+import HomeIcon from './HomeIcon';
 
 class Leaderboard extends React.Component {
   componentDidMount() {
@@ -23,48 +26,54 @@ class Leaderboard extends React.Component {
     let rank = 0;
     return (
       <View style={styles.container}>
-        <EvilIcons
-          name="trophy"
-          size={80}
-          color="white"
-          style={{ alignSelf: 'center' }}
+        <Image
+          style={styles.bgImage}
+          source={require('../assets/home-bg.png')}
         />
+        <HomeIcon />
         <Content>
-          <List>
-            <ListItem>
-              <Body>
-                <Text style={styles.columnHeader}>Name</Text>
-              </Body>
-              <Right>
-                <Text style={styles.columnHeader}>Time</Text>
-              </Right>
-            </ListItem>
+          <Card>
+            <Image
+              style={styles.bgImage}
+              source={require('../assets/gold-bg.jpeg')}
+            />
+            <EvilIcons
+              name="trophy"
+              size={80}
+              color="black"
+              style={{ alignSelf: 'center', paddingTop: 10 }}
+            />
+            <List>
+              <ListItem>
+                <Body>
+                  <Text style={styles.columnHeader}>Name</Text>
+                </Body>
+                <Right>
+                  <Text style={styles.columnHeader}>Time</Text>
+                </Right>
+              </ListItem>
 
-            {this.props.results.map(result => {
-              rank++;
-              return (
-                <LeaderboardItem
-                  key={result.id}
-                  rank={rank}
-                  name={result.name}
-                  time={result.time}
-                />
-              );
-            })}
-          </List>
+              {this.props.results.map(result => {
+                rank++;
+                return (
+                  <LeaderboardItem
+                    key={result.id}
+                    rank={rank}
+                    name={result.name}
+                    time={result.time}
+                  />
+                );
+              })}
+            </List>
+          </Card>
         </Content>
-        <View style={styles.buttonContainer}>
-          <Button
-            onPress={() => this.props.navigation.replace('Home')}
-            rounded
-            style={styles.button}
-          >
-            <Text>Home</Text>
-          </Button>
-          <Button rounded style={styles.button}>
-            <Text>Play Again!</Text>
-          </Button>
-        </View>
+        <Button
+          onPress={() => this.props.navigation.navigate('GameOptionPage')}
+          rounded
+          style={styles.button}
+        >
+          <Text>Play Again!</Text>
+        </Button>
       </View>
     );
   }
@@ -78,22 +87,29 @@ export default connect(mapState, { fetchResultsThunk })(Leaderboard);
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: '#3FBE94',
+    // backgroundColor: '#3FBE94',
     flex: 1,
-    paddingTop: 50
+    paddingHorizontal: 20,
+    paddingVertical: 10
+  },
+  bgImage: {
+    position: 'absolute',
+    resizeMode: 'stretch',
+    top: 0
   },
   columnHeader: {
-    color: 'white',
+    color: 'black',
     padding: 5,
     fontSize: 20,
+    fontWeight: 'bold',
     fontFamily: 'OriyaSangamMN'
   },
   buttonContainer: {
-    flexDirection: 'row',
     justifyContent: 'center'
   },
   button: {
     margin: 20,
-    backgroundColor: '#E96B63'
+    backgroundColor: '#3FBE94',
+    alignSelf: 'center'
   }
 });
