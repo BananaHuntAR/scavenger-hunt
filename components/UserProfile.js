@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, ScrollView, View } from 'react-native';
-import { Text } from 'react-native-elements';
+import { Text, Card, Dividder, ListItem } from 'react-native-elements';
 import HomeIcon from './HomeIcon';
 import { connect } from 'react-redux';
 import { fetchCustomMapsByUserThunk, fetchResultsByUserThunk } from '../store';
@@ -19,7 +19,12 @@ class UserProfile extends React.Component {
       <View style={styles.container}>
         <ScrollView>
           <HomeIcon />
-          <Text h1>Past Results</Text>
+          <Card title="Past Results">
+            {userResults &&
+              userResults.map(result => {
+                return <View key={result.id} style={styles.result} />;
+              })}
+          </Card>
           <Text h1>Custom Maps</Text>
         </ScrollView>
       </View>
@@ -45,7 +50,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#3FBE94',
     paddingHorizontal: 5,
     flex: 1
-  }
+  },
+  result: {}
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
