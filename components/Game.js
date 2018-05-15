@@ -31,7 +31,8 @@ class Game extends Component {
     super(props);
     this.state = {
       itemInSight: null,
-      isGameOver: false
+      isGameOver: false,
+      customGame: false
     };
     this.gameItems = [];
     this.itemsNum = 2;
@@ -41,6 +42,7 @@ class Game extends Component {
     _getLocationAsync().then(location => console.log(location.coords));
     this.props.resetItems();
     if (Object.keys(this.props.selectedMap)){
+      // this.setState({customGame: true, selectedMap: this.props.selectedMap}) //Prompted not to setState in componentDidMount
       console.log("i've selected a game", this.props.selectedMap);
     }
   }
@@ -75,19 +77,25 @@ class Game extends Component {
 
   // Creates AR experience
   _onGLContextCreate = async gl => {
+    //1. Starts an AR session
+    this.arSession = await this._glView.startARSessionAsync();
+
+    //2. Get view dimensions
     const width = gl.drawingBufferWidth;
     const height = gl.drawingBufferHeight;
-    // Starts an AR session
-    this.arSession = await this._glView.startARSessionAsync();
+
+    //3. Create a renderer (`Expo.GLView`-compatible THREE)
     const renderer = ExpoTHREE.createRenderer({ gl });
     renderer.setSize(width, height);
-    const scene = new THREE.Scene();
 
+    //4. Set the scene (Creates video feed)
+    const scene = new THREE.Scene();
     scene.background = ExpoTHREE.createARBackgroundTexture(
       this.arSession,
       renderer
     );
 
+    //5. Set up AR camera
     const camera = ExpoTHREE.createARCamera(
       this.arSession, // field of view
       width, // aspect ratio
@@ -96,15 +104,17 @@ class Game extends Component {
       1000 // far clipping plane - sets outer fencing of AR field
     );
 
-    // Lighting to show shading
+    //6. Add lighting to the AR scene to show shading
     generateLighting(scene);
 
-    // Items are added to the AR scene
+    //7. Items are added to the AR scene
     generateItems(scene, this.gameItems, this.itemsNum);
 
+    const cameraPos = new THREE.Vector3(0, 0, 0);
+
+    //8. Start animation (listener for events)
     const animate = () => {
       camera.position.setFromMatrixPosition(camera.matrixWorld);
-      const cameraPos = new THREE.Vector3(0, 0, 0);
       cameraPos.applyMatrix4(camera.matrixWorld);
 
       this.gameItems.forEach((banana, idx) => {
@@ -152,6 +162,8 @@ class Game extends Component {
         <StatusBar hidden={true} />
 
         <Expo.GLView
+          // Create an `Expo.GLView` covering the whole screen,
+          // tell it to call our `_onGLContextCreate` function once it's initialized.
           ref={ref => (this._glView = ref)}
           style={{ flex: 1 }}
           onContextCreate={this._onGLContextCreate}
