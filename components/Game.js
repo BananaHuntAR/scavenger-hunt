@@ -12,12 +12,11 @@ import {
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
-import { incrementItems, resetItems } from '../store';
+import { incrementItems, resetItems, clearSelectedMap } from '../store';
 import ExitButton from './ExitButton';
 import Timer from './Timer';
 import ResultSubmitForm from './ResultSubmitForm';
 console.disableYellowBox = true;
-const { _getLocationAsync } = require('../utils');
 
 const capturedItemMaterial = new THREE.MeshPhongMaterial({
   ambient: 0x050505,
@@ -35,21 +34,34 @@ class Game extends Component {
       customGame: false
     };
     this.gameItems = [];
-    this.itemsNum = 2;
+    this.itemsNum = 10;
   }
 
   componentDidMount() {
-    _getLocationAsync().then(location => console.log(location.coords));
+    this.gameItems = []
     this.props.resetItems();
-    if (Object.keys(this.props.selectedMap)){
+    if (Object.keys(this.props.selectedMap).length !== 0){
       // this.setState({customGame: true, selectedMap: this.props.selectedMap}) //Prompted not to setState in componentDidMount
-      console.log("i've selected a game", this.props.selectedMap);
+      // console.log("i've selected a game", this.props.selectedMap);
     }
   }
 
   componentDidUpdate() {
     if (this.props.capturedItems === this.itemsNum && !this.state.isGameOver) {
       this.gameOver();
+    }
+  }
+
+  // Kill ARSession and cancel animation frame request
+  async componentWillUnmount() {
+    this.props.clearSelectedMap();
+    cancelAnimationFrame(this.gameRequest);
+    try {
+      await NativeModules.ExponentGLViewManager.stopARSessionAsync(
+        this.arSession.sessionId
+      );
+    } catch (err) {
+      console.error(err);
     }
   }
 
@@ -108,7 +120,14 @@ class Game extends Component {
     generateLighting(scene);
 
     //7. Items are added to the AR scene
-    generateItems(scene, this.gameItems, this.itemsNum);
+    if (Object.keys(this.props.selectedMap).length !== 0){
+      //Custom map
+      // this.itemsNum = this.props.selectedMap.customItems.length
+      generateItems(scene, this.gameItems, this.props.selectedMap.customItems.length, this.props.selectedMap.customItems);
+    } else {
+      //Random map
+      generateItems(scene, this.gameItems, this.itemsNum);
+    }
 
     const cameraPos = new THREE.Vector3(0, 0, 0);
 
@@ -143,18 +162,6 @@ class Game extends Component {
     };
     animate();
   };
-
-  // Kill ARSession and cancel animation frame request
-  async componentWillUnmount() {
-    cancelAnimationFrame(this.gameRequest);
-    try {
-      await NativeModules.ExponentGLViewManager.stopARSessionAsync(
-        this.arSession.sessionId
-      );
-    } catch (err) {
-      console.error(err);
-    }
-  }
 
   render() {
     return (
@@ -232,7 +239,8 @@ const randomizePosition = (range = 10) => {
   return Math.random() * range - range / 2;
 };
 
-async function generateItems(scene, items, num) {
+async function generateItems(scene, items, num, customItems) {
+  console.log('customItems: ', customItems);
   // Load banana3.obj file from file system
   const modelAsset = Asset.fromModule(require('../assets/banana3.obj'));
   await modelAsset.downloadAsync();
@@ -257,9 +265,16 @@ async function generateItems(scene, items, num) {
 
     for (let i = 0; i < num; i++) {
       let banana = object.clone();
-      banana.position.z = randomizePosition(2);  // (-5, 5) meters
-      banana.position.x = randomizePosition(2);  // (-5, 5) meters
-      banana.position.y = randomizePosition(1); // (-0.5, 0.5) meters
+      if (customItems){
+        console.log('customItems[i]: ', customItems[i]);
+        banana.position.z = customItems[i].z;  // (-5, 5) meters
+        banana.position.x = customItems[i].x;  // (-5, 5) meters
+        banana.position.y = customItems[i].y; // (-0.5, 0.5) meters
+      } else {
+        banana.position.z = randomizePosition(2);  // (-5, 5) meters
+        banana.position.x = randomizePosition(2);  // (-5, 5) meters
+        banana.position.y = randomizePosition(1); // (-0.5, 0.5) meters
+      }
       banana.speed = 0.02;
       banana.captured = false;
       scene.add(banana);
@@ -294,6 +309,9 @@ const mapDispatch = dispatch => {
     },
     resetItems() {
       dispatch(resetItems());
+    },
+    clearSelectedMap() {
+      dispatch(clearSelectedMap());
     }
   };
 };
