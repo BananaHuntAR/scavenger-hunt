@@ -64,7 +64,11 @@ class ResultSubmitForm extends Component {
                 color="black"
                 buttonStyle={styles.button}
                 onPress={() => {
-                  this.props.postResult(this.state.name, this.props.time);
+                  this.props.postResult(
+                    this.state.name,
+                    this.props.time,
+                    +this.props.currentUser.id
+                  );
                   this.props.navigation.replace('Leaderboard');
                 }}
               />
@@ -125,13 +129,16 @@ const styles = StyleSheet.create({
 });
 
 const mapState = state => {
-  return { time: state.time };
+  return {
+    time: state.time,
+    currentUser: state.currentUser
+  };
 };
 
 const mapDispatch = dispatch => {
   return {
-    postResult(name, time) {
-      dispatch(postResult(name, time));
+    postResult(name, time, userId) {
+      dispatch(postResult(name, time, userId));
     }
   };
 };

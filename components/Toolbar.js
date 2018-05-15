@@ -26,7 +26,7 @@ class Toolbar extends Component {
         <Button
           style={{ backgroundColor: '#fced4e' }}
           onPress={() => {
-            currentUser
+            !currentUser.email
               ? this.props.navigation.navigate('Login')
               : this.props.navigation.navigate('UserProfile', {
                   currentUser: currentUser
