@@ -11,9 +11,9 @@ export const fetchResults = results => ({
   results
 });
 
-export const fetchResultsByUser = user => ({
+export const fetchResultsByUser = userResults => ({
   type: FETCH_RESULTS_BY_USER,
-  user
+  userResults
 });
 
 // THUNK CREATORS
@@ -28,7 +28,7 @@ export const fetchResultsByUserThunk = userId => dispatch => {
   return axios
     .get(`${domain}/api/users/${userId}/results`)
     .then(res => res.data)
-    .then(user => dispatch(fetchResultsByUser(user)))
+    .then(userResults => dispatch(fetchResultsByUser(userResults)))
     .catch(err => console.error(err));
 };
 
@@ -38,7 +38,7 @@ export default function(state = [], action) {
     case FETCH_RESULTS:
       return action.results;
     case FETCH_RESULTS_BY_USER:
-      return state.filter(result => result.userId === action.user.id);
+      return action.userResults;
     default:
       return state;
   }

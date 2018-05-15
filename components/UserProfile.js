@@ -14,6 +14,7 @@ class UserProfile extends React.Component {
 
   render() {
     //currentUser was passed as a prop on navigation from Toolbar
+    const { userResults, userMaps } = this.props;
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -25,6 +26,11 @@ class UserProfile extends React.Component {
     );
   }
 }
+
+const mapStateToProps = storeState => ({
+  userResults: storeState.userResults,
+  userMaps: storeState.userMaps
+});
 
 const mapDispatchToProps = dispatch => ({
   loadCustomMaps: userId => dispatch(fetchCustomMapsByUserThunk(userId)),
@@ -42,4 +48,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(null, mapDispatchToProps)(UserProfile);
+export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);
