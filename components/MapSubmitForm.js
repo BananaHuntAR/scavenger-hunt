@@ -20,7 +20,6 @@ class MapSubmitForm extends Component {
 
   static getDerivedStateFromProps(nextProps) {
     if (nextProps.toSave) {
-      // console.log(nextProps.geolocation);
       return { modalVisible: true, geolocation: nextProps.geolocation };
     }
     return null;
@@ -137,7 +136,8 @@ const mapDispatch = dispatch => {
         name,
         address,
         instructions,
-        geolocation,
+        latitude: geolocation[0],
+        longitude: geolocation[1],
         customItems
       }
       dispatch(postMap(map));
