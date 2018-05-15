@@ -13,6 +13,7 @@ import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { addItem, resetCustomItems } from '../store';
 import ExitButton from './ExitButton';
+import MapSubmitForm from './MapSubmitForm';
 console.disableYellowBox = true;
 // Turn off three.js warnings...
 const originalWarn = console.warn.bind( console )
@@ -22,12 +23,25 @@ const geometry = new THREE.BoxGeometry(0.07, 0.07, 0.07); // creates template fo
 const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // creates color for a cube
 
 class CreateMap extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      toSave: false,
+      saveClicked: 0
+    };
+    this.gameItems = [];
+  }
+
   componentDidMount() {
     this.props.resetCustomItems();
   }
 
   handleDrop = () => {
-    dropItem(this.scene, this.props.customItems, this.props.addItem, this.camera.position);
+    dropItem(this.scene, this.gameItems, this.props.itemCords, this.props.addItem, this.camera.position);
+  };
+
+  handleSave = () => {
+    this.setState({ toSave: true, saveClicked: this.state.saveClicked + 1 });
   };
 
   _onGLContextCreate = async gl => {
@@ -57,7 +71,7 @@ class CreateMap extends React.Component {
       const cameraPos = new THREE.Vector3(0, 0, 0);
       cameraPos.applyMatrix4(this.camera.matrixWorld);
 
-      this.props.customItems.length && this.props.customItems.forEach((cube) => {
+      this.gameItems.forEach((cube) => {
         // console.log('cube: ', cube);
         // Animates items for live movement
         cube.rotation.x += cube.speed;
@@ -85,7 +99,6 @@ class CreateMap extends React.Component {
   }
 
   render() {
-    // console.log("items: ", this.props.customItems);
     return (
       <View style={{ flex: 1 }}>
         <StatusBar hidden={true} />
@@ -109,12 +122,13 @@ class CreateMap extends React.Component {
         </View>
 
         <View style={styles.save}>
-          <Button raised rounded title="Save" buttonStyle={{
+          <Button raised rounded title="Save" onPress={this.handleSave} buttonStyle={{
             backgroundColor: '#29B46E',
             height: 35,
             padding: 0
           }} textStyle={{ fontSize: 13 }} />
         </View>
+        <MapSubmitForm toSave={this.state.toSave} saveClicked={this.state.saveClicked} />
       </View>
     );
   }
@@ -141,20 +155,22 @@ const styles = StyleSheet.create({
 });
 
 
-function dropItem(scene, items, addItemFunc, dropPos) {
+function dropItem(scene, itemsArr, items, addItemFunc, dropPos) {
   const cube = new THREE.Mesh(geometry, material);
   cube.position.x = dropPos.x;
   cube.position.y = dropPos.y;
   cube.position.z = dropPos.z;
   cube.speed = 0.05
   scene.add(cube);
-  items.push(cube);
+  itemsArr.push(cube);
+  const cords = { x: cube.position.x, y: cube.position.y, z: cube.position.z };
+  items.push(cords);
   addItemFunc(items);
 }
 
 
 const mapState = state => {
-  return { customItems: state.customItems };
+  return { itemCords: state.customItems };
 }
 
 const mapDispatch = dispatch => {
