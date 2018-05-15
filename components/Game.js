@@ -33,24 +33,10 @@ class Game extends React.Component {
     super(props);
     this.state = {
       itemInSight: null,
-      isGameOver: false,
-      loaded: false
+      isGameOver: false
     };
     this.gameItems = [];
     this.itemsNum = 2;
-    this.preloadAssets();
-  }
-
-  async preloadAssets() {
-    try {
-      await Promise.all([
-        require('../assets/banana.obj'),
-        require('../assets/banana.mtl')
-      ].map((module) => Expo.Asset.fromModule(module).downloadAsync()));
-    } catch (err) {
-      console.error(err);
-    }
-    this.setState({ loaded: true });
   }
 
   componentDidMount() {
@@ -67,6 +53,7 @@ class Game extends React.Component {
     this.setState({ isGameOver: true });
   }
 
+  // Capture button
   handlePress = () => {
     const currentCube = this.gameItems[this.state.itemInSight]
     // User captures an item, stop item from animating and turn its color to gray
