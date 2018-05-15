@@ -4,41 +4,59 @@ import { StyleSheet, View, Image } from 'react-native';
 import { Button } from 'react-native-elements';
 import HomeIcon from './HomeIcon';
 
-const GameOptionPage = ({ navigation }) => (
-  <View style={styles.container}>
-    <Image style={styles.bgImage} source={require('../assets/home-bg.png')} />
-    <HomeIcon />
-    <View style={styles.buttonsContainer}>
-      <Button
-        style={styles.gameOptionBtn}
-        onPress={() => navigation.navigate('Game')}
-        raised
-        rounded
-        title="Play Now"
-        backgroundColor="#F3EED9"
-        color="gray"
-      />
-      <Button
-        style={styles.gameOptionBtn}
-        onPress={() => navigation.navigate('CustomGameList')}
-        raised
-        rounded
-        title="Play Custom Game"
-        backgroundColor="#F3EED9"
-        color="gray"
-      />
-      <Button
-        style={styles.gameOptionBtn}
-        onPress={() => navigation.navigate('CustomInstructions')}
-        raised
-        rounded
-        title="Create Custom Game"
-        backgroundColor="#F3EED9"
-        color="gray"
-      />
-    </View>
-  </View>
-);
+class GameOptionPage extends React.Component {
+  render() {
+    const { navigation, currentUser } = this.props;
+    return (
+      <View style={styles.container}>
+        <Image style={styles.bgImage} source={require('../assets/home-bg.png')} />
+        <HomeIcon />
+        <View style={styles.buttonsContainer}>
+          <Button
+            style={styles.gameOptionBtn}
+            onPress={() => navigation.navigate('Game')}
+            raised
+            rounded
+            title="Play Now"
+            backgroundColor="#F3EED9"
+            color="gray"
+          />
+          <Button
+            style={styles.gameOptionBtn}
+            onPress={() => navigation.navigate('CustomGameList')}
+            raised
+            rounded
+            title="Play Custom Game"
+            backgroundColor="#F3EED9"
+            color="gray"
+          />
+          {
+            currentUser.email ?
+            (
+              <Button
+                style={styles.gameOptionBtn}
+                onPress={() => navigation.navigate('CustomInstructions')}
+                raised
+                rounded
+                title="Create Custom Game"
+                backgroundColor="#F3EED9"
+                color="gray"
+              />) : (
+              <Button
+                title="Login to create your own game"
+                style={styles.gameOptionBtn}
+                onPress={() => navigation.navigate('Login')}
+                raised
+                rounded
+                backgroundColor="#F3EED9"
+                color="gray"
+              />)
+          }
+        </View>
+      </View>
+    );
+  }
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -65,4 +83,8 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect()(GameOptionPage);
+const mapState = state => ({
+  currentUser: state.currentUser
+})
+
+export default connect(mapState, null)(GameOptionPage);
