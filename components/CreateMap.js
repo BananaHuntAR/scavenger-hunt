@@ -1,7 +1,8 @@
 import React from 'react';
 import * as THREE from 'three';
 import ExpoTHREE from 'expo-three';
-import Expo from 'expo';
+import Expo, { Asset } from 'expo';
+require('../utils/OBJLoader');
 import {
   View,
   NativeModules,
@@ -21,9 +22,6 @@ console.disableYellowBox = true;
 const originalWarn = console.warn.bind( console )
 console.warn = (text) => !text.includes('THREE') && originalWarn(text);
 
-const geometry = new THREE.BoxGeometry(0.07, 0.07, 0.07); // creates template for a cube
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 }); // creates color for a cube
-
 class CreateMap extends React.Component {
   constructor(props) {
     super(props);
@@ -33,6 +31,7 @@ class CreateMap extends React.Component {
     };
     this.gameItems = [];
     this.geolocation = [];
+    this.model = null;
   }
 
   componentDidMount() {
@@ -43,7 +42,12 @@ class CreateMap extends React.Component {
   }
 
   handleDrop = () => {
-    dropItem(this.scene, this.gameItems, this.props.itemCords, this.props.addItem, this.camera.position);
+    const newItem = dropItem(this.model, this.camera.position);
+    this.scene.add(newItem);
+    this.gameItems.push(newItem);
+    const cords = { x: newItem.position.x, y: newItem.position.y, z: newItem.position.z };
+    this.props.itemCords.push(cords);
+    this.props.addItem(this.props.itemCords);
   };
 
   handleSave = () => {
@@ -72,16 +76,20 @@ class CreateMap extends React.Component {
       1000 // far clipping plane
     );
 
+    // Lighting to show shading
+    generateLighting(this.scene);
+
+    this.model = await loadModel();
+
     const animate = () => {
       this.camera.position.setFromMatrixPosition(this.camera.matrixWorld);
       const cameraPos = new THREE.Vector3(0, 0, 0);
       cameraPos.applyMatrix4(this.camera.matrixWorld);
 
-      this.gameItems.forEach((cube) => {
-        // console.log('cube: ', cube);
+      this.gameItems.forEach((banana) => {
         // Animates items for live movement
-        cube.rotation.x += cube.speed;
-        cube.rotation.y += cube.speed;
+        banana.rotation.x += banana.speed;
+        banana.rotation.y += banana.speed;
       });
 
       // Adds AR overlay over camera view
@@ -160,20 +168,52 @@ const styles = StyleSheet.create({
   }
 });
 
+async function loadModel() {
+  // Load the banana model
+  const modelAsset = Asset.fromModule(require('../assets/banana3.obj'));
+  await modelAsset.downloadAsync();
 
-function dropItem(scene, itemsArr, items, addItemFunc, dropPos) {
-  const cube = new THREE.Mesh(geometry, material);
-  cube.position.x = dropPos.x;
-  cube.position.y = dropPos.y;
-  cube.position.z = dropPos.z;
-  cube.speed = 0.05
-  scene.add(cube);
-  itemsArr.push(cube);
-  const cords = { x: cube.position.x, y: cube.position.y, z: cube.position.z };
-  items.push(cords);
-  addItemFunc(items);
+  const bananaMaterial = new THREE.MeshPhongMaterial({
+    color: '#FFFF00',
+    specular: 0x555555,
+    shininess: 100
+  });
+  const loader = new THREE.OBJLoader();
+
+  return new Promise(function executor(resolve) {
+    loader.load(modelAsset.localUri, function(object){
+      //Adds color to banana but will need lighting to see it
+      //See generateLighting function
+      object.traverse(function(child){
+        if (child instanceof THREE.Mesh ) {
+          child.material = bananaMaterial;
+        }
+      })
+      resolve(object);
+    })
+  })
 }
 
+function dropItem(model, dropPos) {
+  const item = model.clone();
+  item.position.x = dropPos.x;
+  item.position.y = dropPos.y;
+  item.position.z = dropPos.z;
+  item.speed = 0.05;
+  return item;
+}
+
+function generateLighting(scene) {
+  const leftLight = new THREE.DirectionalLight( 0xffffff );
+  const rightLight = new THREE.DirectionalLight( 0xffffff );
+  const bottomLight = new THREE.DirectionalLight( 0xffffff );
+    leftLight.position.set( -3, 5, 0 ).normalize();
+    rightLight.position.set( 3, 5, 0 ).normalize();
+    bottomLight.position.set( 0, -5, 0 ).normalize();
+    scene.add(leftLight);
+    scene.add(rightLight);
+    scene.add(bottomLight);
+}
 
 const mapState = state => {
   return { itemCords: state.customItems };
