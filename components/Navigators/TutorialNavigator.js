@@ -13,7 +13,8 @@ const TutorialNavigator = TabNavigator(
           //passing title & desc props so that we can reuse our TutorialStep component
           title={'Game Overview'}
           desc={`This is a simulated scavenger hunt, but with Augmented Reality!`}
-          iconName={'ios-phone-portrait'}
+          iconName={'md-walk'}
+          skipDest={'GameOptionPage'}
         />
       )
     },
@@ -21,9 +22,10 @@ const TutorialNavigator = TabNavigator(
       screen: () => (
         <TutorialStep
           //passing title & desc props so that we can reuse our TutorialStep component
-          title={'Getting Started'}
+          title={`Get Started`}
           desc={`Make sure you hold your phone steady upon opening a new game.`}
           iconName={'ios-phone-portrait'}
+          skipDest={'GameOptionPage'}
         />
       )
     },
@@ -33,6 +35,7 @@ const TutorialNavigator = TabNavigator(
           title={'How to Play'}
           desc={`Bananas will randomly drop all around you. Once you are within reach of one, a "capture" button will appear!`}
           iconName={'ios-basket-outline'}
+          skipDest={'GameOptionPage'}
         />
       )
     },
@@ -42,6 +45,7 @@ const TutorialNavigator = TabNavigator(
           title={'Mission'}
           desc={`Your task is to capture the bananas as quickly as possible. Get ready to search!`}
           iconName={'ios-alarm-outline'}
+          skipDest={'GameOptionPage'}
         />
       )
     }
