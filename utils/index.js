@@ -19,14 +19,7 @@ const _getLocationAsync = () => {
   return location;
 };
 
-const skipTutorialNavigation = (navigation, title) => {
-  const titles = ['Game Overview', 'How to Play', 'Mission'];
-  if (titles.includes(title)) return navigation.navigate('GameOptionPage');
-  else return navigation.navigate('InputInstructions');
-};
-
 module.exports = {
   convertToTime,
-  _getLocationAsync,
-  skipTutorialNavigation
+  _getLocationAsync
 };

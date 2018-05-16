@@ -8,7 +8,9 @@ import {
   NativeModules,
   StatusBar,
   StyleSheet,
-  Dimensions
+  Dimensions,
+  Image,
+  Text
 } from 'react-native';
 import { Button } from 'react-native-elements';
 import { connect } from 'react-redux';
@@ -27,7 +29,8 @@ class CreateMap extends React.Component {
     super(props);
     this.state = {
       toSave: false,
-      saveClicked: 0
+      saveClicked: 0,
+      itemCount: 0
     };
     this.gameItems = [];
     this.geolocation = [];
@@ -48,6 +51,7 @@ class CreateMap extends React.Component {
     const cords = { x: newItem.position.x, y: newItem.position.y, z: newItem.position.z };
     this.props.itemCords.push(cords);
     this.props.addItem(this.props.itemCords);
+    this.setState({ itemCount: this.gameItems.length });
   };
 
   handleSave = () => {
@@ -135,12 +139,21 @@ class CreateMap extends React.Component {
           }} />
         </View>
 
-        <View style={styles.save}>
+        <View style={styles.badge}>
           <Button raised rounded title="Save" onPress={this.handleSave} buttonStyle={{
             backgroundColor: '#29B46E',
             height: 35,
             padding: 0
           }} textStyle={{ fontSize: 13 }} />
+        </View>
+
+        <View style={styles.items}>
+          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+            <Image style={{ width: 20, height: 20, marginRight: 10 }} source={require('../assets/banana_icon.png')} />
+            <Text>
+              {this.state.itemCount}
+            </Text>
+          </View>
         </View>
         <MapSubmitForm toSave={this.state.toSave} saveClicked={this.state.saveClicked} geolocation={this.geolocation} instructions={this.props.navigation.state.params.instructions} />
       </View>
@@ -156,10 +169,19 @@ const styles = StyleSheet.create({
     top: height - 250,
     left: width / 2 - 60
   },
-  save: {
+  badge: {
     position: 'absolute',
     top: 17,
-    right: 60
+    left: 10
+  },
+  items: {
+    position: 'absolute',
+    top: 60,
+    left: 25,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 8,
+    marginRight: 5
   },
   exitButton: {
     position: 'absolute',
