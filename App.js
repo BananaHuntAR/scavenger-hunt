@@ -11,6 +11,7 @@ import GameOptionPage from './components/GameOptionPage';
 import Leaderboard from './components/Leaderboard';
 import CustomGameList from './components/CustomGameList';
 import CreateMap from './components/CreateMap';
+import InputInstructions from './components/InputInstructions';
 import TutorialNavigator from './components/Navigators/TutorialNavigator';
 import CustomTutorialNavigator from './components/Navigators/CustomTutorialNavigator';
 import { isSignedIn } from './auth';
@@ -52,6 +53,9 @@ const RootNavigator = StackNavigator(
     },
     CustomInstructions: {
       screen: CustomTutorialNavigator
+    },
+    InputInstructions: {
+      screen: InputInstructions
     },
     CreateMap: {
       screen: CreateMap

@@ -28,9 +28,7 @@ class Toolbar extends Component {
           onPress={() => {
             !currentUser.email
               ? this.props.navigation.navigate('Login')
-              : this.props.navigation.navigate('UserProfile', {
-                  currentUser: currentUser
-                });
+              : this.props.navigation.navigate('UserProfile');
           }}
         >
           {/* if user is logged in, take them to their profile page with past score history
