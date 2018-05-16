@@ -20,7 +20,11 @@ class MapSubmitForm extends Component {
 
   static getDerivedStateFromProps(nextProps) {
     if (nextProps.toSave) {
-      return { modalVisible: true, geolocation: nextProps.geolocation };
+      return {
+        modalVisible: true,
+        geolocation: nextProps.geolocation,
+        instructions: nextProps.instructions
+      };
     }
     return null;
   }
@@ -59,6 +63,8 @@ class MapSubmitForm extends Component {
               <TextInput
                 style={[styles.textInput, { height: 120 }]}
                 placeholder="Instructions here..."
+                defaultValue={this.state.instructions}
+                multiline={true}
                 onChangeText={(instructions) => this.setState({instructions})}
               />
               <View style={{ flex: 1, flexDirection: 'row' }}>

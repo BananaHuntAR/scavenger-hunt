@@ -264,7 +264,6 @@ async function generateItems(scene, items, num, customItems) {
     for (let i = 0; i < num; i++) {
       let banana = object.clone();
       if (customItems){
-        console.log('customItems[i]: ', customItems[i]);
         banana.position.z = customItems[i].z;
         banana.position.x = customItems[i].x;
         banana.position.y = customItems[i].y;
