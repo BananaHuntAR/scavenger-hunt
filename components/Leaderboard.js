@@ -15,11 +15,20 @@ import {
 } from 'native-base';
 import { EvilIcons } from '@expo/vector-icons';
 import LeaderboardItem from './LeaderboardItem';
-import HomeIcon from './HomeIcon';
+import { Font } from 'expo';
 
 class Leaderboard extends React.Component {
-  componentDidMount() {
+  state = {
+    loaded: false
+  };
+
+  async componentDidMount() {
     this.props.fetchResultsThunk();
+    await Font.loadAsync({
+      'nanum-pen-script': require('../assets/NanumScript.ttf'),
+      'opensans-light': require('../assets/OpenSans-Light.ttf')
+    });
+    this.setState({ loaded: true });
   }
 
   render() {
@@ -28,21 +37,17 @@ class Leaderboard extends React.Component {
       <View style={styles.container}>
         <Image
           style={styles.bgImage}
-          source={require('../assets/home-bg.jpg')}
+          source={require('../assets/leaderboard.jpg')}
         />
-        <HomeIcon />
+        {this.state.loaded ? (
+          <Text style={styles.headerText}>Leaderboard</Text>
+        ) : null}
+        <Image
+          style={styles.leaderIcon}
+          source={require('../assets/banana_king.png')}
+        />
         <Content>
-          <Card>
-            <Image
-              style={styles.bgImage}
-              source={require('../assets/gold-bg.jpeg')}
-            />
-            <EvilIcons
-              name="trophy"
-              size={80}
-              color="black"
-              style={{ alignSelf: 'center', paddingTop: 10 }}
-            />
+          <Card containerStyle={styles.card}>
             <List>
               <ListItem>
                 <Body>
@@ -111,5 +116,27 @@ const styles = StyleSheet.create({
     margin: 20,
     backgroundColor: '#3FBE94',
     alignSelf: 'center'
+  },
+  headerText: {
+    fontFamily: 'nanum-pen-script',
+    fontSize: 55,
+    color: '#8A4F3B',
+    textAlign: 'center',
+    paddingTop: 15,
+  },
+  leaderIcon: {
+    alignSelf: 'center',
+    paddingTop: 10,
+    height: 100,
+    width: 170
+  },
+  card: {
+    // width: 280,
+    color: 'green'
+    // alignSelf: 'center',
+    // backgroundColor: 'white',
+    // borderColor: 'gray',
+    // borderWidth: 5,
+    // borderRadius: 25
   }
 });
