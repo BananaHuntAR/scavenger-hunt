@@ -1,6 +1,6 @@
 import React from 'react';
-import { Text, View } from 'react-native';
-import { Badge, Icon } from 'react-native-elements';
+import { Text, View, Image } from 'react-native';
+import { Icon } from 'react-native-elements';
 import { connect } from 'react-redux';
 import { incrementTime, resetTime } from '../store';
 import { convertToTime } from '../utils';
@@ -31,23 +31,17 @@ class Timer extends React.Component {
   render() {
     const { time } = this.props;
     return (
-      <View>
-        <Badge
-          containerStyle={{
-            backgroundColor: 'white'
-          }}
-        >
-          <View style={{ flexDirection: 'row', alignItems: 'center' }}>
+      <View style={{ backgroundColor: 'white', borderRadius: 15, padding: 8 }}>
+          <View style={{ flex: 1, flexDirection: 'row', alignItems: 'center', marginBottom: 5 }}>
             <Icon name="timer" />
             <Text>{convertToTime(time)}</Text>
           </View>
           <View style={{ flexDirection: 'row', alignItems: 'center' }}>
-            <Icon name="food-apple" type="material-community" />
+            <Image style={{ width: 20, height: 20, marginRight: 5 }} source={require('../assets/banana_icon.png')} />
             <Text>
               {this.props.capturedItems} / {this.props.itemsNum}
             </Text>
           </View>
-        </Badge>
       </View>
     );
   }

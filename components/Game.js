@@ -31,23 +31,20 @@ class Game extends Component {
     this.state = {
       itemInSight: null,
       isGameOver: false,
-      customGame: false
+      gameItems: []
     };
-    this.gameItems = [];
-    this.itemsNum = 10;
   }
 
   componentDidMount() {
-    this.gameItems = [];
     this.props.resetItems();
-    if (Object.keys(this.props.selectedMap).length !== 0){
-      // this.setState({customGame: true, selectedMap: this.props.selectedMap}) //Prompted not to setState in componentDidMount
-      // console.log("i've selected a game", this.props.selectedMap);
-    }
   }
 
   componentDidUpdate() {
-    if (this.props.capturedItems === this.itemsNum && !this.state.isGameOver) {
+    if (
+      this.state.gameItems.length &&
+      this.props.capturedItems === this.state.gameItems.length &&
+      !this.state.isGameOver
+    ) {
       this.gameOver();
     }
   }
@@ -71,14 +68,14 @@ class Game extends Component {
 
   // Capture button
   handlePress = () => {
-    const currentCube = this.gameItems[this.state.itemInSight];
+    const currentCube = this.state.gameItems[this.state.itemInSight];
     // User captures an item, stop item from animating and turn its color to gray
     currentCube.speed = 0;
-    currentCube.traverse(function(child){
-      if (child instanceof THREE.Mesh ) {
+    currentCube.traverse(function(child) {
+      if (child instanceof THREE.Mesh) {
         child.material = capturedItemMaterial;
       }
-    })
+    });
 
     // capturedItems increments by 1
     if (!currentCube.captured) {
@@ -120,13 +117,17 @@ class Game extends Component {
     generateLighting(scene);
 
     //7. Items are added to the AR scene
-    if (Object.keys(this.props.selectedMap).length !== 0){
+    if (Object.keys(this.props.selectedMap).length !== 0) {
       //Custom map
-      // this.itemsNum = this.props.selectedMap.customItems.length
-      generateItems(scene, this.gameItems, this.props.selectedMap.customItems.length, this.props.selectedMap.customItems);
+      generateItems(
+        scene,
+        this.state.gameItems,
+        this.props.selectedMap.customItems.length,
+        this.props.selectedMap.customItems
+      );
     } else {
       //Random map
-      generateItems(scene, this.gameItems, this.itemsNum);
+      generateItems(scene, this.state.gameItems);
     }
 
     const cameraPos = new THREE.Vector3(0, 0, 0);
@@ -136,7 +137,7 @@ class Game extends Component {
       camera.position.setFromMatrixPosition(camera.matrixWorld);
       cameraPos.applyMatrix4(camera.matrixWorld);
 
-      this.gameItems.forEach((banana, idx) => {
+      this.state.gameItems.forEach((banana, idx) => {
         // Animates items for live movement
         banana.rotation.x += banana.speed;
         banana.rotation.y += banana.speed;
@@ -179,7 +180,11 @@ class Game extends Component {
           <Timer
             isGameOver={this.state.isGameOver}
             capturedItems={this.props.capturedItems}
-            itemsNum={this.itemsNum}
+            itemsNum={
+              (this.props.selectedMap.customItems &&
+                this.props.selectedMap.customItems.length) ||
+              10
+            }
           />
         </View>
         <View style={styles.exitButton}>
@@ -188,7 +193,7 @@ class Game extends Component {
 
         <View style={styles.capture}>
           {this.state.itemInSight !== null &&
-          !this.gameItems[this.state.itemInSight].captured ? (
+          !this.state.gameItems[this.state.itemInSight].captured ? (
             <Button
               raised
               rounded
@@ -197,11 +202,10 @@ class Game extends Component {
               buttonStyle={{
                 backgroundColor: '#E96B63',
                 width: 130,
-                height: 130,
+                height: 130
               }}
             />
           ) : null}
-
         </View>
         <ResultSubmitForm isGameOver={this.state.isGameOver} />
       </View>
@@ -239,7 +243,7 @@ const randomizePosition = (range = 10) => {
   return Math.random() * range - range / 2;
 };
 
-async function generateItems(scene, items, num, customItems) {
+async function generateItems(scene, items, num = 10, customItems) {
   // Load banana3.obj file from file system
   const modelAsset = Asset.fromModule(require('../assets/banana3.obj'));
   await modelAsset.downloadAsync();
@@ -252,44 +256,44 @@ async function generateItems(scene, items, num, customItems) {
   const loader = new THREE.OBJLoader();
 
   // Makes use of loaded banana
-  loader.load(modelAsset.localUri, function(object){
+  loader.load(modelAsset.localUri, function(object) {
     //Adds color to banana but will need lighting to see it
     //See generateLighting function
-    object.traverse(function(child){
-      if (child instanceof THREE.Mesh ) {
+    object.traverse(function(child) {
+      if (child instanceof THREE.Mesh) {
         child.material = bananaMaterial;
       }
-    })
+    });
 
     for (let i = 0; i < num; i++) {
       let banana = object.clone();
-      if (customItems){
+      if (customItems) {
         banana.position.z = customItems[i].z;
         banana.position.x = customItems[i].x;
         banana.position.y = customItems[i].y;
       } else {
-        banana.position.z = randomizePosition(2);  // (-5, 5) meters
-        banana.position.x = randomizePosition(2);  // (-5, 5) meters
-        banana.position.y = randomizePosition(1); // (-0.5, 0.5) meters
+        banana.position.z = randomizePosition(5); // (-5, 5) meters
+        banana.position.x = randomizePosition(5); // (-5, 5) meters
+        banana.position.y = randomizePosition(0.8); // (-0.4, 0.4) meters
       }
       banana.speed = 0.02;
       banana.captured = false;
       scene.add(banana);
       items.push(banana);
     }
-  })
+  });
 }
 
 function generateLighting(scene) {
-  const leftLight = new THREE.DirectionalLight( 0xffffff );
-  const rightLight = new THREE.DirectionalLight( 0xffffff );
-  const bottomLight = new THREE.DirectionalLight( 0xffffff );
-    leftLight.position.set( -3, 5, 0 ).normalize();
-    rightLight.position.set( 3, 5, 0 ).normalize();
-    bottomLight.position.set( 0, -5, 0 ).normalize();
-    scene.add(leftLight);
-    scene.add(rightLight);
-    scene.add(bottomLight);
+  const leftLight = new THREE.DirectionalLight(0xffffff);
+  const rightLight = new THREE.DirectionalLight(0xffffff);
+  const bottomLight = new THREE.DirectionalLight(0xffffff);
+  leftLight.position.set(-3, 5, 0).normalize();
+  rightLight.position.set(3, 5, 0).normalize();
+  bottomLight.position.set(0, -5, 0).normalize();
+  scene.add(leftLight);
+  scene.add(rightLight);
+  scene.add(bottomLight);
 }
 
 const mapState = state => {

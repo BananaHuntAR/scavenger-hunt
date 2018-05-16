@@ -21,7 +21,7 @@ const _getLocationAsync = () => {
 
 const skipTutorialNavigation = (navigation, title) => {
   const titles = ['Game Overview', 'How to Play', 'Mission'];
-  if (titles.includes(title)) return navigation.navigate('Home');
+  if (titles.includes(title)) return navigation.navigate('GameOptionPage');
   else return navigation.navigate('InputInstructions');
 };
 
