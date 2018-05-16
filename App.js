@@ -2,19 +2,20 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import store from './store';
-import Home from './components/Home';
-import Game from './components/Game';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import UserProfile from './components/UserProfile';
-import GameOptionPage from './components/GameOptionPage';
-import Leaderboard from './components/Leaderboard';
-import CustomGameList from './components/CustomGameList';
-import CreateMap from './components/CreateMap';
-import InputInstructions from './components/InputInstructions';
-import TutorialNavigator from './components/Navigators/TutorialNavigator';
-import CustomTutorialNavigator from './components/Navigators/CustomTutorialNavigator';
-import { isSignedIn } from './auth';
+import {
+  Home,
+  Game,
+  Login,
+  Signup,
+  UserProfile,
+  GameOptionPage,
+  Leaderboard,
+  CustomGameList,
+  CreateMap,
+  InputInstructions,
+  TutorialNavigator,
+  CustomTutorialNavigator
+} from './components';
 
 const RootNavigator = StackNavigator(
   {
@@ -68,26 +69,9 @@ const RootNavigator = StackNavigator(
   }
 );
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      signedIn: false,
-      checkedSignIn: false
-    };
-  }
-
-  componentWillMount() {
-    isSignedIn()
-      .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
-      .catch(error => console.error(error));
-  }
-
-  render() {
-    return (
-      <Provider store={store}>
-        <RootNavigator />
-      </Provider>
-    );
-  }
-}
+const App = () => (
+  <Provider store={store}>
+    <RootNavigator />
+  </Provider>
+);
+export default App;
