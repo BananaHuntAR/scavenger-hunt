@@ -27,7 +27,7 @@ class Home extends React.Component {
         <StatusBar hidden={true} />
         <Image
           style={styles.bgImage}
-          source={require('../assets/home-bg.png')}
+          source={require('../assets/home-bg.jpg')}
         />
         {this.state.loaded ? (
           <Text style={styles.headerText}>Banana Hunt</Text>

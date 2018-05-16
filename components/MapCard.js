@@ -1,12 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { Image } from 'react-native';
+import { Image, StyleSheet } from 'react-native';
 import {
-  Card,
   CardItem,
-  Thumbnail,
   Text,
-  Left,
   Body
 } from 'native-base';
 import { selectMap } from '../store';
@@ -20,9 +17,10 @@ class MapCard extends Component {
   render() {
     const { name, address, instructions } = this.props.customMap;
     return (
+        <React.Fragment>
         <CardItem
         button
-        style={{flex: 1}}
+        style={styles.card}
         onPress={
           (e) => {
             //Clicking on a card leads to game starting up
@@ -31,20 +29,32 @@ class MapCard extends Component {
           }
         }>
           <Body>
+            <Text style={[styles.text, {fontWeight: 'bold'}]}>{name}</Text>
             <Image
-              source={{uri: 'https://media.mnn.com/assets/images/2018/03/banana_stem_rachis.jpg.838x0_q80.jpg' }}
-              style={{height: 200, width: '100%', flex: 1}} />
-            <Text>
-              Address: {address}
-            </Text>
-            <Text>
+              source={require('../assets/map_bg.jpg')}
+              style={{width: '100%', flex: 1}} />
+
+            <Text style={styles.text}>
+              Address: {address}{'\n'}
               Instructions: {instructions}
             </Text>
           </Body>
         </CardItem>
+        </React.Fragment>
     );
   }
 }
+
+const styles = StyleSheet.create({
+  text: {
+    color: "gray",
+    paddingVertical: 10
+  },
+  card: {
+    flex: 1,
+    backgroundColor: "#F3EED9",
+  }
+});
 
 const mapDispatch = dispatch => {
   return {

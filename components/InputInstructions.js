@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View, TextInput } from 'react-native';
+import { StyleSheet, ScrollView, TextInput, KeyboardAvoidingView } from 'react-native';
 import { Button, Text } from 'react-native-elements';
 import { Ionicons } from '@expo/vector-icons';
 import HomeIcon from './HomeIcon';
@@ -23,7 +23,8 @@ class InputInstructions extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+        <ScrollView showsVerticalScrollIndicator={false}>
         <HomeIcon />
         <Text h4 style={styles.text}>
           Please enter starting instructions
@@ -46,7 +47,8 @@ class InputInstructions extends React.Component {
           title="Ready to drop some bananas!"
           onPress={this.handleSubmit}
         />
-      </View>
+        </ScrollView>
+      </KeyboardAvoidingView>
     );
   }
 }

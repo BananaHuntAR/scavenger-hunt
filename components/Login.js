@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, ScrollView } from 'react-native';
+import { StyleSheet, Text, TextInput, View, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Button, SocialIcon } from 'react-native-elements';
 import HomeIcon from './HomeIcon';
 import { connect } from 'react-redux';
@@ -49,8 +49,8 @@ class Login extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <ScrollView>
+      <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <HomeIcon />
           <Text style={styles.title}>Log in to get playing!</Text>
           <Text style={styles.error}>{this.state.error}</Text>
@@ -103,7 +103,7 @@ class Login extends React.Component {
             }}
           />
         </ScrollView>
-      </View>
+      </KeyboardAvoidingView>
     );
   }
 }

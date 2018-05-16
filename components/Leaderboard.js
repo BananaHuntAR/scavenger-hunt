@@ -28,7 +28,7 @@ class Leaderboard extends React.Component {
       <View style={styles.container}>
         <Image
           style={styles.bgImage}
-          source={require('../assets/home-bg.png')}
+          source={require('../assets/home-bg.jpg')}
         />
         <HomeIcon />
         <Content>

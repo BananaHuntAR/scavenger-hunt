@@ -20,7 +20,11 @@ class MapSubmitForm extends Component {
 
   static getDerivedStateFromProps(nextProps) {
     if (nextProps.toSave) {
-      return { modalVisible: true, geolocation: nextProps.geolocation };
+      return {
+        modalVisible: true,
+        geolocation: nextProps.geolocation,
+        instructions: nextProps.instructions
+      };
     }
     return null;
   }
@@ -59,6 +63,8 @@ class MapSubmitForm extends Component {
               <TextInput
                 style={[styles.textInput, { height: 120 }]}
                 placeholder="Instructions here..."
+                defaultValue={this.state.instructions}
+                multiline={true}
                 onChangeText={(instructions) => this.setState({instructions})}
               />
               <View style={{ flex: 1, flexDirection: 'row' }}>
@@ -67,7 +73,7 @@ class MapSubmitForm extends Component {
                 backgroundColor="white" color="black"
                 buttonStyle={styles.button}
                 onPress={() => {
-                  this.props.postMap(this.state.name, this.state.address, this.state.instructions, this.state.geolocation, this.props.customItems)
+                  this.props.postMap(this.state.name, this.state.address, this.state.instructions, this.state.geolocation, this.props.customItems, this.props.currentUser.id)
                   this.props.navigation.replace('GameOptionPage');
                 }} />
               <Button
@@ -125,20 +131,22 @@ const styles = StyleSheet.create({
   }
 });
 
-const mapState = state => {
-  return { customItems: state.customItems };
-};
+const mapState = state => ({
+  customItems: state.customItems,
+  currentUser: state.currentUser
+});
 
 const mapDispatch = dispatch => {
   return {
-    postMap(name, address, instructions, geolocation, customItems) {
+    postMap(name, address, instructions, geolocation, customItems, userId) {
       let map = {
         name,
         address,
         instructions,
         latitude: geolocation[0],
         longitude: geolocation[1],
-        customItems
+        customItems,
+        userId
       }
       dispatch(postMap(map));
     }

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { StyleSheet, View, Image } from 'react-native';
-import { Content } from 'native-base';
+import { Content, Card } from 'native-base';
 import MapCard from './MapCard';
 import { fetchCustomMapsThunk } from '../store';
 import HomeIcon from './HomeIcon';
@@ -16,18 +16,19 @@ class CustomGameList extends Component {
       <View style={styles.container}>
         <Image
           style={styles.bgImage}
-          source={require('../assets/home-bg.png')}
+          source={require('../assets/home-bg.jpg')}
         />
         <HomeIcon />
         <Content>
           {this.props.customMaps &&
             this.props.customMaps.map(customMap => {
               return (
+                <Card key={customMap.id}>
                 <MapCard
                   button
                   customMap={customMap}
-                  key={customMap.id}
                 />
+                </Card>
               )
             }
           )}
@@ -58,7 +59,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#E96B63',
     flex: 1,
     justifyContent: 'center',
-    paddingVertical: 30,
     paddingHorizontal: 15
   },
   bgImage: {

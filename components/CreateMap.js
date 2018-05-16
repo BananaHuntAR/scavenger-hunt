@@ -142,7 +142,7 @@ class CreateMap extends React.Component {
             padding: 0
           }} textStyle={{ fontSize: 13 }} />
         </View>
-        <MapSubmitForm toSave={this.state.toSave} saveClicked={this.state.saveClicked} geolocation={this.geolocation} />
+        <MapSubmitForm toSave={this.state.toSave} saveClicked={this.state.saveClicked} geolocation={this.geolocation} instructions={this.props.navigation.state.params.instructions} />
       </View>
     );
   }
