@@ -9,10 +9,11 @@ const CustomTutorialNavigator = TabNavigator(
     CustomTutorialStepOne: {
       screen: () => (
         <TutorialStep
-          //passing title & desc props so that we can reuse our TutorialStep component
+          //passing title & desc props so that we can reuse our TutorialStep component, skipDest to decipher which screen to navigate to after
           title={'Pin Location'}
           desc={`Banana Hunt will ask to access your location, so that it can be pinned as the starting point.`}
           iconName={'ios-pin'}
+          skipDest={'InputInstructions'}
         />
       )
     },
@@ -22,6 +23,7 @@ const CustomTutorialNavigator = TabNavigator(
           title={'Give Instructions'}
           desc={`Enter details of where to face to get started. Example: Stand ~1 foot away from the center of the mailbox.`}
           iconName={'ios-create-outline'}
+          skipDest={'InputInstructions'}
         />
       )
     },
@@ -31,6 +33,7 @@ const CustomTutorialNavigator = TabNavigator(
           title={'Drop Bananas'}
           desc={`As you walk around, hit the "Drop" button to leave bananas in your path!`}
           img={require('../../assets/banana-128.png')}
+          skipDest={'InputInstructions'}
         />
       )
     },
@@ -40,6 +43,7 @@ const CustomTutorialNavigator = TabNavigator(
           title={'Save Map'}
           desc={`Once you're all set, hit "Save." Now others can participate in your banana hunt as well!`}
           iconName={'ios-share-outline'}
+          skipDest={'InputInstructions'}
         />
       )
     }
