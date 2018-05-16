@@ -20,13 +20,23 @@ const TutorialNavigator = TabNavigator(
     TutorialStepTwo: {
       screen: () => (
         <TutorialStep
+          //passing title & desc props so that we can reuse our TutorialStep component
+          title={'Getting Started'}
+          desc={`Make sure you hold your phone steady upon opening a new game.`}
+          iconName={'ios-phone-portrait'}
+        />
+      )
+    },
+    TutorialStepThree: {
+      screen: () => (
+        <TutorialStep
           title={'How to Play'}
           desc={`Bananas will randomly drop all around you. Once you are within reach of one, a "capture" button will appear!`}
           iconName={'ios-basket-outline'}
         />
       )
     },
-    TutorialStepThree: {
+    TutorialStepFour: {
       screen: () => (
         <TutorialStep
           title={'Mission'}
