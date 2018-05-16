@@ -2,18 +2,20 @@ import React from 'react';
 import { StackNavigator } from 'react-navigation';
 import { Provider } from 'react-redux';
 import store from './store';
-import Home from './components/Home';
-import Game from './components/Game';
-import Login from './components/Login';
-import Signup from './components/Signup';
-import UserProfile from './components/UserProfile';
-import GameOptionPage from './components/GameOptionPage';
-import Leaderboard from './components/Leaderboard';
-import CustomGameList from './components/CustomGameList';
-import CreateMap from './components/CreateMap';
-import InputInstructions from './components/InputInstructions';
-import TutorialNavigator from './components/Navigators/TutorialNavigator';
-import CustomTutorialNavigator from './components/Navigators/CustomTutorialNavigator';
+import {
+  Home,
+  Game,
+  Login,
+  Signup,
+  UserProfile,
+  GameOptionPage,
+  Leaderboard,
+  CustomGameList,
+  CreateMap,
+  InputInstructions,
+  TutorialNavigator,
+  CustomTutorialNavigator
+} from './components';
 import { isSignedIn } from './auth';
 
 const RootNavigator = StackNavigator(
