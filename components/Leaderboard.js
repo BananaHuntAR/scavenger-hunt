@@ -47,7 +47,7 @@ class Leaderboard extends React.Component {
           source={require('../assets/banana_king.png')}
         />
         <Content>
-          <Card containerStyle={styles.card}>
+          <Card bordered style={styles.card}>
             <List>
               <ListItem>
                 <Body>
@@ -102,6 +102,13 @@ const styles = StyleSheet.create({
     resizeMode: 'stretch',
     top: 0
   },
+  headerText: {
+    fontFamily: 'nanum-pen-script',
+    fontSize: 55,
+    color: '#8A4F3B',
+    textAlign: 'center',
+    marginTop: 15
+  },
   columnHeader: {
     color: 'black',
     padding: 5,
@@ -113,30 +120,20 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
   button: {
-    margin: 20,
-    backgroundColor: '#3FBE94',
-    alignSelf: 'center'
-  },
-  headerText: {
-    fontFamily: 'nanum-pen-script',
-    fontSize: 55,
-    color: '#8A4F3B',
-    textAlign: 'center',
-    paddingTop: 15,
+    marginBottom: 15,
+    backgroundColor: '#8A4F3B',
+    alignSelf: 'center',
+    paddingHorizontal: 30
   },
   leaderIcon: {
     alignSelf: 'center',
-    paddingTop: 10,
+    marginBottom: 5,
     height: 100,
     width: 170
   },
   card: {
-    // width: 280,
-    color: 'green'
-    // alignSelf: 'center',
-    // backgroundColor: 'white',
-    // borderColor: 'gray',
-    // borderWidth: 5,
-    // borderRadius: 25
+    borderColor: '#8A4F3B',
+    borderWidth: 20,
+    borderRadius: 25
   }
 });
