@@ -44,7 +44,7 @@ class Leaderboard extends React.Component {
           style={styles.leaderIcon}
           source={require('../assets/banana_king.png')}
         />
-        <Content>
+        <Content showsVerticalScrollIndicator={false}>
         <View style={styles.cardContainer}>
           <Card bordered style={styles.card}>
             <List>

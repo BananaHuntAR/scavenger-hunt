@@ -146,11 +146,11 @@ class Game extends Component {
         // .distanceTo(vector) returns the distance between the camera and the items
         let dist = banana.position.distanceTo(camera.position);
         if (this.state.itemInSight === null) {
-          if (dist < 0.6 && !banana.captured) {
+          if (dist < 0.3 && !banana.captured) {
             this.setState({ itemInSight: idx });
           }
         } else {
-          if (idx === this.state.itemInSight && dist > 0.6) {
+          if (idx === this.state.itemInSight && dist > 0.3) {
             this.setState({ itemInSight: null });
           }
         }
@@ -183,7 +183,7 @@ class Game extends Component {
             itemsNum={
               (this.props.selectedMap.customItems &&
                 this.props.selectedMap.customItems.length) ||
-              10
+              3
             }
           />
         </View>
@@ -243,7 +243,7 @@ const randomizePosition = (range = 10) => {
   return Math.random() * range - range / 2;
 };
 
-async function generateItems(scene, items, num = 10, customItems) {
+async function generateItems(scene, items, num = 3, customItems) {
   // Load banana3.obj file from file system
   const modelAsset = Asset.fromModule(require('../assets/banana3.obj'));
   await modelAsset.downloadAsync();
@@ -272,9 +272,9 @@ async function generateItems(scene, items, num = 10, customItems) {
         banana.position.x = customItems[i].x;
         banana.position.y = customItems[i].y;
       } else {
-        banana.position.z = randomizePosition(5); // (-5, 5) meters
-        banana.position.x = randomizePosition(5); // (-5, 5) meters
-        banana.position.y = randomizePosition(0.8); // (-0.4, 0.4) meters
+        banana.position.z = randomizePosition(4); // (-5, 5) meters
+        banana.position.x = randomizePosition(4); // (-5, 5) meters
+        banana.position.y = randomizePosition(1); // (-0.4, 0.4) meters
       }
       banana.speed = 0.02;
       banana.captured = false;
