@@ -9,7 +9,7 @@ class GameOptionPage extends React.Component {
     const { navigation, currentUser } = this.props;
     return (
       <View style={styles.container}>
-        <Image style={styles.bgImage} source={require('../assets/home-bg.png')} />
+        <Image style={styles.bgImage} source={require('../assets/home-bg.jpg')} />
         <HomeIcon />
         <View style={styles.buttonsContainer}>
           <Button
