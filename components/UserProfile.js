@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView, View } from 'react-native';
 import { Card, ListItem, Text } from 'react-native-elements';
 import HomeIcon from './HomeIcon';
 import { connect } from 'react-redux';
-import { fetchCustomMapsByUserThunk, fetchResultsByUserThunk } from '../store';
+import { fetchCustomMapsByUserThunk, fetchResultsByUserThunk, selectMap } from '../store';
 
 class UserProfile extends React.Component {
   componentDidMount() {
@@ -41,8 +41,10 @@ class UserProfile extends React.Component {
                     key={map.id}
                     title={map.name}
                     subtitle={map.createdAt.slice(0, 10)}
-                    onPress={() =>
-                      navigation.navigate('Game', { customMap: map })
+                    onPress={() => {
+                      this.props.loadMapToGame(map);
+                      navigation.navigate('Game');
+                    }
                     }
                   />
                 );
@@ -62,7 +64,8 @@ const mapStateToProps = storeState => ({
 
 const mapDispatchToProps = dispatch => ({
   loadCustomMaps: userId => dispatch(fetchCustomMapsByUserThunk(userId)),
-  loadPastResults: userId => dispatch(fetchResultsByUserThunk(userId))
+  loadPastResults: userId => dispatch(fetchResultsByUserThunk(userId)),
+  loadMapToGame: customMap => dispatch(selectMap(customMap))
 });
 
 const styles = StyleSheet.create({
