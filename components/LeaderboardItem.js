@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet } from 'react-native';
 import { ListItem, Body, Right, Text } from 'native-base';
 
 const LeaderboardItem = ({ rank, name, time }) => {
@@ -21,6 +21,7 @@ const LeaderboardItem = ({ rank, name, time }) => {
 const styles = StyleSheet.create({
   text: {
     color: 'black',
+    fontSize: 15,
     paddingRight: 13
   }
 });

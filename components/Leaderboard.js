@@ -5,7 +5,6 @@ import { StyleSheet, Image, View } from 'react-native';
 import {
   Content,
   Card,
-  CardItem,
   List,
   ListItem,
   Body,
@@ -13,7 +12,6 @@ import {
   Button,
   Text
 } from 'native-base';
-import { EvilIcons } from '@expo/vector-icons';
 import LeaderboardItem from './LeaderboardItem';
 import { Font } from 'expo';
 
@@ -47,6 +45,7 @@ class Leaderboard extends React.Component {
           source={require('../assets/banana_king.png')}
         />
         <Content>
+        <View style={styles.cardContainer}>
           <Card bordered style={styles.card}>
             <List>
               <ListItem>
@@ -71,6 +70,7 @@ class Leaderboard extends React.Component {
               })}
             </List>
           </Card>
+          </View>
         </Content>
         <Button
           onPress={() => this.props.navigation.navigate('GameOptionPage')}
@@ -92,7 +92,6 @@ export default connect(mapState, { fetchResultsThunk })(Leaderboard);
 
 const styles = StyleSheet.create({
   container: {
-    // backgroundColor: '#3FBE94',
     flex: 1,
     paddingHorizontal: 20,
     paddingVertical: 10
@@ -116,11 +115,8 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: 'OriyaSangamMN'
   },
-  buttonContainer: {
-    justifyContent: 'center'
-  },
   button: {
-    marginBottom: 15,
+    marginBottom: 20,
     backgroundColor: '#8A4F3B',
     alignSelf: 'center',
     paddingHorizontal: 30
@@ -132,8 +128,8 @@ const styles = StyleSheet.create({
     width: 170
   },
   card: {
-    borderColor: '#8A4F3B',
-    borderWidth: 20,
+    // borderColor: '#8A4F3B',
+    // borderWidth: 20,
     borderRadius: 25
   }
 });
