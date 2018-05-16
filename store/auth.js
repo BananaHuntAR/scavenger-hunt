@@ -50,7 +50,7 @@ export const logout = navigation => dispatch => {
       dispatch(removeCurrentUser());
       navigation.navigate('Home', { error: 'Logout successful.' });
     })
-    .catch(error => console.error('Logout successful:  ', error));
+    .catch(error => console.error('Logout unsuccessful:  ', error));
 };
 
 /* ------------      HELPER FUNCTIONS     ------------------ */

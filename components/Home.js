@@ -4,7 +4,6 @@ import { Font } from 'expo';
 import { Text } from 'react-native-elements';
 import { FontAwesome } from '@expo/vector-icons';
 import { connect } from 'react-redux';
-import { logout } from '../store/auth';
 import Toolbar from './Toolbar';
 
 class Home extends React.Component {
@@ -39,16 +38,12 @@ class Home extends React.Component {
           onPress={() => navigation.navigate('GameOptionPage')}
           style={styles.icon}
         />
-        {this.state.loaded ? (
+        {this.state.loaded && !currentUser.email ? (
           <Text
             style={styles.loginText}
-            onPress={() => {
-              return currentUser.email
-                ? logoutFunc(navigation)
-                : navigation.navigate('Login');
-            }}
+            onPress={() => navigation.navigate('Login')}
           >
-            {!currentUser.email && 'Login'}
+            Login
           </Text>
         ) : null}
 
@@ -60,10 +55,6 @@ class Home extends React.Component {
 
 const mapStateToProps = storeState => ({
   currentUser: storeState.currentUser
-});
-
-const mapDispatchToProps = dispatch => ({
-  logoutFunc: navigation => dispatch(logout(navigation))
 });
 
 const styles = StyleSheet.create({
@@ -101,4 +92,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(Home);
+export default connect(mapStateToProps, null)(Home);
