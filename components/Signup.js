@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, TextInput, View, ScrollView, KeyboardAvoidingView } from 'react-native';
+import { StyleSheet, Text, TextInput, ScrollView, KeyboardAvoidingView } from 'react-native';
 import { Button } from 'react-native-elements';
 import HomeIcon from './HomeIcon';
 import { connect } from 'react-redux';
