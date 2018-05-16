@@ -31,7 +31,6 @@ class Game extends Component {
     this.state = {
       itemInSight: null,
       isGameOver: false,
-      customGame: false,
       gameItems: []
     };
   }
