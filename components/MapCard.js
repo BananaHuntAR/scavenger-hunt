@@ -17,7 +17,6 @@ class MapCard extends Component {
   render() {
     const { name, address, instructions } = this.props.customMap;
     return (
-        <React.Fragment>
         <CardItem
         button
         style={styles.card}
@@ -40,7 +39,6 @@ class MapCard extends Component {
             </Text>
           </Body>
         </CardItem>
-        </React.Fragment>
     );
   }
 }
@@ -53,6 +51,7 @@ const styles = StyleSheet.create({
   card: {
     flex: 1,
     backgroundColor: "#F3EED9",
+    borderRadius: 25
   }
 });
 
