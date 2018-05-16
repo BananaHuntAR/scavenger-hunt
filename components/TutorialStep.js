@@ -3,9 +3,8 @@ import { StyleSheet, View, Image } from 'react-native';
 import { Button, Text } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import { Ionicons } from '@expo/vector-icons';
-import { skipTutorialNavigation } from '../utils';
 
-const TutorialStep = ({ navigation, title, desc, iconName, img }) => (
+const TutorialStep = ({ navigation, title, desc, iconName, img, skipDest }) => (
   <View style={styles.container}>
     <View style={styles.instructionsContainer}>
       <Text h2 style={styles.text}>
@@ -21,7 +20,7 @@ const TutorialStep = ({ navigation, title, desc, iconName, img }) => (
       </Text>
       <Button
         style={{ width: 150 }}
-        onPress={() => skipTutorialNavigation(navigation, title)}
+        onPress={() => navigation.navigate(skipDest)}
         raised
         rounded
         title={
