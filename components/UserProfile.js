@@ -6,7 +6,8 @@ import { connect } from 'react-redux';
 import {
   fetchCustomMapsByUserThunk,
   fetchResultsByUserThunk,
-  logout
+  logout,
+  selectMap
 } from '../store';
 
 class UserProfile extends React.Component {
@@ -17,8 +18,13 @@ class UserProfile extends React.Component {
   }
 
   render() {
-    //currentUser was passed as a prop on navigation from Toolbar
-    const { userResults, userMaps, navigation, logoutFunc } = this.props;
+    const {
+      userResults,
+      userMaps,
+      navigation,
+      logoutFunc,
+      loadGame
+    } = this.props;
     return (
       <View style={styles.container}>
         <ScrollView>
@@ -53,9 +59,10 @@ class UserProfile extends React.Component {
                     key={map.id}
                     title={map.name}
                     subtitle={map.createdAt.slice(0, 10)}
-                    onPress={() =>
-                      navigation.navigate('Game', { customMap: map })
-                    }
+                    onPress={() => {
+                      loadGame(map);
+                      navigation.navigate('Game');
+                    }}
                   />
                 );
               })}
@@ -75,7 +82,8 @@ const mapStateToProps = storeState => ({
 const mapDispatchToProps = dispatch => ({
   loadCustomMaps: userId => dispatch(fetchCustomMapsByUserThunk(userId)),
   loadPastResults: userId => dispatch(fetchResultsByUserThunk(userId)),
-  logoutFunc: navigation => dispatch(logout(navigation))
+  logoutFunc: navigation => dispatch(logout(navigation)),
+  loadGame: customMap => dispatch(selectMap(customMap))
 });
 
 const styles = StyleSheet.create({
