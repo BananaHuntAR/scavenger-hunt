@@ -34,7 +34,7 @@ class Game extends Component {
       customGame: false,
       gameItems: []
     };
-    // this.state.gameItems = [];
+    // this.gameItems = [];
   }
 
   componentDidMount() {
