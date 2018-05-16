@@ -19,7 +19,7 @@ class CustomGameList extends Component {
           source={require('../assets/home-bg.jpg')}
         />
         <HomeIcon />
-        <Content>
+        <Content showsVerticalScrollIndicator={false}>
           {this.props.customMaps &&
             this.props.customMaps.map(customMap => {
               return (
