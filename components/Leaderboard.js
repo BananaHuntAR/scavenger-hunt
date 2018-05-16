@@ -7,7 +7,7 @@ import {
   Card,
   List,
   ListItem,
-  Body,
+  Left,
   Right,
   Button,
   Text
@@ -49,9 +49,9 @@ class Leaderboard extends React.Component {
           <Card bordered style={styles.card}>
             <List>
               <ListItem>
-                <Body>
+                <Left>
                   <Text style={styles.columnHeader}>Name</Text>
-                </Body>
+                </Left>
                 <Right>
                   <Text style={styles.columnHeader}>Time</Text>
                 </Right>
@@ -130,6 +130,7 @@ const styles = StyleSheet.create({
   card: {
     // borderColor: '#8A4F3B',
     // borderWidth: 20,
+    backgroundColor: "#F3EED9",
     borderRadius: 25
   }
 });

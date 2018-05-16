@@ -23,7 +23,8 @@ class CustomGameList extends Component {
           {this.props.customMaps &&
             this.props.customMaps.map(customMap => {
               return (
-                <Card key={customMap.id}>
+                <Card key={customMap.id}
+                style={styles.card}>
                 <MapCard
                   button
                   customMap={customMap}
@@ -65,5 +66,9 @@ const styles = StyleSheet.create({
     position: 'absolute',
     resizeMode: 'stretch',
     top: 0
+  },
+  card: {
+    backgroundColor: 'transparent',
+    borderRadius: 25
   }
 });
