@@ -16,7 +16,6 @@ import {
   TutorialNavigator,
   CustomTutorialNavigator
 } from './components';
-import { isSignedIn } from './auth';
 
 const RootNavigator = StackNavigator(
   {
@@ -70,26 +69,9 @@ const RootNavigator = StackNavigator(
   }
 );
 
-export default class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      signedIn: false,
-      checkedSignIn: false
-    };
-  }
-
-  componentWillMount() {
-    isSignedIn()
-      .then(res => this.setState({ signedIn: res, checkedSignIn: true }))
-      .catch(error => console.error(error));
-  }
-
-  render() {
-    return (
-      <Provider store={store}>
-        <RootNavigator />
-      </Provider>
-    );
-  }
-}
+const App = () => (
+  <Provider store={store}>
+    <RootNavigator />
+  </Provider>
+);
+export default App;
