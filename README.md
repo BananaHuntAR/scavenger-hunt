@@ -2,9 +2,9 @@
 
 [Deployed Frontend on EXPO]()
 
-[Deployed Backend on Heroku](https://scavengar-hunt.herokuapp.com)
+[Deployed Backend on Heroku](https://banana-hunt.herokuapp.com)
 
-[Project Github (Frontend & Backend Repositories)](https://github.com/ScavengAR)
+[Project Github (Frontend & Backend Repositories)](https://github.com/BananaHuntAR)
 
 [Attend our facebook live Demo day on May 21](https://www.facebook.com/events/611172005893149/)
 
@@ -53,7 +53,7 @@ If Yarn was installed when the project was initialized, then dependencies will h
 
 ### `npm start`
 
-This script can be used on the backend's and the frontend's separate package.json files to run the app. You can find our server at https://scavengar-hunt.herokuapp.com.
+This script can be used on the backend's and the frontend's separate package.json files to run the app. You can find our server at https://banana-hunt.herokuapp.com.
 
 ### `npm test`
 
