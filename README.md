@@ -1,16 +1,19 @@
 # Welcome to _Banana Hunt_
 
+[Deployed Website](https://bananahuntar.github.io)
+
 [Deployed Frontend on EXPO]()
 
-[Deployed Backend on Heroku](https://scavengar-hunt.herokuapp.com)
+[Deployed Backend on Heroku](https://banana-hunt.herokuapp.com)
 
-[Project Github (Frontend & Backend Repositories)](https://github.com/ScavengAR)
+[Project Github (Frontend & Backend Repositories)](https://github.com/BananaHuntAR)
 
 [Attend our facebook live Demo day on May 21](https://www.facebook.com/events/611172005893149/)
 
 Banana Hunt is an augmented reality (AR) scavenger hunt that can be played anywhere in the world! On this React-Native iOS mobile app, users can partake in a hunt for AR bananas on an existing map or a randomized map. Logged-in users can even create and share custom maps of their own, whether it be for a park, museum, etc., by pinning their starting location and dropping bananas along their trail!
 
 App features: informative tutorials, login/sign up, user profiles, and top rankings
+
 Game options: quick play, custom play, and create-your-own map
 
 ## Screenshots
@@ -53,7 +56,7 @@ If Yarn was installed when the project was initialized, then dependencies will h
 
 ### `npm start`
 
-This script can be used on the backend's and the frontend's separate package.json files to run the app. You can find our server at https://scavengar-hunt.herokuapp.com.
+This script can be used on the backend's and the frontend's separate package.json files to run the app. You can find our server at https://banana-hunt.herokuapp.com.
 
 ### `npm test`
 
