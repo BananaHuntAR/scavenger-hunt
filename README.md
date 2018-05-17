@@ -1,5 +1,7 @@
 # Welcome to _Banana Hunt_
 
+[Deployed Website](https://bananahuntar.github.io)
+
 [Deployed Frontend on EXPO]()
 
 [Deployed Backend on Heroku](https://banana-hunt.herokuapp.com)
