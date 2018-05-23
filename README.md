@@ -2,13 +2,13 @@
 
 [Deployed Website](https://bananahuntar.github.io)
 
-[Deployed Frontend on EXPO]()
+[Frontend on EXPO to be deployed]()
 
 [Deployed Backend on Heroku](https://banana-hunt.herokuapp.com)
 
 [Project Github (Frontend & Backend Repositories)](https://github.com/BananaHuntAR)
 
-[Attend our facebook live Demo day on May 21](https://www.facebook.com/events/611172005893149/)
+[Demo Day Presentation - Youtube](https://youtu.be/LcGKAu49MnA)
 
 Banana Hunt is an augmented reality (AR) scavenger hunt that can be played anywhere in the world! On this React-Native iOS mobile app, users can partake in a hunt for AR bananas on an existing map or a randomized map. Logged-in users can even create and share custom maps of their own, whether it be for a park, museum, etc., by pinning their starting location and dropping bananas along their trail!
 
