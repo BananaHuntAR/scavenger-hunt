@@ -2,7 +2,7 @@
 
 [Deployed Website](https://bananahuntar.github.io)
 
-[To be Frontend on EXPO deployed]()
+[Frontend on EXPO to be deployed]()
 
 [Deployed Backend on Heroku](https://banana-hunt.herokuapp.com)
 
