@@ -31,7 +31,7 @@ export const postResult = (name, time, userId, mapId) => dispatch => {
     .post(`${domain}/api/results`, { name, time, userId, mapId })
     .then(() => {
       dispatch(resetTime());
-      dispatch(fetchResultsThunk());
+      dispatch(fetchResultsThunk(mapId));
     })
     .catch(err => console.error(err));
 };
