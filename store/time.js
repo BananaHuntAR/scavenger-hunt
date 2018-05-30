@@ -14,9 +14,9 @@ export const incrementTime = time => ({ type: INCREMENT_TIME, time });
 export const resetTime = () => ({ type: RESET_TIME });
 
 // THUNK CREATORS
-export const postResult = (name, time, userId) => dispatch => {
+export const postResult = (name, time, userId, mapId) => dispatch => {
   return axios
-    .post(`${domain}/api/results`, { name, time, userId })
+    .post(`${domain}/api/results`, { name, time, userId, mapId })
     .then(() => {
       dispatch(resetTime());
       dispatch(fetchResultsThunk());

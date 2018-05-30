@@ -165,6 +165,10 @@ class Game extends Component {
   };
 
   render() {
+    const mapId = Object.keys(this.props.selectedMap).length
+      ? Number(this.props.selectedMap.id)
+      : null;
+
     return (
       <View style={{ flex: 1 }}>
         <StatusBar hidden={true} />
@@ -207,7 +211,7 @@ class Game extends Component {
             />
           ) : null}
         </View>
-        <ResultSubmitForm isGameOver={this.state.isGameOver} />
+        <ResultSubmitForm isGameOver={this.state.isGameOver} mapId={mapId} />
       </View>
     );
   }
