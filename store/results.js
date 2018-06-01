@@ -20,7 +20,7 @@ export const fetchResultsThunk = mapId => dispatch => {
       .catch(err => console.error(err));
   } else {
     return axios
-      .get(`${domain}/api/results`)
+      .get(`${domain}/api/results/quickPlay`)
       .then(res => dispatch(fetchResults(res.data)))
       .catch(err => console.error(err));
   }
