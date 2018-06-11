@@ -37,10 +37,12 @@ Currently, React Native does not support npm version 5.x+.
 We recommend using a Node/NPM version manager like 'n'.
 Simply run `npm install -g n` to install 'n' globally.
 Running the following commands will tell you what versions you currently have:
+
 ```
 node -v
 npm -v
 ```
+
 You should see node version v7.7.4 and npm 4.1.2 if you run `sudo n 7.7`.
 If you ever want to switch back to the latest version (or you just want to update to the latest version) just run `sudo n latest`.
 
@@ -60,7 +62,7 @@ This script can be used on the backend's and the frontend's separate package.jso
 
 ### `npm test`
 
-Runs the Mocha/Chai test runner on the tests.
+Runs the Jest test runner.
 
 ## About
 

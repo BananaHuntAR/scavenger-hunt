@@ -16,17 +16,12 @@ import LeaderboardItem from './LeaderboardItem';
 import { Font } from 'expo';
 
 class Leaderboard extends React.Component {
-  state = {
-    loaded: false
-  };
-
   async componentDidMount() {
     this.props.fetchResultsThunk();
     await Font.loadAsync({
       'nanum-pen-script': require('../assets/NanumScript.ttf'),
       'opensans-light': require('../assets/OpenSans-Light.ttf')
     });
-    this.setState({ loaded: true });
   }
 
   render() {
@@ -37,41 +32,41 @@ class Leaderboard extends React.Component {
           style={styles.bgImage}
           source={require('../assets/leaderboard.jpg')}
         />
-        {this.state.loaded ? (
-          <Text style={styles.headerText}>Leaderboard</Text>
-        ) : null}
+        <Text style={styles.headerText}>Leaderboard</Text>
         <Image
           style={styles.leaderIcon}
           source={require('../assets/banana_king.png')}
         />
-        <Content showsVerticalScrollIndicator={false}>
-        <View style={styles.cardContainer}>
-          <Card bordered style={styles.card}>
-            <List>
-              <ListItem>
-                <Left>
-                  <Text style={styles.columnHeader}>Name</Text>
-                </Left>
-                <Right>
-                  <Text style={styles.columnHeader}>Time</Text>
-                </Right>
-              </ListItem>
 
-              {this.props.results.map(result => {
-                rank++;
-                return (
-                  <LeaderboardItem
-                    key={result.id}
-                    rank={rank}
-                    name={result.name}
-                    time={result.time}
-                  />
-                );
-              })}
-            </List>
-          </Card>
+        <Content showsVerticalScrollIndicator={false}>
+          <View style={styles.cardContainer}>
+            <Card bordered style={styles.card}>
+              <List>
+                <ListItem>
+                  <Left>
+                    <Text style={styles.columnHeader}>Name</Text>
+                  </Left>
+                  <Right>
+                    <Text style={styles.columnHeader}>Time</Text>
+                  </Right>
+                </ListItem>
+
+                {this.props.results.map(result => {
+                  rank++;
+                  return (
+                    <LeaderboardItem
+                      key={result.id}
+                      rank={rank}
+                      name={result.name}
+                      time={result.time}
+                    />
+                  );
+                })}
+              </List>
+            </Card>
           </View>
         </Content>
+
         <Button
           onPress={() => this.props.navigation.navigate('GameOptionPage')}
           rounded
@@ -130,7 +125,7 @@ const styles = StyleSheet.create({
   card: {
     // borderColor: '#8A4F3B',
     // borderWidth: 20,
-    backgroundColor: "#F3EED9",
+    backgroundColor: '#F3EED9',
     borderRadius: 25
   }
 });

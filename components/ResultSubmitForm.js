@@ -67,7 +67,8 @@ class ResultSubmitForm extends Component {
                   this.props.postResult(
                     this.state.name,
                     this.props.time,
-                    +this.props.currentUser.id
+                    +this.props.currentUser.id,
+                    this.props.mapId
                   );
                   this.props.navigation.replace('Leaderboard');
                 }}
@@ -137,8 +138,8 @@ const mapState = state => {
 
 const mapDispatch = dispatch => {
   return {
-    postResult(name, time, userId) {
-      dispatch(postResult(name, time, userId));
+    postResult(name, time, userId, mapId) {
+      dispatch(postResult(name, time, userId, mapId));
     }
   };
 };

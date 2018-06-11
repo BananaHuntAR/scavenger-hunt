@@ -1,5 +1,6 @@
 import axios from 'axios';
 import domain from '../domain.js';
+import { resetTime } from './time.js';
 
 // ACTION TYPES
 const FETCH_RESULTS = 'FETCH_RESULTS';
@@ -11,10 +12,27 @@ export const fetchResults = results => ({
 });
 
 // THUNK CREATORS
-export const fetchResultsThunk = () => dispatch => {
+export const fetchResultsThunk = mapId => dispatch => {
+  if (mapId) {
+    return axios
+      .get(`${domain}/api/customMaps/${mapId}/results`)
+      .then(res => dispatch(fetchResults(res.data)))
+      .catch(err => console.error(err));
+  } else {
+    return axios
+      .get(`${domain}/api/results/quickPlay`)
+      .then(res => dispatch(fetchResults(res.data)))
+      .catch(err => console.error(err));
+  }
+};
+
+export const postResult = (name, time, userId, mapId) => dispatch => {
   return axios
-    .get(`${domain}/api/results`)
-    .then(res => dispatch(fetchResults(res.data)))
+    .post(`${domain}/api/results`, { name, time, userId, mapId })
+    .then(() => {
+      dispatch(resetTime());
+      dispatch(fetchResultsThunk(mapId));
+    })
     .catch(err => console.error(err));
 };
 
