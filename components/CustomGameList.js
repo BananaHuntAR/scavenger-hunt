@@ -23,16 +23,11 @@ class CustomGameList extends Component {
           {this.props.customMaps &&
             this.props.customMaps.map(customMap => {
               return (
-                <Card key={customMap.id}
-                style={styles.card}>
-                <MapCard
-                  button
-                  customMap={customMap}
-                />
+                <Card key={customMap.id} style={styles.card}>
+                  <MapCard button customMap={customMap} />
                 </Card>
-              )
-            }
-          )}
+              );
+            })}
         </Content>
       </View>
     );
@@ -53,7 +48,10 @@ const mapDispatch = dispatch => {
   };
 };
 
-export default connect(mapState, mapDispatch)(CustomGameList);
+export default connect(
+  mapState,
+  mapDispatch
+)(CustomGameList);
 
 const styles = StyleSheet.create({
   container: {
