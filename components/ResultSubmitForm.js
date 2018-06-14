@@ -10,7 +10,7 @@ import {
 import { Button } from 'react-native-elements';
 import { withNavigation } from 'react-navigation';
 import { connect } from 'react-redux';
-import { postResult } from '../store';
+import { postResult, setMapId } from '../store';
 import { convertToTime } from '../utils';
 
 class ResultSubmitForm extends Component {
@@ -70,6 +70,7 @@ class ResultSubmitForm extends Component {
                     +this.props.currentUser.id,
                     this.props.mapId
                   );
+                  this.props.postMapId(this.props.mapId);
                   this.props.navigation.replace('Leaderboard');
                 }}
               />
@@ -140,8 +141,14 @@ const mapDispatch = dispatch => {
   return {
     postResult(name, time, userId, mapId) {
       dispatch(postResult(name, time, userId, mapId));
+    },
+    postMapId(mapId) {
+      dispatch(setMapId(mapId));
     }
   };
 };
 
-export default connect(mapState, mapDispatch)(withNavigation(ResultSubmitForm));
+export default connect(
+  mapState,
+  mapDispatch
+)(withNavigation(ResultSubmitForm));
