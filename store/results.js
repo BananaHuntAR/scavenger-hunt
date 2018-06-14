@@ -4,11 +4,17 @@ import { resetTime } from './time.js';
 
 // ACTION TYPES
 const FETCH_RESULTS = 'FETCH_RESULTS';
+const NEW_RESULT = 'NEW_RESULT';
 
 // ACTION CREATORS
 export const fetchResults = results => ({
   type: FETCH_RESULTS,
   results
+});
+
+export const newResult = result => ({
+  type: NEW_RESULT,
+  result
 });
 
 // THUNK CREATORS
@@ -29,9 +35,9 @@ export const fetchResultsThunk = mapId => dispatch => {
 export const postResult = (name, time, userId, mapId) => dispatch => {
   return axios
     .post(`${domain}/api/results`, { name, time, userId, mapId })
-    .then(() => {
+    .then(result => {
       dispatch(resetTime());
-      // dispatch(fetchResultsThunk(mapId));
+      dispatch(newResult(result.data));
     })
     .catch(err => console.error(err));
 };
@@ -41,6 +47,8 @@ export default function(state = [], action) {
   switch (action.type) {
     case FETCH_RESULTS:
       return action.results;
+    case NEW_RESULT:
+      return [...state, action.result];
     default:
       return state;
   }
