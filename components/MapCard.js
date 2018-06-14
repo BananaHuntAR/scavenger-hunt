@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Image, StyleSheet } from 'react-native';
 import { CardItem, Text, Body, Button } from 'native-base';
-import { selectMap } from '../store';
+import { selectMap, setMapId } from '../store';
 import { withNavigation } from 'react-navigation';
 import { EvilIcons } from '@expo/vector-icons';
 
@@ -37,7 +37,10 @@ class MapCard extends Component {
           </Text>
           <Button
             style={{ backgroundColor: '#fced4e' }}
-            onPress={() => this.props.navigation.navigate('Leaderboard')}
+            onPress={() => {
+              this.props.selectLeaderboard(this.props.customMap.id);
+              this.props.navigation.navigate('Leaderboard');
+            }}
           >
             <EvilIcons name="trophy" size={30} style={{ color: 'black' }} />
           </Button>
@@ -63,6 +66,9 @@ const mapDispatch = dispatch => {
   return {
     loadMap: function(customMap) {
       dispatch(selectMap(customMap));
+    },
+    selectLeaderboard: function(id) {
+      dispatch(setMapId(id));
     }
   };
 };

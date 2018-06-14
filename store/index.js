@@ -11,6 +11,7 @@ import userMaps from './userMaps';
 import customMaps from './customMaps';
 import customItems from './customItems';
 import selectedMap from './selectedMap';
+import mapId from './mapId';
 
 const reducer = combineReducers({
   results, // intial value: []
@@ -21,7 +22,8 @@ const reducer = combineReducers({
   userMaps, // intial value: []
   customMaps, // intial value: []
   customItems, // intial value: []
-  selectedMap // intial value: {}
+  selectedMap, // intial value: {}
+  mapId // initial value: 0
 });
 const middleware = composeWithDevTools(
   applyMiddleware(
@@ -41,3 +43,4 @@ export * from './userMaps';
 export * from './customMaps';
 export * from './customItems';
 export * from './selectedMap';
+export * from './mapId';
