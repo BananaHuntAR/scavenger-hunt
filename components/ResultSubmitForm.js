@@ -63,14 +63,14 @@ class ResultSubmitForm extends Component {
                 backgroundColor="white"
                 color="black"
                 buttonStyle={styles.button}
-                onPress={() => {
-                  this.props.postResult(
+                onPress={async () => {
+                  await this.props.postResult(
                     this.state.name,
                     this.props.time,
                     +this.props.currentUser.id,
                     this.props.mapId
                   );
-                  this.props.postMapId(this.props.mapId);
+                  await this.props.postMapId(this.props.mapId);
                   this.props.navigation.replace('Leaderboard');
                 }}
               />
