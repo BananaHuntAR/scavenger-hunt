@@ -7,10 +7,6 @@ import { withNavigation } from 'react-navigation';
 import { EvilIcons } from '@expo/vector-icons';
 
 class MapCard extends Component {
-  handlePress = customMap => {
-    this.props.loadMap(customMap);
-  };
-
   render() {
     const { name, address, instructions } = this.props.customMap;
     return (
@@ -19,7 +15,7 @@ class MapCard extends Component {
         style={styles.card}
         onPress={() => {
           //Clicking on a card leads to game starting up
-          this.handlePress(this.props.customMap);
+          this.props.loadMap(this.props.customMap);
           this.props.navigation.navigate('Game');
         }}
       >
@@ -36,13 +32,15 @@ class MapCard extends Component {
             Instructions: {instructions}
           </Text>
           <Button
-            style={{ backgroundColor: '#fced4e' }}
+            block
+            style={styles.button}
             onPress={() => {
               this.props.selectLeaderboard(this.props.customMap.id);
               this.props.navigation.navigate('Leaderboard');
             }}
           >
             <EvilIcons name="trophy" size={30} style={{ color: 'black' }} />
+            <Text style={{ color: 'black' }}>Leaderboard</Text>
           </Button>
         </Body>
       </CardItem>
@@ -59,6 +57,9 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#F3EED9',
     borderRadius: 25
+  },
+  button: {
+    backgroundColor: '#fced4e'
   }
 });
 
