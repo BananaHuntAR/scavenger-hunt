@@ -15,7 +15,6 @@ export const fetchCustomMapsThunk = () => dispatch => {
   return axios
     .get(`${domain}/api/customMaps`)
     .then(res => dispatch(fetchCustomMaps(res.data)))
-    .then(() => console.log('fetched custom maps'))
     .catch(err => console.error(err));
 };
 

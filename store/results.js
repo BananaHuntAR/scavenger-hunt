@@ -29,9 +29,9 @@ export const fetchResultsThunk = mapId => dispatch => {
 export const postResult = (name, time, userId, mapId) => dispatch => {
   return axios
     .post(`${domain}/api/results`, { name, time, userId, mapId })
-    .then(() => {
+    .then(newResult => {
       dispatch(resetTime());
-      dispatch(fetchResultsThunk(mapId));
+      console.log(newResult);
     })
     .catch(err => console.error(err));
 };

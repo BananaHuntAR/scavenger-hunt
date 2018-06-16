@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { fetchResultsThunk } from '../store';
+import { fetchResultsThunk, clearMapId } from '../store';
 import { StyleSheet, Image, View } from 'react-native';
 import {
   Content,
@@ -17,11 +17,15 @@ import { Font } from 'expo';
 
 class Leaderboard extends React.Component {
   async componentDidMount() {
-    this.props.fetchResultsThunk();
+    this.props.fetchResultsThunk(this.props.mapId);
     await Font.loadAsync({
       'nanum-pen-script': require('../assets/NanumScript.ttf'),
       'opensans-light': require('../assets/OpenSans-Light.ttf')
     });
+  }
+
+  componentWillUnmount() {
+    this.props.clearMapId();
   }
 
   render() {
@@ -68,7 +72,7 @@ class Leaderboard extends React.Component {
         </Content>
 
         <Button
-          onPress={() => this.props.navigation.navigate('GameOptionPage')}
+          onPress={() => this.props.navigation.replace('GameOptionPage')}
           rounded
           style={styles.button}
         >
@@ -80,10 +84,14 @@ class Leaderboard extends React.Component {
 }
 
 const mapState = state => ({
-  results: state.results
+  results: state.results,
+  mapId: state.mapId
 });
 
-export default connect(mapState, { fetchResultsThunk })(Leaderboard);
+export default connect(
+  mapState,
+  { fetchResultsThunk, clearMapId }
+)(Leaderboard);
 
 const styles = StyleSheet.create({
   container: {
